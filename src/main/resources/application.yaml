@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: ticketing
+  datasource:
+    url: ${DB_URL:jdbc:mysql://127.0.0.1:3307/ticketing?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC}
+    username: ${DB_USER:ticketing}
+    password: ${DB_PASSWORD}
+    hikari:
+      maximum-pool-size: 5
+  flyway:
+    locations: classpath:db/migration
+    clean-disabled: true
+  sql:
+    init:
+      mode: never
+
+server:
+  address: 127.0.0.1
+  port: ${SERVER_PORT:8080}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+springdoc:
+  paths-to-match: /api/**
+
+logging:
+  pattern:
+    level: "%5p [requestId=%X{requestId:-}]"
