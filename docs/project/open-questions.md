@@ -25,6 +25,7 @@
 | Q-01 已解决：Java 21、Boot 4.1.1、Maven 3.9.9、MyBatis | [ADR-0004](../decisions/0004-engineering-baseline.md) |
 | Q-02 已解决：单 Maven 工程，按业务分包与约束依赖方向 | [ADR-0004](../decisions/0004-engineering-baseline.md) |
 | Q-03 已解决：Flyway、Docker Compose MySQL、开发与测试实例隔离 | [ADR-0004](../decisions/0004-engineering-baseline.md) |
+| 第二周七表结构、独立快照、创建事务与重复代码处理 | [ADR-0005](../decisions/0005-session-seat-snapshots.md) |
 | 支付截止与座位释放 | `docs/decisions/0001-resolve-payment-before-releasing-seats.md` |
 | 孤座规则 | `docs/decisions/0002-forbid-creating-new-orphan-seats.md` |
 | 候补支付策略 | `docs/decisions/0003-waitlist-lock-then-pay.md` |

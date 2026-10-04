@@ -18,6 +18,12 @@ server:
   address: 127.0.0.1
   port: ${SERVER_PORT:8080}
 
+mybatis:
+  type-handlers-package: com.ticketing.common.persistence
+  configuration:
+    map-underscore-to-camel-case: true
+    arg-name-based-constructor-auto-mapping: true
+
 management:
   endpoints:
     web:

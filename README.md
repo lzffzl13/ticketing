@@ -2,7 +2,7 @@
 
 一个以“具有唯一身份和空间关系的场次座位”为核心的票务项目，覆盖场馆模板、场次快照、选座与连座推荐、锁座下单、模拟支付、电子票、单票退票、座位回流和现场核销。
 
-项目当前处于第二周工程骨架完成、业务表结构待评审的阶段。已提供 Java 21、Docker Compose MySQL、可运行的 Spring Boot 应用及接口基础测试；场馆与场次业务尚未实现。
+项目当前已完成第二周工程骨架和第一条业务路径：场馆模板 → 创建未开售场次 → 独立座位及价格快照。已提供 Java 21、Docker Compose MySQL、七表迁移、维护与查询 API、固定种子和快照隔离测试；销售启停及配置修改仍待后续任务实现。
 
 ## 项目目标
 
@@ -38,6 +38,8 @@
 | [工程基线](docs/decisions/0004-engineering-baseline.md) | Java 21、Boot、MyBatis、模块边界及数据库方式 |
 | [本地环境](docs/development/local-environment.md) | Java 21、Docker MySQL 启动、验证和恢复 |
 | [后端骨架导读](docs/development/backend-skeleton.md) | 启动、接口流程、异常处理及测试依据 |
+| [七表与快照方案](docs/design/week-02-schema-review.md) | 已确认的字段、约束、快照隔离与创建事务 |
+| [场次快照导读](docs/development/session-snapshots.md) | API、种子演示、主流程、事务和测试依据 |
 
 ## 当前进度
 
@@ -50,7 +52,9 @@
 - [x] Q-01 至 Q-03 技术基线确认并记录
 - [x] Java 21 / Docker Compose MySQL 环境脚本
 - [x] Spring Boot 工程骨架与接口基础测试
-- [ ] 数据库迁移与场馆/场次快照
+- [x] 七表迁移、模板维护与 DRAFT 场次快照
+- [x] 固定规则测试厅与可重复的快照演示脚本
+- [ ] 场次销售启停、票档及可售配置修改
 - [ ] 可运行的纵向业务闭环
 - [ ] 业务状态自动化测试与端到端演示脚本
 
@@ -67,11 +71,18 @@
 .\scripts\run-app.ps1
 ~~~
 
+应用启动后，在另一个窗口执行：
+
+~~~powershell
+.\scripts\seed-week2.ps1
+.\scripts\demo-snapshot.ps1
+~~~
+
 开发数据库端口为 3307，测试数据库端口为 3308；凭据由脚本生成在被忽略的 .env。详细说明见[本地环境](docs/development/local-environment.md)。
 
 启动后访问 [Swagger UI](http://127.0.0.1:8080/swagger-ui/index.html)。运行与代码说明见[后端骨架导读](docs/development/backend-skeleton.md)。
 
-业务表迁移、固定业务种子和快照隔离测试将在相应方案评审与实现后补充。
+开发库与测试库均由 Flyway 执行七表迁移。固定种子重跑会核对和复用已有数据；检测到改动时保留数据并报错。详细接口、代码主流程和演示说明见[场次快照导读](docs/development/session-snapshots.md)。
 
 ## MVP 之外
 

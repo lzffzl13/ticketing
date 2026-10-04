@@ -1,6 +1,6 @@
 # 后端骨架：运行与代码导读
 
-本阶段提供可构建、可启动、可验证的工程基础。场馆、场次、订单等业务对象尚未实现。
+本文讲解可构建、可启动、可验证的工程基础。后续已完成场馆模板与 DRAFT 场次快照，业务入口见[场次快照导读](session-snapshots.md)；订单与交易尚未实现。
 
 ## 1. 运行与测试
 
@@ -61,7 +61,7 @@ run-app 读取本地 .env，将开发库连接参数传给 Java 进程；密码�
 
 [application.yaml](../../src/main/resources/application.yaml) 配置开发数据库、连接池、Flyway 和日志；测试配置固定使用独立测试实例。MyBatis 的真实查询通过测试 Mapper 验证，生产代码尚无业务 Mapper。
 
-Flyway 已在启动阶段连接 MySQL 并建立 flyway_schema_history。当前没有业务 SQL 迁移，所以“No migrations found”与零条已应用迁移是当前阶段的实际状态。业务表评审后才加入版本化迁移。
+Flyway 在启动阶段连接 MySQL 并维护 flyway_schema_history。最初骨架验证时没有业务迁移；后续七表评审完成，现已有 V1 业务迁移，并在开发和测试库成功执行。当前启动日志应显示校验 1 个迁移、数据库版本 v1。
 
 后续创建场次的本地事务按照 ADR-0004 实现。本阶段不预先决定外键、索引、模板读取隔离或防重复生成策略。
 
