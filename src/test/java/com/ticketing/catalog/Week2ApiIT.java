@@ -113,6 +113,60 @@ class Week2ApiIT {
         assertEquals(56, jdbc.queryForObject("SELECT COUNT(*) FROM seat_template", Integer.class));
     }
 
+    @Test
+    void httpConfigurationSalesAndTierSwitchesCompleteOneManagementFlow() throws Exception {
+        long id = data(send("POST", "/api/sessions", sessionBody("SESSION-HTTP-MANAGE")), 201).path("id").asLong();
+        long tierId = data(send("GET", "/api/sessions/" + id + "/price-tiers", null), 200).get(0).path("id").asLong();
+        var configuration = configurationBody(tierId, "420.00");
+        var configured = data(send("PUT", "/api/sessions/" + id + "/configuration", configuration), 200);
+        assertEquals("2027-01-15T13:00:00Z", configured.path("startsAt").asString());
+        var seats = data(send("GET", "/api/sessions/" + id + "/seats", null), 200);
+        assertEquals(420, seats.get(0).path("priceSnapshot").asInt());
+        var opened = data(send("PUT", "/api/sessions/" + id + "/sales-status", "{\"salesStatus\":\"ON_SALE\"}"), 200);
+        var firstOpened = opened.path("firstOpenedAt").asString();
+        assertFalse(firstOpened.isBlank());
+        var disabled = data(send("PUT", "/api/sessions/" + id + "/price-tiers/" + tierId + "/enabled", "{\"enabled\":false}"), 200);
+        assertFalse(disabled.path("enabled").asBoolean());
+        assertEquals(seats, data(send("GET", "/api/sessions/" + id + "/seats", null), 200));
+        data(send("PUT", "/api/sessions/" + id + "/sales-status", "{\"salesStatus\":\"STOPPED\"}"), 200);
+        var frozen = send("PUT", "/api/sessions/" + id + "/configuration", configuration);
+        assertEquals(409, frozen.statusCode());
+        assertEquals("SESSION_CONFIGURATION_FROZEN", json.readTree(frozen.body()).path("code").asString());
+        var resumed = data(send("PUT", "/api/sessions/" + id + "/sales-status", "{\"salesStatus\":\"ON_SALE\"}"), 200);
+        assertEquals(firstOpened, resumed.path("firstOpenedAt").asString());
+        var docs = send("GET", "/v3/api-docs", null);
+        assertTrue(docs.body().contains("/api/sessions/{id}/configuration"));
+        assertTrue(docs.body().contains("/api/sessions/{id}/sales-status"));
+        assertTrue(docs.body().contains("/api/sessions/{id}/price-tiers/{tierId}/enabled"));
+    }
+
+    @Test
+    void httpManagementRejectsInvalidNestedRequestsAndUnknownResources() throws Exception {
+        long id = data(send("POST", "/api/sessions", sessionBody("SESSION-HTTP-MANAGE-INVALID")), 201).path("id").asLong();
+        var path = "/api/sessions/" + id;
+        long tierId = data(send("GET", path + "/price-tiers", null), 200).get(0).path("id").asLong();
+        assertEquals(400, send("PUT", path + "/configuration", configurationBody(tierId, "-1.00")).statusCode());
+        assertEquals(400, send("PUT", path + "/configuration", configurationBody(tierId, "420.00")
+                .replace("\"seats\":[]", "\"seats\":[null]")).statusCode());
+        assertEquals(400, send("PUT", path + "/sales-status", "{\"salesStatus\":\"UNKNOWN\"}").statusCode());
+        assertEquals(400, send("PUT", path + "/sales-status", "{}").statusCode());
+        assertEquals(400, send("PUT", path + "/price-tiers/" + tierId + "/enabled", "{}").statusCode());
+        assertEquals(404, send("PUT", "/api/sessions/9223372036854775807/sales-status", "{\"salesStatus\":\"ON_SALE\"}").statusCode());
+        assertEquals(404, send("PUT", path + "/price-tiers/9223372036854775807/enabled", "{\"enabled\":false}").statusCode());
+        assertEquals(409, send("PUT", path + "/sales-status", "{\"salesStatus\":\"STOPPED\"}").statusCode());
+        var session = data(send("GET", path, null), 200);
+        assertEquals("DRAFT", session.path("salesStatus").asString());
+        assertEquals("2027-01-15T12:00:00Z", session.path("startsAt").asString());
+    }
+
+    private String configurationBody(long tierId, String price) {
+        return """
+                {"startsAt":"2027-01-15T21:00:00+08:00","admissionOpenAt":"2027-01-15T20:00:00+08:00",
+                 "admissionCloseAt":"2027-01-15T20:55:00+08:00","forbidNewOrphan":false,
+                 "priceTiers":[{"id":%d,"name":"调整后 A 档","price":%s}],"seats":[]}
+                """.formatted(tierId, price);
+    }
+
     private String sessionBody(String code) {
         return """
                 {"code":"%s","eventId":%d,"venueId":%d,

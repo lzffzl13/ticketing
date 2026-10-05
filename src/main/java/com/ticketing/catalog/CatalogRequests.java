@@ -31,4 +31,21 @@ public final class CatalogRequests {
             @NotEmpty List<@Valid PriceTierInput> priceTiers,
             @NotNull List<@Valid AreaPriceMapping> areaPrices,
             @NotNull List<@Valid SeatPriceOverride> seatOverrides) { }
+
+    public record PriceTierEdit(@NotNull @Positive Long id,
+                                @NotBlank @Size(max = 128) String name,
+                                @NotNull @DecimalMin("0.01") @Digits(integer = 8, fraction = 2) BigDecimal price) { }
+
+    public record SeatSaleConfiguration(@NotNull @Positive Long id, @Positive Long priceTierId,
+                                        @NotNull Boolean available) { }
+
+    public record UpdateSessionConfiguration(
+            @NotNull Instant startsAt, @NotNull Instant admissionOpenAt, @NotNull Instant admissionCloseAt,
+            @NotNull Boolean forbidNewOrphan,
+            @NotNull List<@NotNull @Valid PriceTierEdit> priceTiers,
+            @NotNull List<@NotNull @Valid SeatSaleConfiguration> seats) { }
+
+    public record UpdateSalesStatus(@NotNull CatalogModels.SalesStatus salesStatus) { }
+
+    public record SetTierEnabled(@NotNull Boolean enabled) { }
 }

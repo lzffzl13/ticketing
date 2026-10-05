@@ -4,7 +4,7 @@
 
 七张业务表、场馆/区域/模板维护、演出创建、DRAFT 场次与票档创建、独立座位快照查询。决策见 [ADR-0005](../decisions/0005-session-seat-snapshots.md)，完整字段见[七表方案](../design/week-02-schema-review.md)。
 
-开售、暂停、票档编辑和场次配置编辑仍未实现。数据库中存在相应状态字段，不代表已有这些行为。登录与角色校验也尚未实现（Q-05），本轮接口通过绑定本机地址的应用用于开发与演示。
+后续已实现场次配置、开售/暂停/恢复和票档启停，见[场次销售导读](session-sales.md)。登录与角色校验尚未实现（Q-05），当前接口通过绑定本机地址的应用用于开发与演示。
 
 ## 2. 启动和重复演示
 
@@ -140,4 +140,4 @@ SQL 位于 [V1 迁移](../../src/main/resources/db/migration/V1__create_venue_ca
 - [Week2ApiIT](../../src/test/java/com/ticketing/catalog/Week2ApiIT.java)：真实随机端口 HTTP，验证 UTC 转换、接口响应、嵌套参数校验、重复请求与模板隔离。
 - 测试清理前断言数据库名为 ticketing_test，按子表到父表清理；不执行 Flyway clean，不删除 Docker 数据卷。默认 Maven 运行没有配置测试并行。
 
-实际执行结果及环境见[第二周进度](../progress/week-02.md)。这些是正确性证据，不是性能实验；第三周算法、销售状态迁移、锁座及交易测试尚待实现。
+实际执行结果及环境见[第二周进度](../progress/week-02.md)。这些是正确性证据，不是性能实验；销售状态迁移的测试见[场次销售导读](session-sales.md)，第三周算法、锁座及交易测试尚待实现。

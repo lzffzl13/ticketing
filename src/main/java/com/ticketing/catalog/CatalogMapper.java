@@ -35,6 +35,9 @@ interface CatalogMapper {
     @Select("SELECT * FROM session WHERE id=#{id}")
     Session sessionById(long id);
 
+    @Select("SELECT * FROM session WHERE id=#{id} FOR UPDATE")
+    Session lockSession(long id);
+
     @Select("SELECT * FROM session WHERE code=#{code}")
     Session sessionByCode(String code);
 
@@ -48,4 +51,29 @@ interface CatalogMapper {
 
     @Select("SELECT * FROM price_tier WHERE session_id=#{sessionId} ORDER BY id")
     List<PriceTier> tiers(long sessionId);
+
+    @Update("""
+            UPDATE session SET starts_at=#{data.startsAt}, admission_open_at=#{data.admissionOpenAt},
+                admission_close_at=#{data.admissionCloseAt}, forbid_new_orphan=#{data.forbidNewOrphan}, updated_at=#{at}
+            WHERE id=#{id} AND first_opened_at IS NULL
+            """)
+    int updateConfiguration(@Param("id") long id, @Param("data") CatalogRequests.UpdateSessionConfiguration data,
+                            @Param("at") Instant at);
+
+    @Update("""
+            UPDATE price_tier SET name=#{data.name}, price=#{data.price}, updated_at=#{at}
+            WHERE session_id=#{sessionId} AND id=#{data.id}
+            """)
+    int updateTier(@Param("sessionId") long sessionId, @Param("data") CatalogRequests.PriceTierEdit data,
+                   @Param("at") Instant at);
+
+    @Update("""
+            UPDATE session SET sales_status=#{status}, first_opened_at=COALESCE(first_opened_at, #{at}), updated_at=#{at}
+            WHERE id=#{id}
+            """)
+    int updateSalesStatus(@Param("id") long id, @Param("status") SalesStatus status, @Param("at") Instant at);
+
+    @Update("UPDATE price_tier SET enabled=#{enabled}, updated_at=#{at} WHERE session_id=#{sessionId} AND id=#{tierId}")
+    int setTierEnabled(@Param("sessionId") long sessionId, @Param("tierId") long tierId,
+                       @Param("enabled") boolean enabled, @Param("at") Instant at);
 }

@@ -17,8 +17,13 @@ import static com.ticketing.catalog.CatalogRequests.*;
 public class CatalogController {
     private final EventService events;
     private final SessionService sessions;
+    private final SessionManagementService management;
 
-    public CatalogController(EventService events, SessionService sessions) { this.events = events; this.sessions = sessions; }
+    public CatalogController(EventService events, SessionService sessions, SessionManagementService management) {
+        this.events = events;
+        this.sessions = sessions;
+        this.management = management;
+    }
 
     @PostMapping("/events")
     @ResponseStatus(HttpStatus.CREATED)
@@ -61,5 +66,26 @@ public class CatalogController {
     @GetMapping("/sessions/{id}/seats")
     public ApiResponse<List<SessionSeat>> listSeats(@PathVariable @Positive long id) {
         return ApiResponse.success(sessions.listSeats(id));
+    }
+
+    @PutMapping("/sessions/{id}/configuration")
+    @Operation(summary = "修改首次开售前的场次配置", description = "时间、票档与座位同一事务；曾开售后返回 409")
+    public ApiResponse<Session> configureSession(@PathVariable @Positive long id,
+                                                 @Valid @RequestBody UpdateSessionConfiguration request) {
+        return ApiResponse.success(management.configure(id, request));
+    }
+
+    @PutMapping("/sessions/{id}/sales-status")
+    @Operation(summary = "开售、暂停或恢复销售", description = "首次开售时间保留；重复设置当前状态无副作用")
+    public ApiResponse<Session> setSalesStatus(@PathVariable @Positive long id,
+                                              @Valid @RequestBody UpdateSalesStatus request) {
+        return ApiResponse.success(management.setSalesStatus(id, request));
+    }
+
+    @PutMapping("/sessions/{id}/price-tiers/{tierId}/enabled")
+    @Operation(summary = "设置票档销售开关", description = "不修改座位价格快照或库存状态")
+    public ApiResponse<PriceTier> setTierEnabled(@PathVariable @Positive long id, @PathVariable @Positive long tierId,
+                                                @Valid @RequestBody SetTierEnabled request) {
+        return ApiResponse.success(management.setTierEnabled(id, tierId, request));
     }
 }

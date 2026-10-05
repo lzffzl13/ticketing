@@ -19,6 +19,6 @@ public class ApplicationConfiguration {
         return new OpenAPI().info(new Info()
                 .title("座位票务与现场履约系统")
                 .version("0.0.1")
-                .description("场馆模板、DRAFT 场次与独立座位快照；业务接口按项目计划逐步增加"));
+                .description("场馆模板、独立座位快照、场次配置与销售启停；业务接口按项目计划逐步增加"));
     }
 }
