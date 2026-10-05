@@ -2,7 +2,7 @@
 
 一个以“具有唯一身份和空间关系的场次座位”为核心的票务项目，覆盖场馆模板、场次快照、选座与连座推荐、锁座下单、模拟支付、电子票、单票退票、座位回流和现场核销。
 
-项目当前已完成第二周工程骨架、场馆模板 → 场次独立快照、首次开售前配置修改、销售启停和票档开关，以及 246 座主演示数据。已提供 Java 21、Docker Compose MySQL、七表迁移、维护与查询 API、固定种子和事务/并发测试；负责人代码理解与整周学习验收仍待进行。
+项目当前已完成第三周座位图查询、确定性连座推荐及共用孤座规则，已有工程骨架、场次独立快照、销售启停和 246 座主演示数据。完整自动化 119 项通过，真实 API 演示及 1,000 / 5,000 / 10,000 座算法基线已执行；负责人代码理解与学习验收仍单独待进行，锁座下单从第四周开始。
 
 ## 项目目标
 
@@ -42,6 +42,11 @@
 | [场次快照导读](docs/development/session-snapshots.md) | API、种子演示、主流程、事务和测试依据 |
 | [场次销售导读](docs/development/session-sales.md) | 配置、开售/暂停/恢复、冻结与并发测试 |
 | [主演示数据导读](docs/development/galaxy-seed.md) | 246 座、三个场次、种子重跑和中断续跑 |
+| [座位图与连座导读](docs/development/seat-recommendations.md) | 查询入口、算法顺序、孤座复用、事务、演示与学习检查 |
+| [第三周方案](docs/design/week-03-seat-recommendation-review.md) | 已确认的查询一致性、扫描算法、排序和接口 |
+| [ADR-0007](docs/decisions/0007-read-only-seat-recommendations.md) | 推荐只读、确定性中心评分和最终锁座边界 |
+| [算法基线](docs/testing/seat-recommendation-baseline.md) | 实际环境、规模、生成参数、耗时与原始样本 |
+| [第三周进度](docs/progress/week-03.md) | 已实现、已执行证据、待学习验收及第四周范围 |
 
 ## 当前进度
 
@@ -59,6 +64,10 @@
 - [x] 场次销售启停、票档及可售配置修改
 - [x] 246 座主演示数据及重复/差异/续跑验证
 - [ ] 第二周负责人代码理解与整周学习验收
+- [x] 完整座位图、库存状态与可选择资格分离
+- [x] 确定性连座推荐、共用选座规则与 70 项规则/算法测试
+- [x] 只读一致性、候选状态变化、真实 API 演示和算法基线
+- [ ] 第三周负责人代码理解与学习验收
 - [ ] 可运行的纵向业务闭环
 - [ ] 交易履约状态自动化测试与完整端到端演示脚本
 
@@ -82,7 +91,10 @@
 .\scripts\demo-snapshot.ps1
 .\scripts\demo-session-sales.ps1
 .\scripts\seed-galaxy.ps1
+.\scripts\demo-seat-recommendations.ps1
 ~~~
+
+第三周查询入口为 `GET /api/sessions/{id}/seat-map` 和 `GET /api/sessions/{id}/recommendations?quantity=2&limit=5`。候选不占座，最终下单仍需重新校验。演示使用独立 W3 数据，可重复执行。编译后运行 `.\scripts\benchmark-seat-recommendations.ps1` 可重做单线程纯算法基线；它不访问数据库，指标不代表 HTTP 或锁座吞吐。详见[导读](docs/development/seat-recommendations.md)。
 
 主演示种子默认 DEMO 命名空间；独立验证可执行 `scripts/verify-galaxy-seed.ps1`，默认保留 VERIFY 和 VERIFY-R 两套夹具，不清库。时间与恢复方式见[主演示数据导读](docs/development/galaxy-seed.md)。
 

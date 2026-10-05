@@ -1,0 +1,4 @@
+seatCount,areaCount,rowsPerArea,seatsPerRow,segmentsPerRow,tierCount,unavailableRatio,seed,effectiveSeed,layoutSha256,availableSeatCount,quantity,limit,forbidNewOrphan,threads,warmup,samples,validCandidateCount,returnedCandidateCount,meanMicroseconds,p50Microseconds,p95Microseconds,minMicroseconds,maxMicroseconds
+1000,2,25,20,2,3,0.05,20260928,20261928,c4c369036196c75aaf4352750adec81bb2c9ecbb6de436546d3f9220189528b9,953,2,5,true,1,50,100,591,5,1040.738,922.600,1476.000,754.500,3082.300
+5000,2,125,20,2,3,0.05,20260928,20265928,dc384bff6fac8d691dd1a594eee7ee71d014b4866fe54b99d87a8175c644df66,4754,2,5,true,1,50,100,2941,5,3611.615,3332.700,4773.800,3101.500,6263.900
+10000,2,250,20,2,3,0.05,20260928,20270928,788531ba465802e0d84702bbcb9d95733913b1ac87703cfa9538c399372dca5c,9515,2,5,true,1,50,100,5929,5,7510.583,7106.200,9606.500,6606.200,10289.900
