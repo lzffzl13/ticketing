@@ -2,7 +2,7 @@
 
 一个以“具有唯一身份和空间关系的场次座位”为核心的票务项目，覆盖场馆模板、场次快照、选座与连座推荐、锁座下单、模拟支付、电子票、单票退票、座位回流和现场核销。
 
-项目当前已完成第二周工程骨架、场馆模板 → 场次独立快照，以及首次开售前配置修改、销售启停和票档开关。已提供 Java 21、Docker Compose MySQL、七表迁移、维护与查询 API、固定种子和事务/并发测试；246 座主演示数据及整周学习验收仍待完成。
+项目当前已完成第二周工程骨架、场馆模板 → 场次独立快照、首次开售前配置修改、销售启停和票档开关，以及 246 座主演示数据。已提供 Java 21、Docker Compose MySQL、七表迁移、维护与查询 API、固定种子和事务/并发测试；负责人代码理解与整周学习验收仍待进行。
 
 ## 项目目标
 
@@ -41,6 +41,7 @@
 | [七表与快照方案](docs/design/week-02-schema-review.md) | 已确认的字段、约束、快照隔离与创建事务 |
 | [场次快照导读](docs/development/session-snapshots.md) | API、种子演示、主流程、事务和测试依据 |
 | [场次销售导读](docs/development/session-sales.md) | 配置、开售/暂停/恢复、冻结与并发测试 |
+| [主演示数据导读](docs/development/galaxy-seed.md) | 246 座、三个场次、种子重跑和中断续跑 |
 
 ## 当前进度
 
@@ -56,7 +57,8 @@
 - [x] 七表迁移、模板维护与 DRAFT 场次快照
 - [x] 固定规则测试厅与可重复的快照演示脚本
 - [x] 场次销售启停、票档及可售配置修改
-- [ ] 246 座主演示数据与第二周整周验收
+- [x] 246 座主演示数据及重复/差异/续跑验证
+- [ ] 第二周负责人代码理解与整周学习验收
 - [ ] 可运行的纵向业务闭环
 - [ ] 交易履约状态自动化测试与完整端到端演示脚本
 
@@ -79,7 +81,10 @@
 .\scripts\seed-week2.ps1
 .\scripts\demo-snapshot.ps1
 .\scripts\demo-session-sales.ps1
+.\scripts\seed-galaxy.ps1
 ~~~
+
+主演示种子默认 DEMO 命名空间；独立验证可执行 `scripts/verify-galaxy-seed.ps1`，默认保留 VERIFY 和 VERIFY-R 两套夹具，不清库。时间与恢复方式见[主演示数据导读](docs/development/galaxy-seed.md)。
 
 开发数据库端口为 3307，测试数据库端口为 3308；凭据由脚本生成在被忽略的 .env。详细说明见[本地环境](docs/development/local-environment.md)。
 

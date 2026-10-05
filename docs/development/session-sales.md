@@ -64,4 +64,4 @@ setTierEnabled 先锁所属场次，仅更新 price_tier.enabled/updated_at。�
 
 自动化测试见 [SessionManagementIT](../../src/test/java/com/ticketing/catalog/SessionManagementIT.java) 和 [Week2ApiIT](../../src/test/java/com/ticketing/catalog/Week2ApiIT.java)。使用固定/可控 UTC Clock，测试库 ticketing_test；两个并发事务通过 CountDownLatch 在真实持锁后协调起跑，覆盖两种先后顺序。真实写入后注入异常验证全量回滚，不将异常注入描述成进程中断实验。
 
-执行结果、数量、环境及演示证据以[第二周周报](../progress/week-02.md)为准；没有用正确性测试推导性能指标。本轮未实现 246 座主演示数据、登录、连座、锁座或交易闭环。
+执行结果、数量、环境及演示证据以[第二周周报](../progress/week-02.md)为准；没有用正确性测试推导性能指标。后续已完成 [246 座主演示数据](galaxy-seed.md)，登录、连座、锁座和交易闭环仍在对应阶段实现。
