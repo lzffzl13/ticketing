@@ -3,6 +3,7 @@ package com.ticketing.catalog;
 import com.ticketing.common.web.ApiResponse;
 import com.ticketing.inventory.InventoryModels.SessionSeat;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,7 @@ public class CatalogController {
     }
 
     @PostMapping("/events")
+    @SecurityRequirement(name = "bearerAuth")
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<Event> createEvent(@Valid @RequestBody CreateEvent request) {
         return ApiResponse.success(events.create(request));
@@ -42,6 +44,7 @@ public class CatalogController {
     }
 
     @PostMapping("/sessions")
+    @SecurityRequirement(name = "bearerAuth")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "创建 DRAFT 场次及独立座位快照", description = "场次、票档与全部座位同一事务；重复代码返回 409")
     public ApiResponse<CreatedSession> createSession(@Valid @RequestBody CreateSession request) {
@@ -69,6 +72,7 @@ public class CatalogController {
     }
 
     @PutMapping("/sessions/{id}/configuration")
+    @SecurityRequirement(name = "bearerAuth")
     @Operation(summary = "修改首次开售前的场次配置", description = "时间、票档与座位同一事务；曾开售后返回 409")
     public ApiResponse<Session> configureSession(@PathVariable @Positive long id,
                                                  @Valid @RequestBody UpdateSessionConfiguration request) {
@@ -76,6 +80,7 @@ public class CatalogController {
     }
 
     @PutMapping("/sessions/{id}/sales-status")
+    @SecurityRequirement(name = "bearerAuth")
     @Operation(summary = "开售、暂停或恢复销售", description = "首次开售时间保留；重复设置当前状态无副作用")
     public ApiResponse<Session> setSalesStatus(@PathVariable @Positive long id,
                                               @Valid @RequestBody UpdateSalesStatus request) {
@@ -83,6 +88,7 @@ public class CatalogController {
     }
 
     @PutMapping("/sessions/{id}/price-tiers/{tierId}/enabled")
+    @SecurityRequirement(name = "bearerAuth")
     @Operation(summary = "设置票档销售开关", description = "不修改座位价格快照或库存状态")
     public ApiResponse<PriceTier> setTierEnabled(@PathVariable @Positive long id, @PathVariable @Positive long tierId,
                                                 @Valid @RequestBody SetTierEnabled request) {

@@ -13,7 +13,7 @@ if (-not (Test-Path -LiteralPath $envFile)) {
     $envContent = Get-Content -LiteralPath (Join-Path $projectRoot '.env.example') -Raw
     $random = [System.Security.Cryptography.RandomNumberGenerator]::Create()
     try {
-        foreach ($key in @('MYSQL_PASSWORD', 'MYSQL_ROOT_PASSWORD', 'MYSQL_TEST_PASSWORD', 'MYSQL_TEST_ROOT_PASSWORD')) {
+        foreach ($key in @('MYSQL_PASSWORD', 'MYSQL_ROOT_PASSWORD', 'MYSQL_TEST_PASSWORD', 'MYSQL_TEST_ROOT_PASSWORD', 'DEMO_PASSWORD')) {
             $passwordBytes = New-Object byte[] 24
             $random.GetBytes($passwordBytes)
             $password = ([BitConverter]::ToString($passwordBytes)).Replace('-', '').ToLowerInvariant()

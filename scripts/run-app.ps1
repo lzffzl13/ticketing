@@ -7,6 +7,7 @@ $settings = & (Join-Path $PSScriptRoot 'local-settings.ps1')
 $env:DB_URL = "jdbc:mysql://127.0.0.1:$($settings.MYSQL_PORT)/ticketing?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC"
 $env:DB_USER = 'ticketing'
 $env:DB_PASSWORD = $settings.MYSQL_PASSWORD
+$env:DEMO_PASSWORD = $settings.DEMO_PASSWORD
 $env:SERVER_PORT = $Port.ToString()
 
 $maven = Join-Path $projectRoot 'mvnw.cmd'

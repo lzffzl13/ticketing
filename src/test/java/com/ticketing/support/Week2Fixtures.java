@@ -23,7 +23,8 @@ public final class Week2Fixtures {
     public static void resetTestDatabase(JdbcTemplate jdbc) {
         assertEquals("ticketing_test", jdbc.queryForObject("SELECT DATABASE()", String.class));
         // Explicit child-first cleanup of the dedicated test database; no Flyway clean or FK bypass.
-        for (String table : List.of("session_seat", "price_tier", "session", "seat_template", "area", "event", "venue")) {
+        for (String table : List.of("order_item", "seat_hold_item", "session_seat", "seat_hold", "customer_order",
+                "price_tier", "session", "seat_template", "area", "event", "venue", "demo_login_token", "account")) {
             jdbc.update("DELETE FROM " + table);
         }
     }

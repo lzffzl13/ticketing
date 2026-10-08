@@ -1,7 +1,9 @@
 package com.ticketing.common.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -16,9 +18,12 @@ public class ApplicationConfiguration {
 
     @Bean
     public OpenAPI openAPI() {
-        return new OpenAPI().info(new Info()
+        return new OpenAPI().components(new Components().addSecuritySchemes("bearerAuth",
+                new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("bearer")
+                        .description("POST /api/auth/login 返回的不透明令牌")))
+                .info(new Info()
                 .title("座位票务与现场履约系统")
                 .version("0.0.1")
-                .description("场馆模板、独立座位快照、场次配置与销售启停；业务接口按项目计划逐步增加"));
+                .description("场馆与场次、座位图与推荐、固定账号登录、幂等下单与整组锁座"));
     }
 }

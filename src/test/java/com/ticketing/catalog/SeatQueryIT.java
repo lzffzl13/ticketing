@@ -6,6 +6,11 @@ import com.ticketing.inventory.InventoryModels.SeatStatus;
 import com.ticketing.inventory.InventoryService;
 import com.ticketing.inventory.SeatSelectionRules;
 import com.ticketing.support.Week2Fixtures;
+import com.ticketing.support.TestAuthHelper;
+import com.ticketing.identity.DemoAccountSeeder;
+import com.ticketing.trade.OrderService;
+import com.ticketing.trade.TradeRequests.CreateOrder;
+import com.ticketing.trade.TradeModels.SelectionMode;
 import com.ticketing.support.Week2Fixtures.Fixture;
 import com.ticketing.venue.VenueService;
 import com.ticketing.venue.VenueRequests.UpdateArea;
@@ -58,6 +63,8 @@ class SeatQueryIT {
     @Autowired private EventService events;
     @Autowired private JdbcTemplate jdbc;
     @Autowired private JsonMapper json;
+    @Autowired private DemoAccountSeeder accounts;
+    @Autowired private OrderService orders;
     @MockitoSpyBean private InventoryService inventory;
     @Value("${local.server.port}") private int port;
     private Fixture fixture;
@@ -167,8 +174,10 @@ class SeatQueryIT {
         open();
         var original = queries.recommend(id, 2, "FLOOR-A", null, 5).candidates().getFirst();
         var selected = original.seats().stream().map(SessionSeat::id).toList();
-        // 仅构造测试状态；第三周没有实现订单或锁座状态迁移。
-        jdbc.update("UPDATE session_seat SET seat_status='HELD' WHERE id=?", selected.getFirst());
+        // Through the real order transaction, HELD always has a valid current holder and history.
+        accounts.seed(TestAuthHelper.PASSWORD);
+        long consumerId = jdbc.queryForObject("SELECT id FROM account WHERE login_name='consumer1'", Long.class);
+        orders.create(consumerId, "w3-stale-candidate", new CreateOrder(id, SelectionMode.RECOMMENDED, selected));
         var fresh = sessions.listSeats(id);
         assertEquals("SEAT_NOT_AVAILABLE", new SeatSelectionRules().validate(fresh, selected, true, true).code());
         var refreshed = queries.recommend(id, 2, "FLOOR-A", null, 20);

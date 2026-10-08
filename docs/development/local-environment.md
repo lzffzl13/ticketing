@@ -1,6 +1,6 @@
 # Windows 本地开发环境
 
-当前提供 Java 21 与 MySQL 环境。Spring Boot 骨架的运行说明见 backend-skeleton.md；业务表尚未创建。
+当前提供 Java 21、MySQL 与 Spring Boot 应用。业务结构包含 V1 场馆/场次七表及 V2 身份、订单和锁座六表，由 Flyway 在应用启动时迁移。工程运行说明见[后端骨架](backend-skeleton.md)，第四周登录与下单见[导读](order-holds.md)。
 
 ## 1. 准备 Java 21
 
@@ -42,13 +42,25 @@ setup 脚本从 Adoptium 官方发布下载压缩包，核对固定 SHA-256 后�
 | 开发 | 127.0.0.1:3307 | ticketing | .env 中 MYSQL_PASSWORD |
 | 测试 | 127.0.0.1:3308 | ticketing_test | .env 中 MYSQL_TEST_PASSWORD |
 
-首次运行生成随机密码并写入 .env，不覆盖已有文件。MySQL 官方镜像仅在空数据卷首次初始化时创建账号和数据库，之后修改 .env 不会自动更改已有账号密码。若密码失配，检查现有配置，在确认账号状态后使用 SQL 修改，避免反复重启。
+首次运行生成随机密码并写入被忽略的 .env，保留已有文件及数据库密码。MySQL 官方镜像仅在空数据卷首次初始化时创建账号和数据库，之后修改 .env 不会自动更改已有数据库账号密码。若密码失配，检查现有配置，在确认账号状态后使用 SQL 修改，避免反复重启。
 
 start 脚本等待应用账号完成 SELECT 1 健康检查；check 脚本再次执行账号认证和版本、库名、字符集查询。连接错误不能视为健康。
 
-Compose 创建两组独立数据卷。本地已有 MySQL 的默认端口 3306 不与容器的 3307/3308 冲突。Flyway 已初始化迁移历史表；业务结构将在评审后由 Flyway 创建。
+Compose 创建两组独立数据卷。本地已有 MySQL 的默认端口 3306 不与容器的 3307/3308 冲突。数据库容器健康只证明连接可用；应用启动后才由 Flyway 校验和执行 V1/V2，不能把容器健康视为业务迁移已完成。
 
-## 3. 查看、停止与恢复
+## 3. 启动应用与演示登录
+
+```powershell
+.\scripts\run-app.ps1
+```
+
+run-app 读取 .env 并传入 DB_URL、DB_USER、DB_PASSWORD 和 DEMO_PASSWORD。新环境生成随机 DEMO_PASSWORD；已有 .env 缺少该字段时，local-settings.ps1 追加随机值，不旋转已有数据库密码。密码与令牌不会由脚本打印。
+
+应用启动时使用该密码创建 consumer1、consumer2、operator1 和 checker1 的 BCrypt 摘要，重复启动核对并复用账号，不静默重置密码。登录调用 POST /api/auth/login，后续以 Authorization: Bearer 携带返回令牌；管理写入口需运营账号，订单入口需消费者账号。公共只读查询、健康检查和 Swagger 允许匿名。已有种子/演示脚本会先登录并缓存运营令牌。
+
+账号密码与本地配置不一致时应检查启动和认证日志，保留数据库事实。直接用 IDE 启动需配置上述环境变量；DEMO_PASSWORD 为空会跳过启动账号种子。演示命令、独立 W4 数据和重跑策略见[锁座演示](order-holds-demo.md)。
+
+## 4. 查看、停止与恢复
 
 ~~~powershell
 docker compose --profile test ps

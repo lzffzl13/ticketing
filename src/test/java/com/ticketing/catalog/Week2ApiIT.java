@@ -1,6 +1,8 @@
 package com.ticketing.catalog;
 
 import com.ticketing.support.Week2Fixtures;
+import com.ticketing.support.TestAuthHelper;
+import com.ticketing.identity.DemoAccountSeeder;
 import com.ticketing.support.Week2Fixtures.Fixture;
 import com.ticketing.venue.VenueService;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,12 +29,15 @@ class Week2ApiIT {
     @Autowired private EventService events;
     @Autowired private JdbcTemplate jdbc;
     @Autowired private JsonMapper json;
+    @Autowired private DemoAccountSeeder accounts;
     @Value("${local.server.port}") private int port;
     private Fixture fixture;
+    private String operatorToken;
 
     @BeforeEach
-    void prepare() {
+    void prepare() throws Exception {
         Week2Fixtures.resetTestDatabase(jdbc);
+        operatorToken = TestAuthHelper.seedAndLogin(accounts, json, port, "operator1");
         fixture = Week2Fixtures.create(venues, events);
     }
 
@@ -181,6 +186,7 @@ class Week2ApiIT {
     private HttpResponse<String> send(String method, String path, String body) throws Exception {
         try (var client = HttpClient.newHttpClient()) {
             var builder = HttpRequest.newBuilder(URI.create("http://127.0.0.1:" + port + path));
+            if (!method.equals("GET")) { builder.header("Authorization", "Bearer " + operatorToken); }
             var publisher = body == null ? HttpRequest.BodyPublishers.noBody() : HttpRequest.BodyPublishers.ofString(body);
             if (body != null) { builder.header("Content-Type", "application/json"); }
             return client.send(builder.method(method, publisher).build(), HttpResponse.BodyHandlers.ofString());

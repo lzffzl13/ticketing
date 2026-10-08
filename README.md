@@ -2,7 +2,9 @@
 
 一个以“具有唯一身份和空间关系的场次座位”为核心的票务项目，覆盖场馆模板、场次快照、选座与连座推荐、锁座下单、模拟支付、电子票、单票退票、座位回流和现场核销。
 
-项目当前已完成第三周座位图查询、确定性连座推荐及共用孤座规则，已有工程骨架、场次独立快照、销售启停和 246 座主演示数据。2026-10-05 完整自动化 119 项通过，真实 API 演示及 1,000 / 5,000 / 10,000 座算法基线已执行；2026-10-08 确认手选不强制连座并补测，73 项规则/算法测试通过，同日完成第三周核心代码讲解与本轮理解检查。第二周学习验收仍单独待完成，锁座下单从第四周开始。
+项目当前已完成第四周第一个闭环：固定账号登录、角色鉴权、幂等创建待支付订单、整组锁座及本人订单查询。2026-10-08 完整自动化 165 项通过，其中新增 43 项身份与交易测试。已有场次独立快照、销售启停、座位图、确定性推荐和 246 座主演示数据；第三周算法基线见对应文档。
+
+首个闭环全部方案已获负责人确认，Q-04 / Q-05 / Q-11 已解决。支付、出票、安全取消和自动释放尚未实现；15 分钟到达不会自行释放座位。第二周整周学习验收和本轮关键代码理解检查仍单列待完成。
 
 ## 项目目标
 
@@ -49,6 +51,15 @@
 | [ADR-0008](docs/decisions/0008-manual-seat-selection.md) | 推荐保证连座，手动选座无需关闭连座开关 |
 | [算法基线](docs/testing/seat-recommendation-baseline.md) | 实际环境、规模、生成参数、耗时与原始样本 |
 | [第三周进度](docs/progress/week-03.md) | 已实现、已执行证据、核心代码学习检查及第四周范围 |
+| [第四周首个闭环评审](docs/design/week-04-order-hold-review.md) | 已确认的并发、幂等、时间、身份、V2 结构与完整事务 |
+| [登录与锁座下单导读](docs/development/order-holds.md) | 入口、主流程、数据变化、异常、事务及关键代码 |
+| [锁座下单演示](docs/development/order-holds-demo.md) | 固定账号、首次购买、原键重放与独立夹具 |
+| [ADR-0009](docs/decisions/0009-serialize-session-inventory-writes.md) | 已确认的场次行锁、锁后最新重验及整组条件更新 |
+| [ADR-0010](docs/decisions/0010-idempotent-order-creation.md) | 已确认的下单请求身份、内容冲突与重放不续期 |
+| [ADR-0011](docs/decisions/0011-order-cutoff-before-admission-closes.md) | 已确认的入场截止与完整 15 分钟支付期限衔接 |
+| [ADR-0012](docs/decisions/0012-order-hold-schema-and-transaction.md) | 订单/锁六表、当前持有者与原子提交边界 |
+| [ADR-0013](docs/decisions/0013-demo-opaque-bearer-login.md) | 不透明 Bearer 登录及 Spring Security 权限 |
+| [第四周进度](docs/progress/week-04.md) | 首个闭环实现、165 项验证、演示与后续范围 |
 
 ## 当前进度
 
@@ -70,6 +81,10 @@
 - [x] 确定性连座推荐、共用选座规则与 73 项规则/算法测试
 - [x] 只读一致性、候选状态变化、真实 API 演示和算法基线
 - [x] 第三周核心代码讲解与本轮理解检查
+- [x] 固定账号登录、角色权限及订单归属
+- [x] 幂等下单、整组锁座、成交快照与个人订单查询
+- [x] 真并发、微秒截止边界、数据库约束与部分写入回滚测试
+- [ ] 第四周首个闭环核心代码理解检查
 - [ ] 可运行的纵向业务闭环
 - [ ] 交易履约状态自动化测试与完整端到端演示脚本
 
@@ -94,17 +109,18 @@
 .\scripts\demo-session-sales.ps1
 .\scripts\seed-galaxy.ps1
 .\scripts\demo-seat-recommendations.ps1
+.\scripts\demo-order-holds.ps1
 ~~~
 
 第三周查询入口为 `GET /api/sessions/{id}/seat-map` 和 `GET /api/sessions/{id}/recommendations?quantity=2&limit=5`。候选不占座，最终下单仍需重新校验。演示使用独立 W3 数据，可重复执行。编译后运行 `.\scripts\benchmark-seat-recommendations.ps1` 可重做单线程纯算法基线；它不访问数据库，指标不代表 HTTP 或锁座吞吐。详见[导读](docs/development/seat-recommendations.md)。
 
 主演示种子默认 DEMO 命名空间；独立验证可执行 `scripts/verify-galaxy-seed.ps1`，默认保留 VERIFY 和 VERIFY-R 两套夹具，不清库。时间与恢复方式见[主演示数据导读](docs/development/galaxy-seed.md)。
 
-开发数据库端口为 3307，测试数据库端口为 3308；凭据由脚本生成在被忽略的 .env。详细说明见[本地环境](docs/development/local-environment.md)。
+开发数据库端口为 3307，测试数据库端口为 3308；数据库及演示账号密码由脚本生成在被忽略的 .env。管理脚本自动登录 operator1；消费者下单使用 consumer1 / consumer2，密码来自 DEMO_PASSWORD。登录令牌有效 2 小时，Swagger Authorize 可输入 token 原值。详细说明见[本地环境](docs/development/local-environment.md)与[下单演示](docs/development/order-holds-demo.md)。
 
 启动后访问 [Swagger UI](http://127.0.0.1:8080/swagger-ui/index.html)。运行与代码说明见[后端骨架导读](docs/development/backend-skeleton.md)。
 
-开发库与测试库均由 Flyway 执行七表迁移。固定种子重跑会核对和复用已有数据；检测到改动时保留数据并报错。详细接口、代码主流程和演示说明见[场次快照导读](docs/development/session-snapshots.md)及[场次销售导读](docs/development/session-sales.md)。
+开发库与测试库均由 Flyway 执行 V1 七表和 V2 身份/订单/锁座六表迁移。固定种子重跑会核对和复用已有数据；检测到改动时保留数据并报错。新下单演示可重放同一订单且不续期；独立购买使用新的 W4 命名空间，不删除历史交易。
 
 ## MVP 之外
 

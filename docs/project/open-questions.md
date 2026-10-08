@@ -10,9 +10,7 @@
 
 | 编号 | 优先级 | 问题 | 为什么需要决定 | 最晚决策时间 | 状态 |
 | --- | --- | --- | --- | --- | --- |
-| Q-04 | P1 | 锁座记录的权威存储和数据库并发方案 | 决定锁座条件更新、唯一约束及后续 Redis 对照基线 | 第四周锁座开发前 | 开放 |
-| Q-05 | P1 | 演示登录令牌的具体实现 | 已确认固定账号和角色，但尚未决定令牌格式及最小 Spring Security 配置 | 消费者接口鉴权前 | 开放 |
-| Q-06 | P1 | 支付与超时任务的重试、退避和人工介入条件 | 支付未知时不能无限占座，也不能错误释放 | 第五周超时任务开发前 | 开放 |
+| Q-06 | P1 | 支付与超时任务的重试、退避和人工介入条件 | 支付未知时不能无限占座，也不能错误释放；ADR-0001 要求交易支付模块实现前明确 | 第四周支付/取消恢复机制开发前 | 开放；第五周沿用并验证超时扫描 |
 | Q-07 | P1 | 电子票二维码载荷、签名和密钥轮换 | 决定票码验证、泄露风险和旧密钥兼容 | 第五周出票开发前 | 开放 |
 | Q-08 | P1 | 首版对账只报告什么、自动修复什么 | 自动修复错误可能扩大损害，需要先定义可信规则 | 第六周一致性检查前 | 开放 |
 | Q-09 | P2 | 候补支付期限、触发方式和回流事务边界 | 候补是条件增强，只有达到启动门槛才实施 | 候补启动前 | 开放 |
@@ -29,6 +27,10 @@
 | 场次配置与销售启停的行锁、冻结和重复目标 | [ADR-0006](../decisions/0006-serialize-session-management.md) |
 | 第三周只读一致性、实时扫描和确定性中心排序 | [ADR-0007](../decisions/0007-read-only-seat-recommendations.md) |
 | 手动选座不强制连座，系统推荐保证连座（2026-10-08 调整） | [ADR-0008](../decisions/0008-manual-seat-selection.md) |
+| Q-04 已解决：MySQL 当前持有者、场次行锁、锁后重验与完整事务 | [ADR-0009](../decisions/0009-serialize-session-inventory-writes.md)、[ADR-0012](../decisions/0012-order-hold-schema-and-transaction.md) |
+| Q-05 已解决：BCrypt 与 MySQL 摘要不透明 Bearer 令牌，Spring Security 鉴权 | [ADR-0013](../decisions/0013-demo-opaque-bearer-login.md) |
+| 下单幂等：消费者与请求编号绑定原订单，重放不续期 | [ADR-0010](../decisions/0010-idempotent-order-creation.md) |
+| Q-11 已解决：距入场截止至少 15 分钟才可新下单，保留完整期限 | [ADR-0011](../decisions/0011-order-cutoff-before-admission-closes.md) |
 | 支付截止与座位释放 | `docs/decisions/0001-resolve-payment-before-releasing-seats.md` |
 | 孤座规则 | `docs/decisions/0002-forbid-creating-new-orphan-seats.md` |
 | 候补支付策略 | `docs/decisions/0003-waitlist-lock-then-pay.md` |
