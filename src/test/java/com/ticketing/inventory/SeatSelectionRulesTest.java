@@ -131,6 +131,28 @@ class SeatSelectionRulesTest {
     }
 
     @Test
+    void manualSelectionCanCrossAnAisleWithoutBeingAnAdjacentRecommendation() {
+        var layout = rowWithAisleAfterSix(10);
+        assertAccepted(layout, List.of(5L, 6L, 7L), false, true);
+        assertEquals(rules.validate(layout, List.of(5L, 6L, 7L), false, true),
+                rules.validate(layout, List.of(7L, 5L, 6L), false, true));
+        assertRejected(layout, List.of(5L, 6L, 7L), true, true, "NOT_ADJACENT", List.of());
+    }
+
+    @Test
+    void manualSelectionAcrossAnAisleStillRejectsANewOrphan() {
+        assertRejected(rowWithAisleAfterSix(8), List.of(5L, 6L, 7L), false, true,
+                "NEW_ORPHAN", List.of(8L));
+    }
+
+    @Test
+    void manualSelectionAcrossAnAisleStillRejectsAHeldSeat() {
+        var layout = new ArrayList<>(rowWithAisleAfterSix(10));
+        layout.set(5, withStatus(6, SeatStatus.HELD));
+        assertRejected(layout, List.of(5L, 6L, 7L), false, true, "SEAT_NOT_AVAILABLE", List.of());
+    }
+
+    @Test
     void freeSelectionStillChecksTheWholeResultForNewOrphans() {
         assertRejected(row(8), List.of(3L, 5L), false, true, "NEW_ORPHAN", List.of(4L));
     }
@@ -356,6 +378,14 @@ class SeatSelectionRulesTest {
     private List<List<Long>> runIds(List<SessionSeat> layout) {
         return rules.availableRuns(layout).stream()
                 .map(run -> run.stream().map(SessionSeat::id).toList()).toList();
+    }
+
+    private List<SessionSeat> rowWithAisleAfterSix(int count) {
+        var seats = new ArrayList<SessionSeat>();
+        for (int number = 1; number <= count; number++) {
+            seats.add(seat(number, 1, "A", number, 10L, number <= 6 ? "L" : "R", SeatStatus.AVAILABLE));
+        }
+        return seats;
     }
 
     private SessionSeat withStatus(int number, SeatStatus status) {

@@ -32,7 +32,12 @@ public final class SeatSelectionRules {
 
     private record SegmentKey(Long areaId, String rowLabel, Long priceTierId, String aisleSegment) { }
 
-    /** Sales windows and price-tier enablement belong to the catalog caller, not this spatial rule. */
+    /**
+     * Sales windows and price-tier enablement belong to the catalog caller, not this spatial rule.
+     * @param requireAdjacent internal policy: false for manual selection, true for an adjacent
+     *                        recommendation; consumers do not need a separate adjacency switch
+     * @param forbidNewOrphan session policy, applied to the whole selection in either mode
+     */
     public Validation validate(List<SessionSeat> fullLayout, List<Long> selectedIds,
                                boolean requireAdjacent, boolean forbidNewOrphan) {
         if (fullLayout == null || fullLayout.isEmpty() || selectedIds == null || selectedIds.isEmpty()) {

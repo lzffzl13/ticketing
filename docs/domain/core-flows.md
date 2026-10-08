@@ -24,7 +24,7 @@ sequenceDiagram
 
     Customer->>App: 提交座位组合和幂等标识
     App->>DB: 开启本地事务
-    Note over App,DB: 重新校验售卖状态、连座、孤座和全部座位
+    Note over App,DB: 校验售卖状态、孤座和全部座位；推荐组合另校验连座
     App->>DB: 全部座位 AVAILABLE → HELD
     App->>DB: 创建 ACTIVE 锁、明细、订单和订单项
     DB-->>App: 提交成功

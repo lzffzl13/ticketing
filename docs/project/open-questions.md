@@ -28,6 +28,7 @@
 | 第二周七表结构、独立快照、创建事务与重复代码处理 | [ADR-0005](../decisions/0005-session-seat-snapshots.md) |
 | 场次配置与销售启停的行锁、冻结和重复目标 | [ADR-0006](../decisions/0006-serialize-session-management.md) |
 | 第三周只读一致性、实时扫描和确定性中心排序 | [ADR-0007](../decisions/0007-read-only-seat-recommendations.md) |
+| 手动选座不强制连座，系统推荐保证连座（2026-10-08 调整） | [ADR-0008](../decisions/0008-manual-seat-selection.md) |
 | 支付截止与座位释放 | `docs/decisions/0001-resolve-payment-before-releasing-seats.md` |
 | 孤座规则 | `docs/decisions/0002-forbid-creating-new-orphan-seats.md` |
 | 候补支付策略 | `docs/decisions/0003-waitlist-lock-then-pay.md` |
