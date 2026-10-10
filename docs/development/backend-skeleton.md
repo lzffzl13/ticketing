@@ -64,9 +64,9 @@ run-app 读取本地 .env，将开发库连接参数和 DEMO_PASSWORD 传给 Jav
 
 ## 4. 数据与迁移
 
-[application.yaml](../../src/main/resources/application.yaml) 配置开发数据库、连接池、Flyway、MyBatis 和日志；测试配置固定使用独立测试实例。生产业务已有 venue、catalog、inventory、identity 与 trade 各自的 Mapper，跨模块通过服务协作。common 提供响应、请求编号、时钟、UTC 时间映射和安全配置。
+[application.yaml](../../src/main/resources/application.yaml) 配置开发数据库、连接池、Flyway、MyBatis 和日志；测试配置固定使用独立测试实例。生产业务已有 venue、catalog、inventory、identity、trade 与 simulator 各自的 Mapper，跨模块通过服务协作。common 提供响应、请求编号、时钟、UTC 时间映射和安全配置。
 
-Flyway 在启动阶段连接 MySQL 并维护 flyway_schema_history。最初骨架验证时没有业务迁移；第二周七表评审完成后，V1 在开发和测试库执行。本轮新增 V2 身份、订单与锁座六表及当前持有者约束，启动会校验两个迁移并将数据库升级到 v2；迁移是否成功以实际启动日志为准。
+Flyway 在启动阶段连接 MySQL 并维护 flyway_schema_history。最初骨架验证时没有业务迁移；第二周七表评审完成后，V1 在开发和测试库执行。第四周第一部分新增 V2 身份、订单与锁座六表及当前持有者约束；第二部分新增 V3 模拟渠道交易/通知两表。当前启动会校验三个迁移并将数据库升级到 v3；迁移是否成功以实际启动日志为准。simulator 包的独立事务与入口见[模拟器导读](payment-simulator.md)。
 
 模板快照与管理事务见 ADR-0005/0006；第四周表结构和下单事务见 ADR-0012，认证见 ADR-0013。后续结构变化新增迁移，保留已执行版本，不通过修改 V1 来绕过约束。
 
