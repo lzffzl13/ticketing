@@ -1,10 +1,10 @@
 # 支付模拟器导读
 
-本页对应第四周第二部分的第一个小闭环：持久化模拟渠道交易、查单/关单、成功/失败控制及通知保存和重投。方案和两表已获确认，见 [ADR-0014](../decisions/0014-persist-independent-payment-simulator.md)。它提供内部服务，尚未接入消费者支付 API、本地支付记录和出票；当前不能宣称订单支付闭环已完成。
+本页对应第四周第二部分的模拟渠道组件：持久化交易、查单/关单、成功/失败控制及通知保存和重投。方案和两表见 [ADR-0014](../decisions/0014-persist-independent-payment-simulator.md)。本地支付、原子出票与恢复已由 trade 编排接入，见[支付闭环导读](payment-loop.md)及 ADR-0015；本页的 25 项测试仅代表模拟器组件证据，完整闭环验证另见第四周周报。
 
 ## 1. 入口与身份边界
 
-`PaymentSimulatorService` 是跨模块调用入口。后续 trade 在不持有库存锁的编排阶段调用它。当前没有模拟器 HTTP 路由；未来运营控制接口须沿用 OPERATOR 鉴权，消费者不能直接触发成功。
+`PaymentSimulatorService` 是跨模块调用入口，trade 在不持有库存锁的编排阶段调用。运营控制和通知投递由 trade 的 PaymentOperationsController 提供并要求 OPERATOR；消费者不能直接触发成功。
 
 | 方法 | 行为 |
 | --- | --- |
@@ -52,7 +52,7 @@ SUCCEEDED、FAILED、CLOSED 均不可改成另一个终态。同终态重试直�
 
 PaymentSimulatorService 使用 NOT_SUPPORTED 编排；PaymentSimulatorTransactionService 经独立 Spring 代理使用 REQUIRES_NEW / READ COMMITTED。调用方不能持有本地场次或订单写锁调用渠道；挂起事务不会自动释放调用方已经取得的锁。
 
-渠道状态与通知快照在同一事务提交，不能出现成功记录有了而成功通知漏写。渠道提交后，调用方回滚不撤销它。后续本地结果事务必须以同支付编号确认，并原子更新订单、库存和票；该接收器尚未实现。
+渠道状态与通知快照在同一事务提交，不能出现成功记录有了而成功通知漏写。渠道提交后，调用方回滚不撤销它。本地 PaymentTransactionService.applyChannel 以同支付编号确认，原子更新订单、库存和票；PaymentService.deliver 保证接收器在本地结果提交后才返回。
 
 通知保存当时的 observed_status / observed_at，交易后来成功也不改写旧 PROCESSING 通知。可先送成功、后送旧 PROCESSING，或者重复送同一通知，以验证接收方乱序和幂等。
 
@@ -104,4 +104,4 @@ V3 的主键仲裁编号；CHECK 限制金额、合法状态、受理时间严�
 
 先阅读 open、finishLocked 与 deliver，解释三个例子：首次 start/close 都查不到编号时如何决定胜者；收款提交后调用方失败为何仍能查回成功；接收方已提交但送达确认失败为何允许重投。
 
-负责人已确认方案，不代表上述关键代码理解检查已完成。下一小闭环继续评审本地支付尝试与最小票结构、统一结果事务，再接入消费者 API；安全取消与 Q-06 单列后续评审。
+负责人已确认 ADR-0015 的支付/票、结果事务、安全取消和 Q-06，并选择先完成编码，再集中阅读业务逻辑；上述关键代码理解检查仍单列。完整闭环及异常恢复阅读入口为 payment-loop.md，执行证据以第四周周报为准。

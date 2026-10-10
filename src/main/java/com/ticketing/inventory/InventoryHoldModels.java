@@ -9,4 +9,7 @@ public final class InventoryHoldModels {
 
     public record Hold(Long id, Long orderId, Long sessionId, HoldStatus status,
                        Instant expiresAt, Instant createdAt, Instant updatedAt) { }
+
+    /** Write-side ownership read after locking this individual seat. */
+    record LockedSeat(Long id, Long sessionId, InventoryModels.SeatStatus seatStatus, Long currentHoldId) { }
 }

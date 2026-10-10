@@ -46,6 +46,13 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.HEAD, PUBLIC_READS).permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/orders").hasRole("CONSUMER")
                         .requestMatchers(HttpMethod.GET, "/api/orders/{id}").hasRole("CONSUMER")
+                        .requestMatchers(HttpMethod.POST, "/api/orders/{id}/payments", "/api/orders/{id}/cancel").hasRole("CONSUMER")
+                        .requestMatchers(HttpMethod.GET, "/api/orders/{id}/payments", "/api/orders/{id}/tickets").hasRole("CONSUMER")
+                        .requestMatchers(HttpMethod.GET, "/api/operations/orders/{id}/payment-state",
+                                "/api/operations/payments/{number}/notifications").hasRole("OPERATOR")
+                        .requestMatchers(HttpMethod.POST, "/api/operations/orders/{id}/recover",
+                                "/api/operations/payments/{number}/succeed", "/api/operations/payments/{number}/fail",
+                                "/api/operations/notifications/{number}/deliver").hasRole("OPERATOR")
                         .requestMatchers(HttpMethod.POST, "/api/venues", "/api/venues/{id}/areas",
                                 "/api/areas/{id}/seat-templates", "/api/events", "/api/sessions").hasRole("OPERATOR")
                         .requestMatchers(HttpMethod.PUT, "/api/venues/{id}", "/api/areas/{id}",

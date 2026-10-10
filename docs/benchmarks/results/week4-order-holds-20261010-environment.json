@@ -1,0 +1,57 @@
+{
+  "status": "COMPLETED",
+  "namespace": "HB20261010145816001-3558D8",
+  "recordedAtUtc": "2026-10-10T14:58:16.0012872Z",
+  "completedAtUtc": "2026-10-10T14:58:31.3470017Z",
+  "javaVersion": "21.0.12.1+1",
+  "javaVendor": "Eclipse Adoptium (Temurin)",
+  "mavenVersion": "3.9.9",
+  "machine": {
+    "operatingSystem": "Microsoft Windows 11 家庭版 中文版",
+    "version": "10.0.26200",
+    "architecture": "64 位",
+    "totalMemoryBytes": 33873752064,
+    "processors": [
+      {
+        "Name": "Intel(R) Core(TM) Ultra 5 336H",
+        "NumberOfCores": 12,
+        "NumberOfLogicalProcessors": 12
+      }
+    ]
+  },
+  "parameters": {
+    "seatCounts": [
+      100,
+      500
+    ],
+    "concurrency": [
+      1,
+      4,
+      8
+    ],
+    "measuredBatchesPerCase": 4,
+    "warmupBatchesPerCase": 1,
+    "seatsPerOrder": 2,
+    "areaCount": 1,
+    "tierCount": 1,
+    "seatsPerRow": 20,
+    "aisleSegmentsPerRow": 1,
+    "unavailableRatio": 0,
+    "forbidNewOrphan": true
+  },
+  "database": {
+    "name": "ticketing_test",
+    "host": "127.0.0.1",
+    "port": 3308,
+    "username": "ticketing_test"
+  },
+  "mysqlVersion": "8.4.11",
+  "hikariMaximumPoolSize": 5,
+  "orderWriteIsolation": "READ_COMMITTED declared by OrderTransactionService",
+  "baseline": "Current complete MySQL-backed OrderService.create; concurrency=1 is the serial control for each seat count.",
+  "timing": "System.nanoTime around each full OrderService.create; includes connection/row-lock waits and commit/result loading; excludes fixture generation, HTTP/auth, warmup, assertions and I/O.",
+  "concurrencyModel": "Fixed worker count; every finite wave starts from a CountDownLatch barrier; distinct aligned two-seat pairs on the same session, same customer, unique keys.",
+  "throughputDefinition": "Successful measured orders divided by the sum of measured wave durations; setup and gaps between waves excluded.",
+  "limitations": "Finite service-level observations, no HTTP/auth or payment/cancellation load, no overlapping-seat load, no production capacity or optimization gain claim. Hikari maximum pool size is recorded by the runner.",
+  "preservation": "No cleanup, no Flyway clean, no FK bypass; unique fixture namespace and all non-sensitive request keys remain recorded in requests.csv."
+}

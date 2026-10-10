@@ -1,6 +1,6 @@
 # 后端骨架：运行与代码导读
 
-本文讲解可构建、可启动、可验证的工程基础。当前已有场馆模板、独立快照、配置和销售启停、座位图与连座推荐，以及固定账号登录、幂等下单和整组锁座。业务入口见[场次快照](session-snapshots.md)、[场次销售](session-sales.md)、[座位推荐](seat-recommendations.md)及[登录与订单导读](order-holds.md)。支付、出票、取消和自动释放仍待后续闭环。
+本文讲解可构建、可启动、可验证的工程基础。当前已有场馆模板、独立快照、配置和销售启停、座位图与连座推荐，以及固定账号登录、幂等下单、整组锁座、模拟支付、原子出票、安全取消和运营恢复。业务入口见[场次快照](session-snapshots.md)、[场次销售](session-sales.md)、[座位推荐](seat-recommendations.md)、[登录与订单导读](order-holds.md)、[支付核心代码](payment-loop.md)及[支付闭环演示](payment-loop-demo.md)。第四周提供手动恢复，第五周再接自动扫描；实现与已执行验证分别见周报。
 
 ## 1. 运行与测试
 
@@ -23,7 +23,7 @@ run-app 读取本地 .env，将开发库连接参数和 DEMO_PASSWORD 传给 Jav
 | http://127.0.0.1:8080/v3/api-docs | 机器可读的 OpenAPI 文档 |
 | http://127.0.0.1:8080/swagger-ui/index.html | 浏览和调用接口 |
 
-这些 GET 地址允许匿名访问。Swagger 的 Authorize 输入登录返回的 token 原值；管理写入口使用 operator1，个人订单使用 consumer1 或 consumer2。旧管理种子/演示脚本自动先登录，第四周演示见[脚本说明](order-holds-demo.md)。
+这些 GET 地址允许匿名访问。Swagger 的 Authorize 输入登录返回的 token 原值；管理写入口及渠道控制/恢复使用 operator1，个人订单、支付和票使用 consumer1 或 consumer2。旧管理种子/演示脚本自动先登录，第四周演示见[锁座脚本说明](order-holds-demo.md)和[支付脚本说明](payment-loop-demo.md)。
 
 ## 2. 正常请求如何经过代码
 
@@ -64,17 +64,20 @@ run-app 读取本地 .env，将开发库连接参数和 DEMO_PASSWORD 传给 Jav
 
 ## 4. 数据与迁移
 
-[application.yaml](../../src/main/resources/application.yaml) 配置开发数据库、连接池、Flyway、MyBatis 和日志；测试配置固定使用独立测试实例。生产业务已有 venue、catalog、inventory、identity、trade 与 simulator 各自的 Mapper，跨模块通过服务协作。common 提供响应、请求编号、时钟、UTC 时间映射和安全配置。
+[application.yaml](../../src/main/resources/application.yaml) 配置开发数据库、连接池、Flyway、MyBatis 和日志；测试配置固定使用独立测试实例。生产业务已有 venue、catalog、inventory、identity、trade、simulator 与 ticketing 各自的 Mapper，跨模块通过服务协作。trade 编排本地支付、订单与结果事务，inventory 整组消费/释放加入该事务，ticketing 签发/查询票且不反向访问 trade；simulator 独立提交渠道事实。common 提供响应、请求编号、时钟、UTC 时间映射和安全配置。
 
-Flyway 在启动阶段连接 MySQL 并维护 flyway_schema_history。最初骨架验证时没有业务迁移；第二周七表评审完成后，V1 在开发和测试库执行。第四周第一部分新增 V2 身份、订单与锁座六表及当前持有者约束；第二部分新增 V3 模拟渠道交易/通知两表。当前启动会校验三个迁移并将数据库升级到 v3；迁移是否成功以实际启动日志为准。simulator 包的独立事务与入口见[模拟器导读](payment-simulator.md)。
+Flyway 在启动阶段连接 MySQL 并维护 flyway_schema_history。最初骨架验证时没有业务迁移；第二周七表评审完成后，V1 在开发和测试库执行。第四周第一部分新增 V2 身份、订单与锁座六表及当前持有者约束；第二部分新增 V3 模拟渠道交易/通知两表，V4 新增本地 payment_record、ticket、订单取消/恢复字段及票与订单项的复合关联约束。当前启动会校验四个迁移并将数据库升级到 v4；迁移是否成功以实际启动日志为准。simulator 包的独立事务与入口见[模拟器导读](payment-simulator.md)，本地闭环入口见[支付演示](payment-loop-demo.md)。
 
-模板快照与管理事务见 ADR-0005/0006；第四周表结构和下单事务见 ADR-0012，认证见 ADR-0013。后续结构变化新增迁移，保留已执行版本，不通过修改 V1 来绕过约束。
+模板快照与管理事务见 ADR-0005/0006；第四周下单表与事务见 ADR-0012，认证见 ADR-0013，模拟器见 ADR-0014，本地支付、原子出票、安全取消与领取恢复见 [ADR-0015](../decisions/0015-local-payment-ticket-cancellation-recovery.md)。后续结构变化新增迁移，保留已执行版本，不通过修改旧版本来绕过约束。
 
 ## 5. 验证证据位置
 
 - 接口基础契约：src/test/java/com/ticketing/common/web/ApiContractTest.java。
 - MyBatis、Flyway 和真实 HTTP 启动：src/test/java/com/ticketing/support/ApplicationStartupIT.java。
+- 支付结果、出票回滚与权限：src/test/java/com/ticketing/trade/PaymentLifecycleIT.java；安全取消、渠道异常、领取及阈值：PaymentRecoveryIT.java。新增测试已经编写，实际执行结果以第四周周报为准。
 - 接口测试报告：target/surefire-reports；集成测试报告：target/failsafe-reports。
 - 骨架阶段历史构建日志：.local/build.log；临时打包启动验证日志：.local/app-stdout.log（本机保留时可查看）。
 
 骨架阶段历史结果见[第二周进度](../progress/week-02.md)，当前订单、身份及真实演示证据见[第四周进度](../progress/week-04.md)。基础契约测试通过不能替代业务状态、并发和事务测试；各项执行情况以相应周报为准。
+
+[锁座数据库实验](../benchmarks/order-holds-baseline.md)测量完整下单服务，保留环境、串行对照及原始请求记录；它与普通回归分开运行，实验脚本不清库。已有纯推荐算法基线不能代替锁座数据库实验。

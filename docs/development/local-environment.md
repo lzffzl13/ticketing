@@ -1,6 +1,6 @@
 # Windows 本地开发环境
 
-当前提供 Java 21、MySQL 与 Spring Boot 应用。业务结构包含 V1 场馆/场次七表、V2 身份/订单/锁座六表及 V3 支付模拟器交易/通知两表，由 Flyway 在应用启动时迁移。工程运行说明见[后端骨架](backend-skeleton.md)，第四周登录与下单见[导读](order-holds.md)，模拟器内部服务见[导读](payment-simulator.md)。
+当前提供 Java 21、MySQL 与 Spring Boot 应用。业务结构包含 V1 场馆/场次七表、V2 身份/订单/锁座六表、V3 支付模拟器交易/通知两表和 V4 本地支付/票及订单恢复字段，由 Flyway 在应用启动时迁移。工程运行说明见[后端骨架](backend-skeleton.md)，第四周登录与下单见[导读](order-holds.md)，渠道内部服务见[模拟器导读](payment-simulator.md)，支付出票、取消与恢复见[闭环演示](payment-loop-demo.md)。
 
 ## 1. 准备 Java 21
 
@@ -46,7 +46,7 @@ setup 脚本从 Adoptium 官方发布下载压缩包，核对固定 SHA-256 后�
 
 start 脚本等待应用账号完成 SELECT 1 健康检查；check 脚本再次执行账号认证和版本、库名、字符集查询。连接错误不能视为健康。
 
-Compose 创建两组独立数据卷。本地已有 MySQL 的默认端口 3306 不与容器的 3307/3308 冲突。数据库容器健康只证明连接可用；应用启动后才由 Flyway 校验和执行 V1/V2/V3，不能把容器健康视为业务迁移已完成。
+Compose 创建两组独立数据卷。本地已有 MySQL 的默认端口 3306 不与容器的 3307/3308 冲突。数据库容器健康只证明连接可用；应用启动后才由 Flyway 校验和执行 V1/V2/V3/V4，不能把容器健康视为业务迁移已完成。
 
 ## 3. 启动应用与演示登录
 
@@ -56,9 +56,13 @@ Compose 创建两组独立数据卷。本地已有 MySQL 的默认端口 3306 �
 
 run-app 读取 .env 并传入 DB_URL、DB_USER、DB_PASSWORD 和 DEMO_PASSWORD。新环境生成随机 DEMO_PASSWORD；已有 .env 缺少该字段时，local-settings.ps1 追加随机值，不旋转已有数据库密码。密码与令牌不会由脚本打印。
 
-应用启动时使用该密码创建 consumer1、consumer2、operator1 和 checker1 的 BCrypt 摘要，重复启动核对并复用账号，不静默重置密码。登录调用 POST /api/auth/login，后续以 Authorization: Bearer 携带返回令牌；管理写入口需运营账号，订单入口需消费者账号。公共只读查询、健康检查和 Swagger 允许匿名。已有种子/演示脚本会先登录并缓存运营令牌。
+应用启动时使用该密码创建 consumer1、consumer2、operator1 和 checker1 的 BCrypt 摘要，重复启动核对并复用账号，不静默重置密码。登录调用 POST /api/auth/login，后续以 Authorization: Bearer 携带返回令牌；管理写入口、渠道控制、通知投递及订单恢复需运营账号，订单、支付、本人票和取消入口需消费者账号。公共只读查询、健康检查和 Swagger 允许匿名。已有种子/演示脚本会先登录并缓存运营令牌。
 
 账号密码与本地配置不一致时应检查启动和认证日志，保留数据库事实。直接用 IDE 启动需配置上述环境变量；DEMO_PASSWORD 为空会跳过启动账号种子。演示命令、独立 W4 数据和重跑策略见[锁座演示](order-holds-demo.md)。
+
+应用启动后运行 `.\scripts\demo-payments.ps1` 演示支付、出票、乱序重投和安全取消；相同 W4P 命名空间重用原请求与结果，不续支付期限。第四周仅提供运营手动恢复，已到期也不能根据时间直接释放未知支付的座位；第五周接入扫描。新增闭环的执行验收见第四周周报，不把编译或启动视为业务测试通过。
+
+`.\scripts\benchmark-order-holds.ps1` 使用测试库生成独立实验夹具，记录机器、Java/MySQL、规模、并发及原始耗时，并保留订单。运行时不要同时执行会清理测试数据的集成回归；指标范围与串行对照见[锁座数据库实验](../benchmarks/order-holds-baseline.md)。
 
 ## 4. 查看、停止与恢复
 

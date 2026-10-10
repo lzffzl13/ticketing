@@ -2,9 +2,9 @@
 
 一个以“具有唯一身份和空间关系的场次座位”为核心的票务项目，覆盖场馆模板、场次快照、选座与连座推荐、锁座下单、模拟支付、电子票、单票退票、座位回流和现场核销。
 
-项目当前已完成第四周第一个闭环：固定账号登录、角色鉴权、幂等创建待支付订单、整组锁座及本人订单查询。2026-10-08 完整自动化 165 项通过，其中新增 43 项身份与交易测试。已有场次独立快照、销售启停、座位图、确定性推荐和 246 座主演示数据；第三周算法基线见对应文档。
+项目当前已实现第四周购票闭环：固定账号登录、角色鉴权、幂等创建订单、整组锁座、模拟支付、原子出票、本人票查询、安全取消及运营主动恢复。已有场次独立快照、销售启停、座位图、确定性推荐和 246 座主演示数据；第三周算法基线见对应文档。
 
-首个闭环全部方案已获负责人确认，Q-04 / Q-05 / Q-11 已解决。2026-10-10 新增已确认的持久化支付模拟器内部服务：独立提交、查单/关单、成功/失败控制及通知快照重投，25 项新增数据库测试和完整 190 项回归通过。消费者订单支付、出票、安全取消和自动释放尚未接入；15 分钟到达不会自行释放座位。第二周整周学习验收和本轮关键代码理解检查仍单列待完成。
+2026-10-10 完整回归 **229 项通过**（87 unit + 142 IT），新增支付/取消/恢复测试 39 项。真实 API 演示、原请求重放、渠道收款后应用重启再出票，以及 MySQL 锁座下单基线均已执行；原始证据与局限见第四周周报。第四周提供运营主动恢复，第五周接入自动扫描、二维码和退款。15 分钟到达不会自行释放座位，已有支付须查明结果并安全关单。负责人选择编码完成后集中阅读业务逻辑，第二周整周学习验收及本轮核心代码理解检查仍单列待完成。
 
 ## 项目目标
 
@@ -59,10 +59,14 @@
 | [ADR-0011](docs/decisions/0011-order-cutoff-before-admission-closes.md) | 已确认的入场截止与完整 15 分钟支付期限衔接 |
 | [ADR-0012](docs/decisions/0012-order-hold-schema-and-transaction.md) | 订单/锁六表、当前持有者与原子提交边界 |
 | [ADR-0013](docs/decisions/0013-demo-opaque-bearer-login.md) | 不透明 Bearer 登录及 Spring Security 权限 |
-| [第四周进度](docs/progress/week-04.md) | 首个闭环实现、165 项验证、演示与后续范围 |
-| [第四周支付评审](docs/design/week-04-payment-review.md) | 已确认的模拟器与两表，后续待确认的支付/票结构、结果事务、安全取消与恢复候选 |
+| [第四周进度](docs/progress/week-04.md) | 登录下单、支付模拟器及支付闭环的实现、验证与理解验收进度 |
+| [第四周支付评审](docs/design/week-04-payment-review.md) | 已确认的模拟器、本地支付/票结构、原子结果事务、安全取消与恢复协议 |
 | [ADR-0014](docs/decisions/0014-persist-independent-payment-simulator.md) | 已确认的模拟器持久化、独立提交、首次受理截止与关单防复活 |
 | [支付模拟器导读](docs/development/payment-simulator.md) | 内部入口、当前事实与通知快照、事务、并发、故障及 25 项数据库测试 |
+| [ADR-0015](docs/decisions/0015-local-payment-ticket-cancellation-recovery.md) | 本地支付与票、整组成功/取消事务、订单恢复信息和 60 秒领取协议 |
+| [支付闭环代码导读](docs/development/payment-loop.md) | 支付意图、原子结果、库存归属、安全取消与恢复 token 的关键代码 |
+| [支付闭环演示](docs/development/payment-loop-demo.md) | 消费者发起、运营控制与投递、本人票查询、安全取消及手动恢复 |
+| [锁座数据库基线](docs/benchmarks/order-holds-baseline.md) | 同场次完整下单服务的规模、并发、串行对照及指标定义；执行证据另列 |
 
 ## 当前进度
 
@@ -88,9 +92,11 @@
 - [x] 幂等下单、整组锁座、成交快照与个人订单查询
 - [x] 持久化支付模拟器、独立渠道事务、查单关单与通知快照重投
 - [x] 真并发、微秒截止边界、数据库约束与部分写入回滚测试
+- [x] 本地支付、原子出票、本人票查询、安全取消及运营恢复代码
+- [x] 第四周支付闭环测试、真实演示、应用重启恢复与锁座数据库基线
 - [ ] 第四周首个闭环核心代码理解检查
-- [ ] 可运行的纵向业务闭环
-- [ ] 交易履约状态自动化测试与完整端到端演示脚本
+- [x] 可购买的纵向闭环（选座→下单→支付→出票 / 安全取消）
+- [ ] 退款与核销闭环、完整履约演示
 
 ## 运行方式
 
@@ -114,9 +120,14 @@
 .\scripts\seed-galaxy.ps1
 .\scripts\demo-seat-recommendations.ps1
 .\scripts\demo-order-holds.ps1
+.\scripts\demo-payments.ps1
 ~~~
 
 第三周查询入口为 `GET /api/sessions/{id}/seat-map` 和 `GET /api/sessions/{id}/recommendations?quantity=2&limit=5`。候选不占座，最终下单仍需重新校验。演示使用独立 W3 数据，可重复执行。编译后运行 `.\scripts\benchmark-seat-recommendations.ps1` 可重做单线程纯算法基线；它不访问数据库，指标不代表 HTTP 或锁座吞吐。详见[导读](docs/development/seat-recommendations.md)。
+
+第四周支付演示使用独立 W4P 场次，保存原请求键、支付编号和票号，可用相同命名空间重跑；接口与观察结果见[演示导读](docs/development/payment-loop-demo.md)。消费者通过 `POST /api/orders/{id}/payments` 发起，使用 `GET /api/orders/{id}/tickets` 查询本人票；渠道结果控制、通知投递及主动恢复均需 OPERATOR。第四周不会自动扫描到期订单。
+
+锁座实验通过 `.\scripts\benchmark-order-holds.ps1` 在隔离测试库生成独立夹具，保留订单，不删除历史数据。实验测量完整 `OrderService.create`，以并发度 1 为串行对照，包含数据库连接/行锁等待和事务提交；不代表 HTTP、支付或生产容量。参数、环境与输出见[实验说明](docs/benchmarks/order-holds-baseline.md)，运行时不要同时执行会清理测试数据的集成回归。
 
 主演示种子默认 DEMO 命名空间；独立验证可执行 `scripts/verify-galaxy-seed.ps1`，默认保留 VERIFY 和 VERIFY-R 两套夹具，不清库。时间与恢复方式见[主演示数据导读](docs/development/galaxy-seed.md)。
 
@@ -124,7 +135,7 @@
 
 启动后访问 [Swagger UI](http://127.0.0.1:8080/swagger-ui/index.html)。运行与代码说明见[后端骨架导读](docs/development/backend-skeleton.md)。
 
-开发库与测试库均由 Flyway 执行 V1 七表、V2 身份/订单/锁座六表和 V3 模拟渠道交易/通知两表迁移。固定种子重跑会核对和复用已有数据；检测到改动时保留数据并报错。新下单演示可重放同一订单且不续期；独立购买使用新的 W4 命名空间，不删除历史交易。模拟器当前通过内部服务及隔离测试验证，Swagger 暂无消费者支付或模拟器控制路由。
+开发库与测试库均由 Flyway 执行 V1 七表、V2 身份/订单/锁座六表、V3 模拟渠道交易/通知两表及 V4 本地支付/票与订单恢复字段迁移。固定种子重跑会核对和复用已有数据；检测到改动时保留数据并报错。下单与支付原键重放不续期；独立购买使用新的 W4 / W4P 命名空间，不删除历史交易。Swagger 已提供消费者支付、本人票和取消，以及运营渠道控制、通知投递与恢复入口。
 
 ## MVP 之外
 
