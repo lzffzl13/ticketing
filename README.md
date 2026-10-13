@@ -65,6 +65,7 @@
 | [支付模拟器导读](docs/development/payment-simulator.md) | 内部入口、当前事实与通知快照、事务、并发、故障及 25 项数据库测试 |
 | [ADR-0015](docs/decisions/0015-local-payment-ticket-cancellation-recovery.md) | 本地支付与票、整组成功/取消事务、订单恢复信息和 60 秒领取协议 |
 | [支付闭环代码导读](docs/development/payment-loop.md) | 支付意图、原子结果、库存归属、安全取消与恢复 token 的关键代码 |
+| [第四周业务逻辑复习笔记](docs/development/week-04-business-logic-notes.md) | 本次对话的完整场景、事务边界、安全取消、恢复含义及并发保护区别 |
 | [支付闭环演示](docs/development/payment-loop-demo.md) | 消费者发起、运营控制与投递、本人票查询、安全取消及手动恢复 |
 | [锁座数据库基线](docs/benchmarks/order-holds-baseline.md) | 同场次完整下单服务的规模、并发、串行对照及指标定义；执行证据另列 |
 
