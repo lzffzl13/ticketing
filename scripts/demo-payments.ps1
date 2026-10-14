@@ -160,7 +160,7 @@ $beforeSuccess = (Invoke-PaymentDemoRequest GET "/api/orders/$($order.id)" $cons
 $channelResult = (Invoke-PaymentDemoRequest POST "/api/operations/payments/$paymentNumber/succeed" $operator).data
 Assert-PaymentDemo ($channelResult.paymentStatus -eq 'SUCCEEDED' -and $channelResult.paymentNumber -eq $payment.paymentNumber) 'The independently saved channel result is not the original successful payment.'
 $afterChannel = (Invoke-PaymentDemoRequest GET "/api/orders/$($order.id)" $consumer).data
-Assert-PaymentDemo ($afterChannel.orderStatus -eq $beforeSuccess.orderStatus) 'Saving the channel result unexpectedly changed the local order before delivery.'
+Assert-PaymentDemo ($afterChannel.orderStatus -eq $beforeSuccess.orderStatus -or $afterChannel.orderStatus -eq 'PAID') 'Order state changed unexpectedly before delivery or automatic recovery.'
 $notices = @( (Invoke-PaymentDemoRequest GET "/api/operations/payments/$paymentNumber/notifications" $operator).data )
 $successNotice = $notices | Where-Object observedStatus -eq 'SUCCEEDED' | Select-Object -First 1
 $processingNotice = $notices | Where-Object observedStatus -eq 'PROCESSING' | Select-Object -First 1

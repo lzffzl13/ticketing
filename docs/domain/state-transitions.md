@@ -6,7 +6,7 @@
 
 当前状态：第一周已评审版本。状态名使用英文候选值，便于后续映射到代码枚举；本轮确认的是业务语义，不代表已经决定数据库更新语句或并发控制实现。
 
-销售管理状态与并发控制见下节及 [ADR-0006](../decisions/0006-serialize-session-management.md)。第四周首个闭环已实现并验证待支付订单、ACTIVE 锁和 AVAILABLE → HELD；支付、出票、取消、释放和退票迁移仍待后续阶段。
+销售管理状态与并发控制见下节及 [ADR-0006](../decisions/0006-serialize-session-management.md)。第四周已实现锁座、支付、出票、安全取消及释放；第五周首个闭环接入自动超时/恢复扫描，规则见 ADR-0016，执行证据见相应周报。退票、二维码与核销尚未实现。
 
 ## 2. 状态设计原则
 
@@ -133,7 +133,7 @@ stateDiagram-v2
 
 订单状态是订单内电子票状态的汇总，但不能代替电子票状态。`PARTIALLY_REFUNDED` 只在退款成功后出现，电子票处于 `REFUNDING` 时订单仍保持原状态。
 
-2026-10-08 补充已确认的创建边界：新订单须同时满足销售资格与取得场次写锁后的 `now + 15 分钟 <= admission_close_at`，相等时允许，支付期限仍为完整 15 分钟，见 [ADR-0011](../decisions/0011-order-cutoff-before-admission-closes.md)。按消费者与请求编号重放已创建订单只返回原状态和原期限，不再次进入创建迁移或续锁；同编号内容冲突拒绝，见 [ADR-0010](../decisions/0010-idempotent-order-creation.md)。本轮实现创建订单、ACTIVE 锁及 AVAILABLE → HELD；后续支付、取消和释放迁移仍待实现，测试执行证据见第四周周报。
+2026-10-08 补充已确认的创建边界：新订单须同时满足销售资格与取得场次写锁后的 `now + 15 分钟 <= admission_close_at`，相等时允许，支付期限仍为完整 15 分钟，见 [ADR-0011](../decisions/0011-order-cutoff-before-admission-closes.md)。按消费者与请求编号重放已创建订单只返回原状态和原期限，不再次进入创建迁移或续锁；同编号内容冲突拒绝，见 [ADR-0010](../decisions/0010-idempotent-order-creation.md)。锁座、支付、取消和释放的实际执行证据见第四周周报；自动触发与资格重验见第五周周报。
 
 ## 6. 支付状态
 

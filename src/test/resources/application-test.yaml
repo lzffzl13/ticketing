@@ -3,3 +3,8 @@ spring:
     url: ${TEST_DB_URL:jdbc:mysql://127.0.0.1:3308/ticketing_test?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC}
     username: ${TEST_DB_USER:ticketing_test}
     password: ${TEST_DB_PASSWORD}
+
+ticketing:
+  payment-recovery:
+    # Time and concurrency tests invoke the scanner explicitly; no background task touches their fixtures.
+    enabled: false

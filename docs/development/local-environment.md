@@ -60,7 +60,7 @@ run-app 读取 .env 并传入 DB_URL、DB_USER、DB_PASSWORD 和 DEMO_PASSWORD�
 
 账号密码与本地配置不一致时应检查启动和认证日志，保留数据库事实。直接用 IDE 启动需配置上述环境变量；DEMO_PASSWORD 为空会跳过启动账号种子。演示命令、独立 W4 数据和重跑策略见[锁座演示](order-holds-demo.md)。
 
-应用启动后运行 `.\scripts\demo-payments.ps1` 演示支付、出票、乱序重投和安全取消；相同 W4P 命名空间重用原请求与结果，不续支付期限。第四周仅提供运营手动恢复，已到期也不能根据时间直接释放未知支付的座位；第五周接入扫描。新增闭环的执行验收见第四周周报，不把编译或启动视为业务测试通过。
+应用启动后运行 `.\scripts\demo-payments.ps1` 演示支付、出票、乱序重投和安全取消；相同 W4P 命名空间重用原请求与结果，不续支付期限。第五周默认接入自动扫描，但已到期也不能根据时间直接释放未知支付的座位；运行 `.\scripts\demo-payment-recovery.ps1` 观察后台查单出票与原请求重放。第四周暂停点演示需以 PAYMENT_RECOVERY_ENABLED=false 关闭后台，详细配置与恢复见[扫描导读](payment-recovery-scanning.md)。实际验收见相应周报，不把编译或启动视为业务测试通过。
 
 `.\scripts\benchmark-order-holds.ps1` 使用测试库生成独立实验夹具，记录机器、Java/MySQL、规模、并发及原始耗时，并保留订单。运行时不要同时执行会清理测试数据的集成回归；指标范围与串行对照见[锁座数据库实验](../benchmarks/order-holds-baseline.md)。
 

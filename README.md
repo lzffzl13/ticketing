@@ -2,9 +2,9 @@
 
 一个以“具有唯一身份和空间关系的场次座位”为核心的票务项目，覆盖场馆模板、场次快照、选座与连座推荐、锁座下单、模拟支付、电子票、单票退票、座位回流和现场核销。
 
-项目当前已实现第四周购票闭环：固定账号登录、角色鉴权、幂等创建订单、整组锁座、模拟支付、原子出票、本人票查询、安全取消及运营主动恢复。已有场次独立快照、销售启停、座位图、确定性推荐和 246 座主演示数据；第三周算法基线见对应文档。
+项目当前已实现第四周购票闭环，并完成第五周首个自动超时/恢复扫描闭环：固定账号登录、角色鉴权、幂等创建订单、整组锁座、模拟支付、原子出票、本人票查询、安全取消、运营主动恢复及后台自动恢复。已有场次独立快照、销售启停、座位图、确定性推荐和 246 座主演示数据；第三周算法基线见对应文档。
 
-2026-10-10 完整回归 **229 项通过**（87 unit + 142 IT），新增支付/取消/恢复测试 39 项。真实 API 演示、原请求重放、渠道收款后应用重启再出票，以及 MySQL 锁座下单基线均已执行；原始证据与局限见第四周周报。第四周提供运营主动恢复，第五周接入自动扫描、二维码和退款。15 分钟到达不会自行释放座位，已有支付须查明结果并安全关单。2026-10-13 已完成本轮核心业务与事务代码阅读及场景理解检查，范围和反馈见周报；第二周整周学习验收仍单列待完成。
+2026-10-14 完整回归 **255 项通过**（94 unit + 161 IT），本次新增扫描/重验测试 26 项；后台查单出票、原请求重放、既有到期订单整组释放及真实进程重启自动恢复已验证，证据见第五周周报。第四周 229 项回归、支付演示及 MySQL 锁座基线保留在第四周周报。15 分钟到达不会自行释放座位，已有支付须查明结果并安全关单。二维码与退款尚未实现；第四周核心理解检查已完成，第五周本闭环和第二周整周学习验收仍单列。
 
 ## 项目目标
 
@@ -68,6 +68,10 @@
 | [第四周业务逻辑复习笔记](docs/development/week-04-business-logic-notes.md) | 本次对话的完整场景、事务边界、安全取消、恢复含义及并发保护区别 |
 | [支付闭环演示](docs/development/payment-loop-demo.md) | 消费者发起、运营控制与投递、本人票查询、安全取消及手动恢复 |
 | [锁座数据库基线](docs/benchmarks/order-holds-baseline.md) | 同场次完整下单服务的规模、并发、串行对照及指标定义；执行证据另列 |
+| [第五周首个闭环评审](docs/design/week-05-timeout-recovery-review.md) | 已确认的自动超时/恢复扫描、规则复用、锁内重验与验收场景 |
+| [第五周进度](docs/progress/week-05.md) | 第五周实际起点、评审及后续票码与退款范围 |
+| [ADR-0016](docs/decisions/0016-scan-durable-payment-recovery.md) | 应用内 MySQL 扫描、默认参数、有限批次与持久恢复 |
+| [自动扫描导读](docs/development/payment-recovery-scanning.md) | 自动入口、数据变化、事务、故障处理、配置与演示 |
 
 ## 当前进度
 
@@ -97,6 +101,8 @@
 - [x] 第四周支付闭环测试、真实演示、应用重启恢复与锁座数据库基线
 - [x] 第四周核心业务与事务代码阅读及本轮场景理解检查
 - [x] 可购买的纵向闭环（选座→下单→支付→出票 / 安全取消）
+- [x] 自动超时/恢复扫描、锁内资格重验及后台重启恢复验证
+- [ ] 第五周自动扫描核心代码理解检查
 - [ ] 退款与核销闭环、完整履约演示
 
 ## 运行方式
@@ -122,11 +128,14 @@
 .\scripts\demo-seat-recommendations.ps1
 .\scripts\demo-order-holds.ps1
 .\scripts\demo-payments.ps1
+.\scripts\demo-payment-recovery.ps1
 ~~~
 
 第三周查询入口为 `GET /api/sessions/{id}/seat-map` 和 `GET /api/sessions/{id}/recommendations?quantity=2&limit=5`。候选不占座，最终下单仍需重新校验。演示使用独立 W3 数据，可重复执行。编译后运行 `.\scripts\benchmark-seat-recommendations.ps1` 可重做单线程纯算法基线；它不访问数据库，指标不代表 HTTP 或锁座吞吐。详见[导读](docs/development/seat-recommendations.md)。
 
-第四周支付演示使用独立 W4P 场次，保存原请求键、支付编号和票号，可用相同命名空间重跑；接口与观察结果见[演示导读](docs/development/payment-loop-demo.md)。消费者通过 `POST /api/orders/{id}/payments` 发起，使用 `GET /api/orders/{id}/tickets` 查询本人票；渠道结果控制、通知投递及主动恢复均需 OPERATOR。第四周不会自动扫描到期订单。
+第四周支付演示使用独立 W4P 场次，保存原请求键、支付编号和票号，可用相同命名空间重跑；接口与观察结果见[演示导读](docs/development/payment-loop-demo.md)。消费者通过 `POST /api/orders/{id}/payments` 发起，使用 `GET /api/orders/{id}/tickets` 查询本人票；渠道结果控制、通知投递及主动恢复均需 OPERATOR。
+
+第五周默认自动扫描到期与未决订单，每轮结束 1 秒后再运行，单批 50 个候选，可通过 PAYMENT_RECOVERY_ENABLED、PAYMENT_RECOVERY_FIXED_DELAY_MS 和 PAYMENT_RECOVERY_BATCH_SIZE 配置。运行 `.\scripts\demo-payment-recovery.ps1` 演示不投通知、仅由后台查单出票；`-Scenario Timeout` 分两次命令观察原 15 分钟期限前后的自动取消。配置、失败恢复与实际验收见[扫描导读](docs/development/payment-recovery-scanning.md)。暂停后台可稳定复现第四周未出票暂停点；启用时普通支付演示允许后台先行出票。
 
 锁座实验通过 `.\scripts\benchmark-order-holds.ps1` 在隔离测试库生成独立夹具，保留订单，不删除历史数据。实验测量完整 `OrderService.create`，以并发度 1 为串行对照，包含数据库连接/行锁等待和事务提交；不代表 HTTP、支付或生产容量。参数、环境与输出见[实验说明](docs/benchmarks/order-holds-baseline.md)，运行时不要同时执行会清理测试数据的集成回归。
 

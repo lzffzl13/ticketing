@@ -82,12 +82,24 @@ public class PaymentTransactionService {
         var history = mapper.lockPayments(orderId);
         if (order.orderStatus() != PENDING_PAYMENT) { return null; }
         var at = now();
+        // A scan's earlier SELECT is only a hint; recheck before cancellation or release can write anything.
+        if (!manual && !automaticallyDue(order, at)) { return null; }
         if (!at.isBefore(order.paymentExpiresAt())) {
             mapper.requestCancellation(orderId, "TIMEOUT", at);
             order = mapper.orderState(orderId);
         }
-        if (order.cancellationRequestedAt() != null && cancelIfSafe(order, history, at)) { return null; }
-        return claimLocked(order, history, at, manual);
+        // Account for an abandoned lease and the manual threshold before any automatic safe cancellation.
+        var work = claimLocked(order, history, at, manual);
+        if (work == null) { return null; }
+        if (order.cancellationRequestedAt() != null && cancelIfSafe(work.order(), history, at)) { return null; }
+        return work;
+    }
+
+    private boolean automaticallyDue(RecoveryOrder order, Instant at) {
+        if (order.manualRequired() ||
+                (order.recoveryToken() != null && at.isBefore(order.recoveryClaimUntil()))) { return false; }
+        if (order.nextRecoveryAt() != null) { return !at.isBefore(order.nextRecoveryAt()); }
+        return !at.isBefore(order.paymentExpiresAt()) || order.cancellationRequestedAt() != null;
     }
 
     private Work claimLocked(RecoveryOrder order, List<PaymentRecord> history, Instant at, boolean manual) {

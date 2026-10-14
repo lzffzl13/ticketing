@@ -48,6 +48,119 @@ class PaymentRecoveryIT extends PaymentTestSupport {
     }
 
     @Test
+    void automaticRecoveryCannotReleaseAnExpiredFailedPaymentMarkedForManualReview() {
+        var attempt = payment.start(consumer1, order.id(), "manual-review-failed");
+        payment.applyChannel(simulator.fail(attempt.paymentNumber()));
+        clock.set(order.paymentExpiresAt());
+        // This is the persisted marker a result handler can set after a scanner has read its candidate.
+        writer.markConflict(order.id());
+        var before = payment.state(order.id());
+        var storedBefore = jdbc.queryForMap("SELECT * FROM customer_order WHERE id=?", order.id());
+        assertTrue(before.manualRequired());
+        assertEquals("FAILED", before.payments().getFirst().paymentStatus().name());
+
+        assertEquals(before, payment.recoverIfDue(order.id()));
+
+        assertEquals(storedBefore, jdbc.queryForMap("SELECT * FROM customer_order WHERE id=?", order.id()));
+        assertNull(payment.state(order.id()).cancellationRequestedAt());
+        assertHeld(order);
+    }
+
+    @Test
+    void automaticRecoveryCannotBypassBackoffToReleaseAnExpiredFailedPayment() {
+        var attempt = payment.start(consumer1, order.id(), "backoff-failed");
+        payment.applyChannel(simulator.fail(attempt.paymentNumber()));
+        clock.set(order.paymentExpiresAt().minusSeconds(1));
+        // An in-flight recovery query fails just as the deadline arrives, persisting a real future retry.
+        doAnswer(call -> {
+            clock.set(order.paymentExpiresAt());
+            throw new IllegalStateException("test channel query fails across the payment deadline");
+        }).when(channelTarget()).find(eq(attempt.paymentNumber()));
+        var before = payment.recover(order.id());
+        var storedBefore = jdbc.queryForMap("SELECT * FROM customer_order WHERE id=?", order.id());
+        assertEquals(order.paymentExpiresAt().plusSeconds(5), before.nextRecoveryAt());
+        assertEquals(1, before.consecutiveFailures());
+        assertEquals("FAILED", before.payments().getFirst().paymentStatus().name());
+
+        assertEquals(before, payment.recoverIfDue(order.id()));
+
+        assertEquals(storedBefore, jdbc.queryForMap("SELECT * FROM customer_order WHERE id=?", order.id()));
+        assertNull(payment.state(order.id()).cancellationRequestedAt());
+        assertHeld(order);
+        restoreFind();
+        clock.set(before.nextRecoveryAt());
+        assertEquals(CANCELLED, payment.recoverIfDue(order.id()).orderStatus());
+        assertCancelled(order, "EXPIRED");
+    }
+
+    @Test
+    void automaticRecoveryCannotReleaseAnExpiredFailedPaymentDuringAnotherWorkersLiveLease() {
+        var attempt = payment.start(consumer1, order.id(), "leased-failed");
+        payment.applyChannel(simulator.fail(attempt.paymentNumber()));
+        clock.set(order.paymentExpiresAt().minusSeconds(1));
+        // The existing worker has committed its claim and has not completed its channel interaction yet.
+        var work = writer.claim(order.id(), true);
+        assertNotNull(work);
+        clock.set(order.paymentExpiresAt());
+        var before = payment.state(order.id());
+        var storedBefore = jdbc.queryForMap("SELECT * FROM customer_order WHERE id=?", order.id());
+        assertEquals(order.paymentExpiresAt().plusSeconds(59), before.recoveryClaimUntil());
+        assertEquals("FAILED", before.payments().getFirst().paymentStatus().name());
+
+        assertEquals(before, payment.recoverIfDue(order.id()));
+
+        assertEquals(storedBefore, jdbc.queryForMap("SELECT * FROM customer_order WHERE id=?", order.id()));
+        assertNull(payment.state(order.id()).cancellationRequestedAt());
+        assertHeld(order);
+    }
+
+    @Test
+    void automaticRecoveryDoesNothingForAnUnexpiredOrderWithoutRecoveryTimeOrCancellationIntent() {
+        var before = payment.state(order.id());
+        var storedBefore = jdbc.queryForMap("SELECT * FROM customer_order WHERE id=?", order.id());
+        assertNull(before.nextRecoveryAt());
+        assertNull(before.cancellationRequestedAt());
+
+        assertEquals(before, payment.recoverIfDue(order.id()));
+
+        assertEquals(storedBefore, jdbc.queryForMap("SELECT * FROM customer_order WHERE id=?", order.id()));
+        assertHeld(order);
+        assertEquals(0, count("payment_record"));
+        assertEquals(0, count("simulated_payment"));
+        // An operator may still explicitly inspect this same order before any automatic work is due.
+        var manual = payment.recover(order.id());
+        assertEquals(PENDING_PAYMENT, manual.orderStatus());
+        assertEquals(order.paymentExpiresAt(), manual.nextRecoveryAt());
+        assertHeld(order);
+    }
+
+    @Test
+    void abandonedSixthAttemptRequiresManualReviewBeforeAutomaticallyReleasingFailedPayments() {
+        var attempt = payment.start(consumer1, order.id(), "abandoned-sixth");
+        failFind();
+        for (int failure = 1; failure <= 5; failure++) {
+            assertEquals(failure, payment.recover(order.id()).consecutiveFailures());
+        }
+        restoreFind();
+        // A worker applies the terminal channel fact, then crashes before settling its existing claim.
+        var abandoned = writer.claim(order.id(), true);
+        assertNotNull(abandoned);
+        payment.applyChannel(simulator.fail(attempt.paymentNumber()));
+        clock.set(order.paymentExpiresAt());
+
+        var paused = payment.recoverIfDue(order.id());
+
+        assertTrue(paused.manualRequired());
+        assertEquals(6, paused.consecutiveFailures());
+        assertEquals("RECOVERY_LEASE_EXPIRED", paused.recentError());
+        assertNull(paused.recoveryClaimUntil());
+        assertEquals("FAILED", paused.payments().getFirst().paymentStatus().name());
+        assertHeld(order);
+        assertEquals(CANCELLED, payment.recover(order.id()).orderStatus());
+        assertCancelled(order, "EXPIRED");
+    }
+
+    @Test
     void processingPaymentIsClosedBeforeUserCancellationAndOldKeysNeverReopenIt() {
         var attempt = payment.start(consumer1, order.id(), "processing");
         var cancelled = payment.cancel(consumer1, order.id());

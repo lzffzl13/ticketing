@@ -28,7 +28,7 @@
 | 手动选座不强制连座，系统推荐保证连座（2026-10-08 调整） | [ADR-0008](../decisions/0008-manual-seat-selection.md) |
 | Q-04 已解决：MySQL 当前持有者、场次行锁、锁后重验与完整事务 | [ADR-0009](../decisions/0009-serialize-session-inventory-writes.md)、[ADR-0012](../decisions/0012-order-hold-schema-and-transaction.md) |
 | Q-05 已解决：BCrypt 与 MySQL 摘要不透明 Bearer 令牌，Spring Security 鉴权 | [ADR-0013](../decisions/0013-demo-opaque-bearer-login.md) |
-| Q-06 已解决：订单级 60 秒租约与 token；5/15/30/60/120 秒退避；连续故障 6 次或持续实际异常 10 分钟转人工，未知不释放 | [ADR-0015](../decisions/0015-local-payment-ticket-cancellation-recovery.md)；第四周运营恢复，第五周自动扫描复用 |
+| Q-06 已解决：订单级 60 秒租约与 token；5/15/30/60/120 秒退避；连续故障 6 次或持续实际异常 10 分钟转人工，未知不释放 | [ADR-0015](../decisions/0015-local-payment-ticket-cancellation-recovery.md)、[ADR-0016](../decisions/0016-scan-durable-payment-recovery.md)；第四周运营恢复，第五周自动扫描复用 |
 | 下单幂等：消费者与请求编号绑定原订单，重放不续期 | [ADR-0010](../decisions/0010-idempotent-order-creation.md) |
 | 模拟器持久化、独立提交、首次受理截止、关单防复活与最低两表 | [ADR-0014](../decisions/0014-persist-independent-payment-simulator.md) |
 | 本地支付/电子票约束、原子出票、安全取消及订单恢复信息 | [ADR-0015](../decisions/0015-local-payment-ticket-cancellation-recovery.md) |

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.time.Instant;
 import static com.ticketing.trade.PaymentModels.*;
 
 @Service
@@ -28,6 +29,10 @@ public class PaymentQueryService {
         return view(owned(customerId, orderId));
     }
     public OrderPaymentState state(long orderId) { return view(order(orderId)); }
+    public long recoveryUpperBound() { return mapper.recoveryUpperBound(); }
+    public List<Long> dueRecoveryOrders(Instant at, long afterId, long upperBound, int limit) {
+        return mapper.dueRecoveryOrders(at, afterId, upperBound, limit);
+    }
     public PaymentRecord payment(String number) {
         var payment = mapper.byNumber(number);
         if (payment == null) { throw missing(); }

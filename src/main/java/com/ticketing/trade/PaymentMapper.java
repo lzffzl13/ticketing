@@ -18,6 +18,20 @@ interface PaymentMapper {
     RecoveryOrder orderState(long id);
     @Select("SELECT " + ORDER_COLUMNS + " FROM customer_order WHERE id=#{id} FOR UPDATE")
     RecoveryOrder lockOrder(long id);
+    @Select("SELECT COALESCE(MAX(id),0) FROM customer_order")
+    long recoveryUpperBound();
+    @Select("""
+            SELECT id FROM customer_order
+            WHERE id > #{afterId} AND id <= #{upperBound}
+              AND order_status='PENDING_PAYMENT' AND manual_required=FALSE
+              AND (recovery_token IS NULL OR recovery_claim_until <= #{at})
+              AND (next_recovery_at <= #{at}
+                   OR (next_recovery_at IS NULL
+                       AND (payment_expires_at <= #{at} OR cancellation_requested_at IS NOT NULL)))
+            ORDER BY id LIMIT #{limit}
+            """)
+    List<Long> dueRecoveryOrders(@Param("at") Instant at, @Param("afterId") long afterId,
+                                @Param("upperBound") long upperBound, @Param("limit") int limit);
     @Select("SELECT " + PAYMENT_COLUMNS + " FROM payment_record WHERE order_id=#{orderId} ORDER BY id")
     List<PaymentRecord> payments(long orderId);
     @Select("SELECT " + PAYMENT_COLUMNS + " FROM payment_record WHERE order_id=#{orderId} ORDER BY id FOR UPDATE")
