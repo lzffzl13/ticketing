@@ -18,6 +18,7 @@
 
 | 主题 | 结论位置 |
 | --- | --- |
+| Q-12 已解决：原成交价全额单票退票、消费者请求键幂等、独立渠道与通知、原子回流及退款单恢复 | [ADR-0018](../decisions/0018-single-ticket-refunds-and-durable-recovery.md)；实现与验证另记第五周周报 |
 | Q-07 已解决：按需 HMAC 凭证；正常保留到停签后既有票场次最晚入场截止；紧急移除旧 kid 并停旧进程重启，旧码直接拒绝 | [ADR-0017](../decisions/0017-hmac-ticket-credentials.md)；实现/验证进度另见第五周周报 |
 | Q-01 已解决：Java 21、Boot 4.1.1、Maven 3.9.9、MyBatis | [ADR-0004](../decisions/0004-engineering-baseline.md) |
 | Q-02 已解决：单 Maven 工程，按业务分包与约束依赖方向 | [ADR-0004](../decisions/0004-engineering-baseline.md) |

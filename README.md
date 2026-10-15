@@ -72,6 +72,8 @@
 | [第五周票码评审（Q-07）](docs/design/week-05-ticket-credential-review.md) | 已确认的二维码载荷、真实性、密钥轮换、旧码处理与本人查询方案 |
 | [ADR-0017](docs/decisions/0017-hmac-ticket-credentials.md) | 按需 HMAC 票码、旧密钥准确保留上界和紧急撤销生效机制 |
 | [本人票码与密钥导读](docs/development/ticket-credentials.md) | 本人文本/PNG 查询、严格验真、密钥初始化/轮换/撤销与演示 |
+| [第五周单票退款评审（已确认）](docs/design/week-05-single-ticket-refund-review.md) | 原单/原支付下的单票退款、请求幂等、独立渠道事实、原子回流和恢复方案 |
+| [ADR-0018](docs/decisions/0018-single-ticket-refunds-and-durable-recovery.md) | 单票全额退款、三表结构、成功回调及按退款单持久恢复 |
 | [第五周进度](docs/progress/week-05.md) | 第五周实际起点、评审及后续票码与退款范围 |
 | [ADR-0016](docs/decisions/0016-scan-durable-payment-recovery.md) | 应用内 MySQL 扫描、默认参数、有限批次与持久恢复 |
 | [自动扫描导读](docs/development/payment-recovery-scanning.md) | 自动入口、数据变化、事务、故障处理、配置与演示 |
@@ -109,7 +111,7 @@
 - [ ] 第五周自动扫描核心代码理解检查
 - [x] Q-07 票码方案、密钥准确保留上界与紧急撤销规则确认
 - [x] 本人 HMAC 凭证/二维码查询、完整回归与真实换钥演示
-- [ ] 第五周票码核心逻辑讲解与理解检查
+- [x] 第五周票码本轮场景讲解与理解反馈记录（未逐行阅读代码）
 - [ ] 退款与核销闭环、完整履约演示
 
 ## 运行方式
