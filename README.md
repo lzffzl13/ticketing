@@ -2,9 +2,9 @@
 
 一个以“具有唯一身份和空间关系的场次座位”为核心的票务项目，覆盖场馆模板、场次快照、选座与连座推荐、锁座下单、模拟支付、电子票、单票退票、座位回流和现场核销。
 
-项目当前已实现第四周购票闭环，并完成第五周首个自动超时/恢复扫描闭环：固定账号登录、角色鉴权、幂等创建订单、整组锁座、模拟支付、原子出票、本人票查询、安全取消、运营主动恢复及后台自动恢复。已有场次独立快照、销售启停、座位图、确定性推荐和 246 座主演示数据；第三周算法基线见对应文档。
+项目当前已实现第四周购票闭环，并完成第五周自动超时/恢复扫描与本人票码查询闭环：固定账号登录、角色鉴权、幂等创建订单、整组锁座、模拟支付、原子出票、本人票记录与 HMAC 凭证/二维码查询、安全取消、运营主动恢复及后台自动恢复。已有场次独立快照、销售启停、座位图、确定性推荐和 246 座主演示数据；第三周算法基线见对应文档。
 
-2026-10-14 完整回归 **255 项通过**（94 unit + 161 IT），本次新增扫描/重验测试 26 项；后台查单出票、原请求重放、既有到期订单整组释放及真实进程重启自动恢复已验证，证据见第五周周报。第四周 229 项回归、支付演示及 MySQL 锁座基线保留在第四周周报。15 分钟到达不会自行释放座位，已有支付须查明结果并安全关单。二维码与退款尚未实现；第五周本轮业务场景讲解于 2026-10-15 结束，反馈与未完成的理解检查见周报，核心代码逐行阅读及第二周整周学习验收仍单列。
+2026-10-15 完整回归 **286 项通过**（115 unit/API/调度 + 171 IT），本次新增凭证测试 31 项；本人文本/PNG、真实重启同码、正常换钥兼容与紧急撤销拒旧码已验证，证据见第五周周报。2026-10-14 的 255 项回归及后台查单出票/到期释放证据保留；第四周 229 项回归、支付演示及 MySQL 锁座基线保留在第四周周报。15 分钟到达不会自行释放座位，已有支付须查明结果并安全关单。退款与正式核销尚未实现；第五周首个闭环的理解反馈仍按原记录保留，核心代码逐行阅读及第二周整周学习验收单列，本次票码实现不代表学习验收通过。
 
 ## 项目目标
 
@@ -69,6 +69,9 @@
 | [支付闭环演示](docs/development/payment-loop-demo.md) | 消费者发起、运营控制与投递、本人票查询、安全取消及手动恢复 |
 | [锁座数据库基线](docs/benchmarks/order-holds-baseline.md) | 同场次完整下单服务的规模、并发、串行对照及指标定义；执行证据另列 |
 | [第五周首个闭环评审](docs/design/week-05-timeout-recovery-review.md) | 已确认的自动超时/恢复扫描、规则复用、锁内重验与验收场景 |
+| [第五周票码评审（Q-07）](docs/design/week-05-ticket-credential-review.md) | 已确认的二维码载荷、真实性、密钥轮换、旧码处理与本人查询方案 |
+| [ADR-0017](docs/decisions/0017-hmac-ticket-credentials.md) | 按需 HMAC 票码、旧密钥准确保留上界和紧急撤销生效机制 |
+| [本人票码与密钥导读](docs/development/ticket-credentials.md) | 本人文本/PNG 查询、严格验真、密钥初始化/轮换/撤销与演示 |
 | [第五周进度](docs/progress/week-05.md) | 第五周实际起点、评审及后续票码与退款范围 |
 | [ADR-0016](docs/decisions/0016-scan-durable-payment-recovery.md) | 应用内 MySQL 扫描、默认参数、有限批次与持久恢复 |
 | [自动扫描导读](docs/development/payment-recovery-scanning.md) | 自动入口、数据变化、事务、故障处理、配置与演示 |
@@ -104,6 +107,9 @@
 - [x] 自动超时/恢复扫描、锁内资格重验及后台重启恢复验证
 - [x] 第五周自动扫描本轮业务场景讲解与理解反馈记录
 - [ ] 第五周自动扫描核心代码理解检查
+- [x] Q-07 票码方案、密钥准确保留上界与紧急撤销规则确认
+- [x] 本人 HMAC 凭证/二维码查询、完整回归与真实换钥演示
+- [ ] 第五周票码核心逻辑讲解与理解检查
 - [ ] 退款与核销闭环、完整履约演示
 
 ## 运行方式
@@ -116,8 +122,9 @@
 .\scripts\start-infra.ps1 -IncludeTest
 .\scripts\check-infra.ps1 -IncludeTest
 .\scripts\test.ps1 -Integration
-.\scripts\run-app.ps1
 ~~~
+
+首次启动应用前执行 `.\scripts\ticket-keys.ps1 -Action Init`，将独立随机密钥与生命周期记录保存到被忽略的 `.local`；已有密钥时不重复初始化。随后执行 `.\scripts\run-app.ps1`，重启复用原密钥。缺失配置会拒绝启动，不能用临时密钥替代。轮换与紧急撤销步骤见[本人票码与密钥导读](docs/development/ticket-credentials.md)。测试 profile 使用独立公开测试夹具，不读取开发密钥。
 
 应用启动后，在另一个窗口执行：
 
@@ -130,6 +137,7 @@
 .\scripts\demo-order-holds.ps1
 .\scripts\demo-payments.ps1
 .\scripts\demo-payment-recovery.ps1
+.\scripts\demo-ticket-credentials.ps1
 ~~~
 
 第三周查询入口为 `GET /api/sessions/{id}/seat-map` 和 `GET /api/sessions/{id}/recommendations?quantity=2&limit=5`。候选不占座，最终下单仍需重新校验。演示使用独立 W3 数据，可重复执行。编译后运行 `.\scripts\benchmark-seat-recommendations.ps1` 可重做单线程纯算法基线；它不访问数据库，指标不代表 HTTP 或锁座吞吐。详见[导读](docs/development/seat-recommendations.md)。

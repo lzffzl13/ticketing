@@ -48,6 +48,8 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.GET, "/api/orders/{id}").hasRole("CONSUMER")
                         .requestMatchers(HttpMethod.POST, "/api/orders/{id}/payments", "/api/orders/{id}/cancel").hasRole("CONSUMER")
                         .requestMatchers(HttpMethod.GET, "/api/orders/{id}/payments", "/api/orders/{id}/tickets").hasRole("CONSUMER")
+                        .requestMatchers(HttpMethod.GET, "/api/orders/{orderId}/tickets/{ticketId}/credential",
+                                "/api/orders/{orderId}/tickets/{ticketId}/qrcode").hasRole("CONSUMER")
                         .requestMatchers(HttpMethod.GET, "/api/operations/orders/{id}/payment-state",
                                 "/api/operations/payments/{number}/notifications").hasRole("OPERATOR")
                         .requestMatchers(HttpMethod.POST, "/api/operations/orders/{id}/recover",

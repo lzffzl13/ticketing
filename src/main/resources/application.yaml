@@ -35,6 +35,8 @@ springdoc:
 
 ticketing:
   demo-password: ${DEMO_PASSWORD:}
+  ticket-credential:
+    key-file: ${TICKET_CREDENTIAL_KEY_FILE:}
   payment-recovery:
     enabled: ${PAYMENT_RECOVERY_ENABLED:true}
     fixed-delay-ms: ${PAYMENT_RECOVERY_FIXED_DELAY_MS:1000}

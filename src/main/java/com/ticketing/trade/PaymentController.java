@@ -28,7 +28,7 @@ public class PaymentController {
     public ApiResponse<List<PaymentRecord>> payments(@AuthenticationPrincipal AuthenticatedAccount account,
             @PathVariable @Positive long id) { return ApiResponse.success(payments.payments(account.id(), id)); }
     @GetMapping("/tickets")
-    @Operation(summary = "查询本人订单的电子票记录（本周票号不作为核销凭证）")
+    @Operation(summary = "查询本人订单的电子票记录", description = "记录中的裸票号不作为入场凭证；本人入场码通过独立凭证或二维码接口查询")
     public ApiResponse<List<Ticket>> tickets(@AuthenticationPrincipal AuthenticatedAccount account,
             @PathVariable @Positive long id) { return ApiResponse.success(payments.tickets(account.id(), id)); }
     @PostMapping("/cancel")

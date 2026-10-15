@@ -5,6 +5,8 @@ spring:
     password: ${TEST_DB_PASSWORD}
 
 ticketing:
+  ticket-credential:
+    key-file: classpath:test-ticket-keys.properties
   payment-recovery:
     # Time and concurrency tests invoke the scanner explicitly; no background task touches their fixtures.
     enabled: false

@@ -10,7 +10,7 @@
 | --- | --- | --- |
 | 消费者 | POST /api/orders/{id}/payments，Idempotency-Key 请求头 | 本地支付记录；INITIATED 只表示意图保存，PROCESSING 表示已同步受理 |
 | 消费者 | GET /api/orders/{id}/payments | 本人订单所有支付历史，不主动改变渠道状态 |
-| 消费者 | GET /api/orders/{id}/tickets | 本人订单票记录；票号暂不是二维码核销凭证 |
+| 消费者 | GET /api/orders/{id}/tickets | 本人订单票记录；裸票号不是入场凭证，完整票码见[本人票码导读](ticket-credentials.md) |
 | 消费者 | POST /api/orders/{id}/cancel | 整单当前状态与取消/恢复信息；PENDING_PAYMENT + 取消意图表示尚待安全确认 |
 | 运营 | GET /api/operations/orders/{id}/payment-state | 检测 INITIATED、异常次数、下次恢复时间、人工标记与领取截止 |
 | 运营 | POST /api/operations/orders/{id}/recover | 主动恢复原编号，允许越过退避但不抢活动租约 |

@@ -2,6 +2,11 @@ param([int]$Port = 8080)
 
 $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path -Parent $PSScriptRoot
+$keyFile = $env:TICKET_CREDENTIAL_KEY_FILE
+if ([string]::IsNullOrWhiteSpace($keyFile)) { $keyFile = Join-Path $projectRoot '.local/ticket-keys.properties' }
+if (-not [IO.Path]::IsPathRooted($keyFile)) { $keyFile = Join-Path $projectRoot $keyFile }
+$env:TICKET_CREDENTIAL_KEY_FILE = [IO.Path]::GetFullPath($keyFile)
+& (Join-Path $PSScriptRoot 'ticket-keys.ps1') -Action Status -KeyFile $env:TICKET_CREDENTIAL_KEY_FILE -Quiet
 & (Join-Path $PSScriptRoot 'use-java21.ps1')
 $settings = & (Join-Path $PSScriptRoot 'local-settings.ps1')
 $env:DB_URL = "jdbc:mysql://127.0.0.1:$($settings.MYSQL_PORT)/ticketing?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC"
