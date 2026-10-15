@@ -11,6 +11,8 @@ import java.util.List;
 
 @Mapper
 interface InventoryHoldMapper {
+    @Update("UPDATE session_seat SET seat_status='AVAILABLE',updated_at=#{at} WHERE session_id=#{sessionId} AND id=#{seatId} AND seat_status='SOLD' AND current_hold_id IS NULL")
+    int refundSeat(@Param("sessionId") long sessionId, @Param("seatId") long seatId, @Param("at") Instant at);
     @Insert("""
             INSERT INTO seat_hold (order_id, session_id, hold_status, expires_at, created_at, updated_at)
             VALUES (#{orderId}, #{sessionId}, 'ACTIVE', #{expiresAt}, #{at}, #{at})

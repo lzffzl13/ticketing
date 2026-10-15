@@ -13,7 +13,7 @@ import java.util.UUID;
 
 import static com.ticketing.ticketing.TicketModels.*;
 
-/** Owns issuance only; trade checks order ownership and coordinates the full result transaction. */
+/** Owns ticket transitions; trade checks ownership and coordinates the full result transaction. */
 @Service
 public class TicketService {
     private final TicketMapper mapper;
@@ -53,5 +53,17 @@ public class TicketService {
     @Transactional(readOnly = true)
     public List<Ticket> listByOrder(long orderId) {
         return List.copyOf(mapper.byOrder(orderId));
+    }
+
+    @Transactional(propagation = Propagation.MANDATORY)
+    public Ticket lock(long ticketId) { return mapper.lock(ticketId); }
+
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void transition(long ticketId, TicketStatus expected, TicketStatus target, Instant at) {
+        boolean allowed = expected==TicketStatus.VALID && target==TicketStatus.REFUNDING
+                || expected==TicketStatus.REFUNDING && (target==TicketStatus.VALID || target==TicketStatus.REFUNDED);
+        if (!allowed || mapper.transition(ticketId, expected, target, at)!=1) {
+            throw new IllegalStateException("Ticket refund transition did not match its current state");
+        }
     }
 }

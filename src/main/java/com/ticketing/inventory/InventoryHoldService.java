@@ -78,6 +78,21 @@ public class InventoryHoldService {
 
     public Hold getByOrder(long orderId) { return mapper.byOrder(orderId); }
 
+    /** Session and order locks precede this seat lock; the caller then locks and verifies the original ticket. */
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void lockSoldSeat(long sessionId,long seatId) {
+        var seat=mapper.lockSeat(sessionId,seatId);
+        if (seat==null || seat.seatStatus()!=InventoryModels.SeatStatus.SOLD || seat.currentHoldId()!=null) {
+            throw ownershipConflict();
+        }
+    }
+
+    /** The same transaction has proved the REFUNDING ticket owns this sold seat, and invalidates it first. */
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void refundSeat(long sessionId,long seatId,Instant at) {
+        if (mapper.refundSeat(sessionId,seatId,at)!=1) { throw ownershipConflict(); }
+    }
+
     /** Caller already owns the session and order locks; the whole group joins its success transaction. */
     @Transactional(propagation = Propagation.MANDATORY)
     public Hold consume(long orderId, long sessionId, List<Long> expectedSeatIds, Instant at) {

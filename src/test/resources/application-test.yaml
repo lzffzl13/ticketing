@@ -10,3 +10,5 @@ ticketing:
   payment-recovery:
     # Time and concurrency tests invoke the scanner explicitly; no background task touches their fixtures.
     enabled: false
+  refund-recovery:
+    enabled: false

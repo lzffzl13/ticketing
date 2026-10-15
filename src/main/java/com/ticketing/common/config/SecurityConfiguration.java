@@ -50,6 +50,11 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.GET, "/api/orders/{id}/payments", "/api/orders/{id}/tickets").hasRole("CONSUMER")
                         .requestMatchers(HttpMethod.GET, "/api/orders/{orderId}/tickets/{ticketId}/credential",
                                 "/api/orders/{orderId}/tickets/{ticketId}/qrcode").hasRole("CONSUMER")
+                        .requestMatchers(HttpMethod.POST,"/api/orders/{orderId}/tickets/{ticketId}/refunds").hasRole("CONSUMER")
+                        .requestMatchers(HttpMethod.GET,"/api/orders/{orderId}/refunds","/api/orders/{orderId}/refunds/{refundId}").hasRole("CONSUMER")
+                        .requestMatchers(HttpMethod.GET,"/api/operations/refunds/{number}/notifications","/api/operations/refunds/{refundId}/state").hasRole("OPERATOR")
+                        .requestMatchers(HttpMethod.POST,"/api/operations/refunds/{number}/succeed","/api/operations/refunds/{number}/fail",
+                                "/api/operations/refund-notifications/{number}/deliver","/api/operations/refunds/{refundId}/recover").hasRole("OPERATOR")
                         .requestMatchers(HttpMethod.GET, "/api/operations/orders/{id}/payment-state",
                                 "/api/operations/payments/{number}/notifications").hasRole("OPERATOR")
                         .requestMatchers(HttpMethod.POST, "/api/operations/orders/{id}/recover",

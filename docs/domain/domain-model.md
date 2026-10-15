@@ -8,7 +8,7 @@
 
 第二周场馆与场次七表的具体结构已确认并实现，见 [ADR-0005](../decisions/0005-session-seat-snapshots.md) 与[快照导读](../development/session-snapshots.md)。本图继续表达领域关系；来源模板虚线不建立数据库外键。
 
-第四周首个闭环已确认账号、订单/明细、锁/明细及场次座位当前持有者结构，见 [ADR-0012](../decisions/0012-order-hold-schema-and-transaction.md)，由 V2 实现。第四周后续已通过 V3 / V4 实现独立模拟支付、本地支付与最小电子票记录，见 [ADR-0014](../decisions/0014-persist-independent-payment-simulator.md) / [ADR-0015](../decisions/0015-local-payment-ticket-cancellation-recovery.md)。第五周已实现按需 HMAC 凭证与本人文本/PNG 查询；退票、正式核销与候补尚未实现，实际验证见第五周周报。
+第四周首个闭环已确认账号、订单/明细、锁/明细及场次座位当前持有者结构，见 [ADR-0012](../decisions/0012-order-hold-schema-and-transaction.md)，由 V2 实现。第四周后续已通过 V3 / V4 实现独立模拟支付、本地支付与最小电子票记录，见 [ADR-0014](../decisions/0014-persist-independent-payment-simulator.md) / [ADR-0015](../decisions/0015-local-payment-ticket-cancellation-recovery.md)。第五周已实现按需 HMAC 凭证、本人文本/PNG 查询，以及 V5 单票退票、独立模拟退款/通知和持久恢复，见 [ADR-0018](../decisions/0018-single-ticket-refunds-and-durable-recovery.md)。正式核销与候补尚未实现，实际验证见第五周周报。
 
 第一周曾列出 ticket.credential_digest 概念候选，实际 V4 票表没有该字段。Q-07 已确认按需生成 HMAC 凭证，不新增凭证持久化字段，见 [ADR-0017](../decisions/0017-hmac-ticket-credentials.md)；下图移除这一未落地候选。
 

@@ -4,11 +4,18 @@ import com.ticketing.common.persistence.GeneratedKey;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
+import java.time.Instant;
 
 import static com.ticketing.ticketing.TicketModels.Ticket;
 
 @Mapper
 interface TicketMapper {
+    @Select("SELECT id,ticket_number,order_item_id,order_id,session_id,session_seat_id,ticket_status,issued_at FROM ticket WHERE id=#{id} FOR UPDATE")
+    Ticket lock(long id);
+
+    @Update("UPDATE ticket SET ticket_status=#{target},updated_at=#{at} WHERE id=#{id} AND ticket_status=#{expected}")
+    int transition(@Param("id") long id, @Param("expected") TicketModels.TicketStatus expected,
+                   @Param("target") TicketModels.TicketStatus target, @Param("at") Instant at);
     @Insert("""
             INSERT INTO ticket (ticket_number, order_item_id, order_id, session_id, session_seat_id,
                 ticket_status, issued_at, updated_at)

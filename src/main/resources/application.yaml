@@ -41,6 +41,10 @@ ticketing:
     enabled: ${PAYMENT_RECOVERY_ENABLED:true}
     fixed-delay-ms: ${PAYMENT_RECOVERY_FIXED_DELAY_MS:1000}
     batch-size: ${PAYMENT_RECOVERY_BATCH_SIZE:50}
+  refund-recovery:
+    enabled: ${REFUND_RECOVERY_ENABLED:true}
+    fixed-delay-ms: ${REFUND_RECOVERY_FIXED_DELAY_MS:1000}
+    batch-size: ${REFUND_RECOVERY_BATCH_SIZE:50}
 
 logging:
   pattern:

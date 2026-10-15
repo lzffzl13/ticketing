@@ -2,9 +2,9 @@
 
 一个以“具有唯一身份和空间关系的场次座位”为核心的票务项目，覆盖场馆模板、场次快照、选座与连座推荐、锁座下单、模拟支付、电子票、单票退票、座位回流和现场核销。
 
-项目当前已实现第四周购票闭环，并完成第五周自动超时/恢复扫描与本人票码查询闭环：固定账号登录、角色鉴权、幂等创建订单、整组锁座、模拟支付、原子出票、本人票记录与 HMAC 凭证/二维码查询、安全取消、运营主动恢复及后台自动恢复。已有场次独立快照、销售启停、座位图、确定性推荐和 246 座主演示数据；第三周算法基线见对应文档。
+项目当前已实现第四周购票闭环，以及第五周自动超时/恢复扫描、本人票码查询和单票退款回流：固定账号登录、角色鉴权、幂等下单锁座、模拟支付原子出票、本人 HMAC 凭证/二维码、安全取消、单票全额退款、原子失效/回流及后台恢复。已有场次独立快照、销售启停、座位图、确定性推荐和 246 座主演示数据；第三周算法基线见对应文档。
 
-2026-10-15 完整回归 **286 项通过**（115 unit/API/调度 + 171 IT），本次新增凭证测试 31 项；本人文本/PNG、真实重启同码、正常换钥兼容与紧急撤销拒旧码已验证，证据见第五周周报。2026-10-14 的 255 项回归及后台查单出票/到期释放证据保留；第四周 229 项回归、支付演示及 MySQL 锁座基线保留在第四周周报。15 分钟到达不会自行释放座位，已有支付须查明结果并安全关单。退款与正式核销尚未实现；第五周首个闭环的理解反馈仍按原记录保留，核心代码逐行阅读及第二周整周学习验收单列，本次票码实现不代表学习验收通过。
+2026-10-15 17:27:58 +08 完整回归 **345 项通过**（122 unit/API/调度 + 223 IT），退款新增 59 项；真实进程重启自动重投原退款通知、单票回流重售、旧退款/支付重放保护新占用已验证，证据见第五周周报。此前 286 项票码回归及真实换钥、255 项扫描回归和第四周支付/锁座基线证据保留。15 分钟到达不会自行释放座位，已有支付须查明结果并安全关单。正式核销与审计仍在第六周；票码场景讲解已按实际反馈记录，退款理解检查尚未进行，未逐行阅读及第二周整周学习验收仍单列。
 
 ## 项目目标
 
@@ -74,6 +74,7 @@
 | [本人票码与密钥导读](docs/development/ticket-credentials.md) | 本人文本/PNG 查询、严格验真、密钥初始化/轮换/撤销与演示 |
 | [第五周单票退款评审（已确认）](docs/design/week-05-single-ticket-refund-review.md) | 原单/原支付下的单票退款、请求幂等、独立渠道事实、原子回流和恢复方案 |
 | [ADR-0018](docs/decisions/0018-single-ticket-refunds-and-durable-recovery.md) | 单票全额退款、三表结构、成功回调及按退款单持久恢复 |
+| [单票退款代码与演示导读](docs/development/refund-loop.md) | 入口、原单场景、短事务、失败/通知确认恢复、真实重售与测试依据 |
 | [第五周进度](docs/progress/week-05.md) | 第五周实际起点、评审及后续票码与退款范围 |
 | [ADR-0016](docs/decisions/0016-scan-durable-payment-recovery.md) | 应用内 MySQL 扫描、默认参数、有限批次与持久恢复 |
 | [自动扫描导读](docs/development/payment-recovery-scanning.md) | 自动入口、数据变化、事务、故障处理、配置与演示 |
@@ -112,7 +113,9 @@
 - [x] Q-07 票码方案、密钥准确保留上界与紧急撤销规则确认
 - [x] 本人 HMAC 凭证/二维码查询、完整回归与真实换钥演示
 - [x] 第五周票码本轮场景讲解与理解反馈记录（未逐行阅读代码）
-- [ ] 退款与核销闭环、完整履约演示
+- [x] 单票全额退款、原子失效回流、失败/重启恢复及真实重售验证
+- [ ] 第五周退款核心逻辑讲解与理解检查
+- [ ] 第六周正式核销、审计与完整履约演示
 
 ## 运行方式
 
@@ -140,6 +143,7 @@
 .\scripts\demo-payments.ps1
 .\scripts\demo-payment-recovery.ps1
 .\scripts\demo-ticket-credentials.ps1
+.\scripts\demo-refunds.ps1
 ~~~
 
 第三周查询入口为 `GET /api/sessions/{id}/seat-map` 和 `GET /api/sessions/{id}/recommendations?quantity=2&limit=5`。候选不占座，最终下单仍需重新校验。演示使用独立 W3 数据，可重复执行。编译后运行 `.\scripts\benchmark-seat-recommendations.ps1` 可重做单线程纯算法基线；它不访问数据库，指标不代表 HTTP 或锁座吞吐。详见[导读](docs/development/seat-recommendations.md)。
@@ -147,6 +151,8 @@
 第四周支付演示使用独立 W4P 场次，保存原请求键、支付编号和票号，可用相同命名空间重跑；接口与观察结果见[演示导读](docs/development/payment-loop-demo.md)。消费者通过 `POST /api/orders/{id}/payments` 发起，使用 `GET /api/orders/{id}/tickets` 查询本人票；渠道结果控制、通知投递及主动恢复均需 OPERATOR。
 
 第五周默认自动扫描到期与未决订单，每轮结束 1 秒后再运行，单批 50 个候选，可通过 PAYMENT_RECOVERY_ENABLED、PAYMENT_RECOVERY_FIXED_DELAY_MS 和 PAYMENT_RECOVERY_BATCH_SIZE 配置。运行 `.\scripts\demo-payment-recovery.ps1` 演示不投通知、仅由后台查单出票；`-Scenario Timeout` 分两次命令观察原 15 分钟期限前后的自动取消。配置、失败恢复与实际验收见[扫描导读](docs/development/payment-recovery-scanning.md)。暂停后台可稳定复现第四周未出票暂停点；启用时普通支付演示允许后台先行出票。
+
+退款入口为 `POST /api/orders/{orderId}/tickets/{ticketId}/refunds`，JSON 只提交 requestKey，金额取原订单项成交价。独立退款扫描使用 REFUND_RECOVERY_ENABLED、REFUND_RECOVERY_FIXED_DELAY_MS 和 REFUND_RECOVERY_BATCH_SIZE，默认同样为开启、1 秒及 50。`demo-refunds.ps1` 保存原单/支付/票/退款身份，验证 consumer2 真实回购；`-PauseAfterChannelSuccess` 需先关闭退款扫描，重启启用后先观察后台自动完成，再续跑原命名空间。接口、故障与演示详见[退款导读](docs/development/refund-loop.md)。
 
 锁座实验通过 `.\scripts\benchmark-order-holds.ps1` 在隔离测试库生成独立夹具，保留订单，不删除历史数据。实验测量完整 `OrderService.create`，以并发度 1 为串行对照，包含数据库连接/行锁等待和事务提交；不代表 HTTP、支付或生产容量。参数、环境与输出见[实验说明](docs/benchmarks/order-holds-baseline.md)，运行时不要同时执行会清理测试数据的集成回归。
 
@@ -156,7 +162,7 @@
 
 启动后访问 [Swagger UI](http://127.0.0.1:8080/swagger-ui/index.html)。运行与代码说明见[后端骨架导读](docs/development/backend-skeleton.md)。
 
-开发库与测试库均由 Flyway 执行 V1 七表、V2 身份/订单/锁座六表、V3 模拟渠道交易/通知两表及 V4 本地支付/票与订单恢复字段迁移。固定种子重跑会核对和复用已有数据；检测到改动时保留数据并报错。下单与支付原键重放不续期；独立购买使用新的 W4 / W4P 命名空间，不删除历史交易。Swagger 已提供消费者支付、本人票和取消，以及运营渠道控制、通知投递与恢复入口。
+开发库与测试库均由 Flyway 执行 V1 七表、V2 身份/订单/锁座六表、V3 模拟渠道交易/通知两表、V4 本地支付/票与订单恢复字段及 V5 本地退票/独立渠道退款/通知三表迁移。固定种子重跑会核对和复用已有数据；检测到改动时保留数据并报错。下单与支付原键重放不续期；独立购买使用新的 W4 / W4P 命名空间，不删除历史交易。Swagger 已提供消费者支付、票码、取消与退款，以及运营渠道控制、通知投递与恢复入口。
 
 ## MVP 之外
 
