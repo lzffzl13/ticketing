@@ -10,7 +10,9 @@ V4__create_payments_and_tickets.sql 新增 payment_record 与 ticket，并扩展
 
 V5__create_refunds.sql 新增 refund_record、simulator_refund、simulator_refund_notification 三表。退票单以消费者/请求键幂等，生成列保护同票至多一个进行中或成功退款；复合外键绑定原消费者订单、原票完整关联与原支付。渠道退款与通知独立持久化，通知保留当时完整快照；业务终态仍可保留通知确认恢复资格。新增必要 UNIQUE 支撑复合外键，不修改 V1–V4。结构、单票原子回流和按退款单恢复见 ADR-0018。
 
-第四周实现 VALID 签发/查询、安全取消和运营主动恢复；第五周已接入支付自动扫描、本人票码、单票退款与退款恢复。CHECKED_IN 枚举及占座约束不表示正式核销和审计已经实现，后者仍在第六周。
+V6__create_checkin_records.sql 新增 checkin_record，逐次保存已受理扫描的工作人员、场次、可空原票、服务端请求标识、凭证 SHA-256 摘要、UTC 微秒时间及结果。不存在场次保留 submitted_session_id；生成列 successful_ticket_id 唯一约束阻止同票重复 SUCCESS。核销成功与票/订单汇总同事务，历史拒绝记录不覆盖，详见 ADR-0019。
+
+第四周实现 VALID 签发/查询、安全取消和运营主动恢复；第五周接入支付自动扫描、本人票码、单票退款与退款恢复；第六周新增正式 CHECKED_IN 迁移、逐次审计及只读一致性报告（不另建对账表）。实际验证证据见相应周报，结构存在不等于测试已执行。
 
 后续结构调整新增 V<版本>__<名称>.sql，不修改已经执行的迁移文件。
 开发与测试应用启动时由 Flyway 统一执行迁移；演示数据通过业务接口生成，不放在结构迁移中。

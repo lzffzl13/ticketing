@@ -1,0 +1,34 @@
+{
+  "sessionId" : 1553,
+  "checkedAt" : "2026-10-10T03:00:00.123456Z",
+  "consistent" : false,
+  "counts" : {
+    "orders" : 1,
+    "seats" : 56,
+    "tickets" : 2,
+    "refunds" : 0,
+    "successfulCheckins" : 0
+  },
+  "recovery" : {
+    "pendingOrders" : 0,
+    "unresolvedPayments" : 0,
+    "manualOrders" : 0,
+    "unresolvedRefunds" : 0,
+    "manualRefunds" : 0
+  },
+  "differences" : [ {
+    "rule" : "C01_ORDER_STRUCTURE",
+    "entityType" : "ORDER",
+    "entityId" : 1004,
+    "severity" : "ERROR",
+    "observed" : "itemCount=2, itemTotal=760.00, orderTotal=761.00, holdCount=1, holdExpiryAndSeatSetMatch=true",
+    "recommendation" : "人工核对原订单、支付、锁组、票及退款记录；保留现场，通过既有恢复入口核查渠道事实，勿直接改库存"
+  }, {
+    "rule" : "C04_PAYMENT_BINDING",
+    "entityType" : "PAYMENT",
+    "entityId" : 511,
+    "severity" : "ERROR",
+    "observed" : "orderId=1004, amount=760.00, orderTotal=761.00, expiryMatches=true",
+    "recommendation" : "人工核对原订单、支付、锁组、票及退款记录；保留现场，通过既有恢复入口核查渠道事实，勿直接改库存"
+  } ]
+}

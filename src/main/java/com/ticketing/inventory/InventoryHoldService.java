@@ -87,6 +87,13 @@ public class InventoryHoldService {
         }
     }
 
+    /** A rejected scan still needs to commit its audit; return an inconsistency instead of throwing. */
+    @Transactional(propagation = Propagation.MANDATORY)
+    public boolean lockSoldSeatForCheckin(long sessionId, long seatId) {
+        var seat = mapper.lockSeat(sessionId, seatId);
+        return seat != null && seat.seatStatus() == InventoryModels.SeatStatus.SOLD && seat.currentHoldId() == null;
+    }
+
     /** The same transaction has proved the REFUNDING ticket owns this sold seat, and invalidates it first. */
     @Transactional(propagation = Propagation.MANDATORY)
     public void refundSeat(long sessionId,long seatId,Instant at) {

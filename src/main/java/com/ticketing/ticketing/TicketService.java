@@ -58,6 +58,16 @@ public class TicketService {
     @Transactional(propagation = Propagation.MANDATORY)
     public Ticket lock(long ticketId) { return mapper.lock(ticketId); }
 
+    /** Called only after the credential has been authenticated; this lookup grants no admission. */
+    public Ticket findByNumber(String number) { return mapper.byNumber(number); }
+
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void checkIn(long ticketId, Instant at) {
+        if (mapper.transition(ticketId, TicketStatus.VALID, TicketStatus.CHECKED_IN, at) != 1) {
+            throw new IllegalStateException("Ticket check-in did not match its current state");
+        }
+    }
+
     @Transactional(propagation = Propagation.MANDATORY)
     public void transition(long ticketId, TicketStatus expected, TicketStatus target, Instant at) {
         boolean allowed = expected==TicketStatus.VALID && target==TicketStatus.REFUNDING

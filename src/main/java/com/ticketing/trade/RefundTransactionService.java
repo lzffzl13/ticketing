@@ -104,7 +104,9 @@ public class RefundTransactionService {
             inventory.refundSeat(local.sessionId(),local.sessionSeatId(),at);
             var all=tickets.listByOrder(local.orderId());
             boolean fully=all.stream().allMatch(t -> t.ticketStatus()==TicketStatus.REFUNDED);
-            one(mapper.summarize(local.orderId(),fully ? FULLY_REFUNDED : PARTIALLY_REFUNDED,at));
+            boolean fulfilled=all.stream().allMatch(t -> t.ticketStatus()==TicketStatus.REFUNDED
+                    || t.ticketStatus()==TicketStatus.CHECKED_IN);
+            one(mapper.summarize(local.orderId(),fully ? FULLY_REFUNDED : fulfilled ? COMPLETED : PARTIALLY_REFUNDED,at));
         } else if(target==RefundStatus.FAILED) {
             tickets.transition(local.ticketId(),TicketStatus.REFUNDING,TicketStatus.VALID,at);
         }

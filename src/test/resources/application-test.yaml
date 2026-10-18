@@ -12,3 +12,5 @@ ticketing:
     enabled: false
   refund-recovery:
     enabled: false
+  consistency:
+    enabled: false

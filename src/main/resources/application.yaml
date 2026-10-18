@@ -45,6 +45,10 @@ ticketing:
     enabled: ${REFUND_RECOVERY_ENABLED:true}
     fixed-delay-ms: ${REFUND_RECOVERY_FIXED_DELAY_MS:1000}
     batch-size: ${REFUND_RECOVERY_BATCH_SIZE:50}
+  consistency:
+    enabled: ${CONSISTENCY_ENABLED:true}
+    fixed-delay-ms: ${CONSISTENCY_FIXED_DELAY_MS:60000}
+    batch-size: ${CONSISTENCY_BATCH_SIZE:10}
 
 logging:
   pattern:

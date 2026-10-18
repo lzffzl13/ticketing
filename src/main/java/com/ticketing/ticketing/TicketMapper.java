@@ -10,6 +10,9 @@ import static com.ticketing.ticketing.TicketModels.Ticket;
 
 @Mapper
 interface TicketMapper {
+    @Select("SELECT id,ticket_number,order_item_id,order_id,session_id,session_seat_id,ticket_status,issued_at FROM ticket WHERE ticket_number=#{number}")
+    Ticket byNumber(String number);
+
     @Select("SELECT id,ticket_number,order_item_id,order_id,session_id,session_seat_id,ticket_status,issued_at FROM ticket WHERE id=#{id} FOR UPDATE")
     Ticket lock(long id);
 

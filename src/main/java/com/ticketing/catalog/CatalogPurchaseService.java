@@ -18,6 +18,10 @@ public class CatalogPurchaseService {
 
     public CatalogPurchaseService(CatalogMapper mapper) { this.mapper = mapper; }
 
+    /** Missing selected sessions are an auditable scan result rather than a transaction exception. */
+    @Transactional(propagation = Propagation.MANDATORY)
+    public Session lockForCheckin(long sessionId) { return mapper.lockSession(sessionId); }
+
     @Transactional(propagation = Propagation.MANDATORY)
     public SaleContext lockForPurchase(long sessionId) {
         var session = mapper.lockSession(sessionId);

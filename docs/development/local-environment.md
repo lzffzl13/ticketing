@@ -1,6 +1,6 @@
 # Windows 本地开发环境
 
-当前提供 Java 21、MySQL 与 Spring Boot 应用。业务结构包含 V1 场馆/场次七表、V2 身份/订单/锁座六表、V3 支付模拟器交易/通知两表和 V4 本地支付/票及订单恢复字段，由 Flyway 在应用启动时迁移。工程运行说明见[后端骨架](backend-skeleton.md)，第四周登录与下单见[导读](order-holds.md)，渠道内部服务见[模拟器导读](payment-simulator.md)，支付出票、取消与恢复见[闭环演示](payment-loop-demo.md)。
+当前提供 Java 21、MySQL 与 Spring Boot 应用。业务结构包含 V1 场馆/场次七表、V2 身份/订单/锁座六表、V3 支付模拟器两表、V4 本地支付/票及恢复字段、V5 退款三表和 V6 核销审计表，由 Flyway 在应用启动时迁移。工程运行说明见[后端骨架](backend-skeleton.md)，第四周登录与下单见[导读](order-holds.md)，渠道内部服务见[模拟器导读](payment-simulator.md)，支付出票、取消与恢复见[闭环演示](payment-loop-demo.md)，第六周核销、诊断及完整演示见[导读](checkin-consistency.md)。
 
 第五周票码查询启用后，首次启动应用还需执行 `scripts/ticket-keys.ps1 -Action Init`，已有密钥不重复初始化；`run-app.ps1` 校验并复用被忽略的本机密钥配置。测试 profile 使用独立测试夹具。准确保留期限、紧急撤销和受控恢复见[本人票码与密钥导读](ticket-credentials.md)。
 
@@ -48,7 +48,7 @@ setup 脚本从 Adoptium 官方发布下载压缩包，核对固定 SHA-256 后�
 
 start 脚本等待应用账号完成 SELECT 1 健康检查；check 脚本再次执行账号认证和版本、库名、字符集查询。连接错误不能视为健康。
 
-Compose 创建两组独立数据卷。本地已有 MySQL 的默认端口 3306 不与容器的 3307/3308 冲突。数据库容器健康只证明连接可用；应用启动后才由 Flyway 校验和执行 V1/V2/V3/V4，不能把容器健康视为业务迁移已完成。
+Compose 创建两组独立数据卷。本地已有 MySQL 的默认端口 3306 不与容器的 3307/3308 冲突。数据库容器健康只证明连接可用；应用启动后才由 Flyway 校验和执行 V1–V6，不能把容器健康视为业务迁移已完成。
 
 ## 3. 启动应用与演示登录
 

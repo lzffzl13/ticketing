@@ -6,7 +6,7 @@
 
 当前状态：第一周已评审版本。状态名使用英文候选值，便于后续映射到代码枚举；本轮确认的是业务语义，不代表已经决定数据库更新语句或并发控制实现。
 
-销售管理状态与并发控制见下节及 [ADR-0006](../decisions/0006-serialize-session-management.md)。第四周已实现锁座、支付、出票、安全取消及释放；第五周接入自动超时/恢复扫描、本人 HMAC 票码文本/PNG 查询及单票退款/恢复，规则见 ADR-0016 / 0017 / 0018，执行证据见相应周报。取码不改变票状态；正式核销尚未实现。
+销售管理状态与并发控制见下节及 [ADR-0006](../decisions/0006-serialize-session-management.md)。第四周已实现锁座、支付、出票、安全取消及释放；第五周接入自动超时/恢复扫描、本人 HMAC 票码文本/PNG 查询及单票退款/恢复，规则见 ADR-0016 / 0017 / 0018。第六周新增正式核销、逐次审计、末票履约完成汇总及只读一致性检测，见 ADR-0019 / 0020；执行证据见相应周报。取码不改变票状态。
 
 ## 2. 状态设计原则
 
@@ -132,6 +132,8 @@ stateDiagram-v2
 | `PAID` / `PARTIALLY_REFUNDED` | `COMPLETED` | 履约结束 | 所有未退票电子票已核销，或入场截止时间已过；不存在进行中的退票 |
 
 订单状态是订单内电子票状态的汇总，但不能代替电子票状态。`PARTIALLY_REFUNDED` 只在退款成功后出现，电子票处于 `REFUNDING` 时订单仍保持原状态。
+
+第六周实现“所有未退款票已核销且无未决退款”的 COMPLETED 汇总，在最后一次核销或已受理退款成功时同事务完成；全退仍为 FULLY_REFUNDED。入场截止后未到场订单的批量 COMPLETED 归集暂缓，列为实际实现限制，不能因此绕过核销的实时时间检查。
 
 2026-10-08 补充已确认的创建边界：新订单须同时满足销售资格与取得场次写锁后的 `now + 15 分钟 <= admission_close_at`，相等时允许，支付期限仍为完整 15 分钟，见 [ADR-0011](../decisions/0011-order-cutoff-before-admission-closes.md)。按消费者与请求编号重放已创建订单只返回原状态和原期限，不再次进入创建迁移或续锁；同编号内容冲突拒绝，见 [ADR-0010](../decisions/0010-idempotent-order-creation.md)。锁座、支付、取消和释放的实际执行证据见第四周周报；自动触发与资格重验见第五周周报。
 
@@ -270,8 +272,10 @@ stateDiagram-v2
 | `ALREADY_CHECKED_IN` | 电子票已经成功核销 | 否 |
 | `REFUNDING` | 电子票正在退款，入场资格暂停 | 否 |
 | `REFUNDED` | 电子票已经退款并永久失效 | 否 |
+| `SESSION_NOT_FOUND` | 所选场次不存在，保留提交编号 | 否 |
+| `INCONSISTENT_STATE` | 原票与已付订单、消费锁或已售座位不一致，交运营核查 | 否 |
 
-核销 `SUCCESS` 必须通过 `VALID → CHECKED_IN` 的条件更新取得唯一成功权。两个入口并发扫描时，一个成功，另一个记录为 `ALREADY_CHECKED_IN`；两次尝试都保留。
+核销 `SUCCESS` 必须通过 `VALID → CHECKED_IN` 的条件更新取得唯一成功权，并与成功审计同事务提交。两个入口并发扫描时，一个成功，另一个记录为 `ALREADY_CHECKED_IN`；两次尝试都保留。V6 唯一生成列补充保护每票最多一条 SUCCESS。格式/鉴权拒绝位于业务受理前；系统错误导致事务未提交时不能放行。结果优先级与查询见[核销导读](../development/checkin-consistency.md)。
 
 ## 10. 跨对象原子变化
 
@@ -284,7 +288,7 @@ stateDiagram-v2
 | 受理退票 | 创建 `REQUESTED` 退票单；电子票 `VALID → REFUNDING` |
 | 退款成功 | 退票单 `REQUESTED/PROCESSING → SUCCEEDED`；电子票 `REFUNDING → REFUNDED`；座位 `SOLD → AVAILABLE`；更新订单退款汇总状态 |
 | 退款失败 | 退票单 `→ FAILED`；电子票 `REFUNDING → VALID` |
-| 核销成功 | 电子票 `VALID → CHECKED_IN`；追加 `SUCCESS` 核销记录 |
+| 核销成功 | 电子票 `VALID → CHECKED_IN`；满足条件时订单归集 COMPLETED；追加 `SUCCESS` 核销记录 |
 | 候补匹配 | 候补 `WAITING → OFFERED`；创建普通锁座、订单和订单项；全部匹配座位 `AVAILABLE → HELD` |
 
 支付模拟器的受理、查单、关单和退款模拟属于外部交互，即使当前实现位于同一应用，也不能假装与本地数据库提交天然处于一个事务。调用失败或进程中断后依靠幂等请求、状态重试和对账恢复。

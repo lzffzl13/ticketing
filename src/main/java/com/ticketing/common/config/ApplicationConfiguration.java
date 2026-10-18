@@ -24,6 +24,6 @@ public class ApplicationConfiguration {
                 .info(new Info()
                 .title("座位票务与现场履约系统")
                 .version("0.0.1")
-                .description("场馆与场次、座位图与推荐、固定账号登录、幂等下单与整组锁座"));
+                .description("场馆与场次、选座锁座、模拟支付、单票退款、在线核销审计与一致性报告"));
     }
 }
