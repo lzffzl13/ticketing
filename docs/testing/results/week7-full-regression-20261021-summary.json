@@ -1,0 +1,256 @@
+{
+  "status": "PASSED",
+  "finishedAt": "2026-10-21T10:42:59+08:00",
+  "command": "scripts/test.ps1 -Integration",
+  "sourceBaseCommit": "7bbb0cff601cc4b4e5be2f8d8b403e521031bc96",
+  "productionAndMigrationsUnchanged": true,
+  "unitTests": 150,
+  "integrationTests": 276,
+  "totalTests": 426,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "unitSuites": [
+    {
+      "name": "com.ticketing.common.web.ApiContractTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.ticketing.consistency.ConsistencyRulesTest",
+      "tests": 20,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.ticketing.consistency.ConsistencyScannerTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.ticketing.consistency.ConsistencySchedulingTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.ticketing.identity.IdentityServiceTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.ticketing.inventory.SeatRecommendationEngineTest",
+      "tests": 31,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.ticketing.inventory.SeatSelectionRulesTest",
+      "tests": 42,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.ticketing.ticketing.QrCodeRendererTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.ticketing.ticketing.TicketCredentialCodecTest",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.ticketing.ticketing.TicketCredentialConfigurationTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.ticketing.trade.PaymentRecoveryScannerTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.ticketing.trade.PaymentRecoverySchedulingTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.ticketing.trade.RefundRecoveryScannerTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.ticketing.trade.RefundRecoverySchedulingTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "integrationSuites": [
+    {
+      "name": "com.ticketing.catalog.SeatQueryIT",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.ticketing.catalog.SessionManagementIT",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.ticketing.catalog.SessionSnapshotIT",
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.ticketing.catalog.Week2ApiIT",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.ticketing.identity.IdentityIT",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.ticketing.inventory.InventoryHoldFailureIT",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.ticketing.simulator.PaymentSimulatorIT",
+      "tests": 25,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.ticketing.simulator.RefundSimulatorIT",
+      "tests": 19,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.ticketing.support.ApplicationStartupIT",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.ticketing.trade.CheckinIT",
+      "tests": 26,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.ticketing.trade.ConsistencyIT",
+      "tests": 23,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.ticketing.trade.OrderHoldIT",
+      "tests": 20,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.ticketing.trade.PaymentLifecycleIT",
+      "tests": 18,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.ticketing.trade.PaymentRecoveryIT",
+      "tests": 26,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.ticketing.trade.PaymentRecoveryScannerIT",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.ticketing.trade.RefundIT",
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.ticketing.trade.RefundRecoveryIT",
+      "tests": 20,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.ticketing.trade.TicketCredentialIT",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.ticketing.trade.Week7InventoryReliabilityIT",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.ticketing.trade.Week7PaymentReliabilityIT",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "evidenceScope": "This execution includes the two new Week7 IT classes. Historical explicit benchmark Experiment XML is excluded. Full local Maven log: .local/week7-full-regression.log."
+}

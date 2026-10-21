@@ -1,0 +1,5532 @@
+{
+  "status" : "PASSED",
+  "startedAtUtc" : "2026-10-21T02:36:51.646804700Z",
+  "fixtureClockUtc" : "2026-10-21T02:00:00.123456Z",
+  "clockMeaning" : "Fixed business-time fixture, not the experiment's actual execution timestamp",
+  "database" : "ticketing_test",
+  "mysqlVersion" : "8.4.11",
+  "javaVersion" : "21.0.12.1",
+  "os" : "Windows 11 amd64",
+  "hikariMaximumPoolSize" : 5,
+  "roundsPerWorkload" : 10,
+  "workloads" : [ "ANCHOR_PREFIX: each segment requests [1..2], [1..4], [1..6], [1..8]", "OVERLAP_CHAIN: each segment requests [1..4], [3..6], [5..8], [1..8]" ],
+  "customers" : 8,
+  "workerThreads" : 12,
+  "seatsPerSession" : 24,
+  "generation" : "3 rows of 8 enabled seats, one shared area/tier, one aisle segment in each row; 100.00 per seat; forbidNewOrphan=true; new session each round; no randomness",
+  "expectedRequests" : 240,
+  "concurrency" : "12 ready-latch workers released together, 8 distinct consumers, unique keys; the Hikari pool may limit active DB connections; same-session writers serialize at the session row lock",
+  "orderWriteIsolation" : "READ_COMMITTED declared by the existing OrderTransactionService",
+  "submissionOrder" : "Rotate by round modulo 12, reverse odd rounds; reverse seat IDs on alternating requests; no assertion about which user wins",
+  "limits" : "Finite in-process service calls only, no HTTP or multi-JVM test; no latency/throughput claim; checks inventory allocation before payment, not later payment/check-in races; test profile disables background scanners",
+  "rounds" : [ {
+    "workload" : "ANCHOR_PREFIX",
+    "round" : 0,
+    "sessionId" : 1728,
+    "status" : "PASSED",
+    "requestsInSubmissionOrder" : [ {
+      "worker" : 0,
+      "segment" : 0,
+      "customerId" : 4600,
+      "sessionId" : 1728,
+      "requestKey" : "W7-ANCHOR_PREFIX-R0-W0",
+      "seatIds" : [ 95706, 95707 ]
+    }, {
+      "worker" : 1,
+      "segment" : 0,
+      "customerId" : 4601,
+      "sessionId" : 1728,
+      "requestKey" : "W7-ANCHOR_PREFIX-R0-W1",
+      "seatIds" : [ 95709, 95708, 95707, 95706 ]
+    }, {
+      "worker" : 2,
+      "segment" : 0,
+      "customerId" : 4604,
+      "sessionId" : 1728,
+      "requestKey" : "W7-ANCHOR_PREFIX-R0-W2",
+      "seatIds" : [ 95706, 95707, 95708, 95709, 95710, 95711 ]
+    }, {
+      "worker" : 3,
+      "segment" : 0,
+      "customerId" : 4605,
+      "sessionId" : 1728,
+      "requestKey" : "W7-ANCHOR_PREFIX-R0-W3",
+      "seatIds" : [ 95713, 95712, 95711, 95710, 95709, 95708, 95707, 95706 ]
+    }, {
+      "worker" : 4,
+      "segment" : 1,
+      "customerId" : 4606,
+      "sessionId" : 1728,
+      "requestKey" : "W7-ANCHOR_PREFIX-R0-W4",
+      "seatIds" : [ 95714, 95715 ]
+    }, {
+      "worker" : 5,
+      "segment" : 1,
+      "customerId" : 4607,
+      "sessionId" : 1728,
+      "requestKey" : "W7-ANCHOR_PREFIX-R0-W5",
+      "seatIds" : [ 95717, 95716, 95715, 95714 ]
+    }, {
+      "worker" : 6,
+      "segment" : 1,
+      "customerId" : 4608,
+      "sessionId" : 1728,
+      "requestKey" : "W7-ANCHOR_PREFIX-R0-W6",
+      "seatIds" : [ 95714, 95715, 95716, 95717, 95718, 95719 ]
+    }, {
+      "worker" : 7,
+      "segment" : 1,
+      "customerId" : 4609,
+      "sessionId" : 1728,
+      "requestKey" : "W7-ANCHOR_PREFIX-R0-W7",
+      "seatIds" : [ 95721, 95720, 95719, 95718, 95717, 95716, 95715, 95714 ]
+    }, {
+      "worker" : 8,
+      "segment" : 2,
+      "customerId" : 4600,
+      "sessionId" : 1728,
+      "requestKey" : "W7-ANCHOR_PREFIX-R0-W8",
+      "seatIds" : [ 95722, 95723 ]
+    }, {
+      "worker" : 9,
+      "segment" : 2,
+      "customerId" : 4601,
+      "sessionId" : 1728,
+      "requestKey" : "W7-ANCHOR_PREFIX-R0-W9",
+      "seatIds" : [ 95725, 95724, 95723, 95722 ]
+    }, {
+      "worker" : 10,
+      "segment" : 2,
+      "customerId" : 4604,
+      "sessionId" : 1728,
+      "requestKey" : "W7-ANCHOR_PREFIX-R0-W10",
+      "seatIds" : [ 95722, 95723, 95724, 95725, 95726, 95727 ]
+    }, {
+      "worker" : 11,
+      "segment" : 2,
+      "customerId" : 4605,
+      "sessionId" : 1728,
+      "requestKey" : "W7-ANCHOR_PREFIX-R0-W11",
+      "seatIds" : [ 95729, 95728, 95727, 95726, 95725, 95724, 95723, 95722 ]
+    } ],
+    "outcomes" : [ {
+      "attempt" : {
+        "worker" : 0,
+        "segment" : 0,
+        "customerId" : 4600,
+        "sessionId" : 1728,
+        "requestKey" : "W7-ANCHOR_PREFIX-R0-W0",
+        "seatIds" : [ 95706, 95707 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1260,
+      "holdId" : 1249,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 1,
+        "segment" : 0,
+        "customerId" : 4601,
+        "sessionId" : 1728,
+        "requestKey" : "W7-ANCHOR_PREFIX-R0-W1",
+        "seatIds" : [ 95709, 95708, 95707, 95706 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 2,
+        "segment" : 0,
+        "customerId" : 4604,
+        "sessionId" : 1728,
+        "requestKey" : "W7-ANCHOR_PREFIX-R0-W2",
+        "seatIds" : [ 95706, 95707, 95708, 95709, 95710, 95711 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 3,
+        "segment" : 0,
+        "customerId" : 4605,
+        "sessionId" : 1728,
+        "requestKey" : "W7-ANCHOR_PREFIX-R0-W3",
+        "seatIds" : [ 95713, 95712, 95711, 95710, 95709, 95708, 95707, 95706 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 4,
+        "segment" : 1,
+        "customerId" : 4606,
+        "sessionId" : 1728,
+        "requestKey" : "W7-ANCHOR_PREFIX-R0-W4",
+        "seatIds" : [ 95714, 95715 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 5,
+        "segment" : 1,
+        "customerId" : 4607,
+        "sessionId" : 1728,
+        "requestKey" : "W7-ANCHOR_PREFIX-R0-W5",
+        "seatIds" : [ 95717, 95716, 95715, 95714 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 6,
+        "segment" : 1,
+        "customerId" : 4608,
+        "sessionId" : 1728,
+        "requestKey" : "W7-ANCHOR_PREFIX-R0-W6",
+        "seatIds" : [ 95714, 95715, 95716, 95717, 95718, 95719 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 7,
+        "segment" : 1,
+        "customerId" : 4609,
+        "sessionId" : 1728,
+        "requestKey" : "W7-ANCHOR_PREFIX-R0-W7",
+        "seatIds" : [ 95721, 95720, 95719, 95718, 95717, 95716, 95715, 95714 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1261,
+      "holdId" : 1250,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 8,
+        "segment" : 2,
+        "customerId" : 4600,
+        "sessionId" : 1728,
+        "requestKey" : "W7-ANCHOR_PREFIX-R0-W8",
+        "seatIds" : [ 95722, 95723 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 9,
+        "segment" : 2,
+        "customerId" : 4601,
+        "sessionId" : 1728,
+        "requestKey" : "W7-ANCHOR_PREFIX-R0-W9",
+        "seatIds" : [ 95725, 95724, 95723, 95722 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 10,
+        "segment" : 2,
+        "customerId" : 4604,
+        "sessionId" : 1728,
+        "requestKey" : "W7-ANCHOR_PREFIX-R0-W10",
+        "seatIds" : [ 95722, 95723, 95724, 95725, 95726, 95727 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1259,
+      "holdId" : 1248,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 11,
+        "segment" : 2,
+        "customerId" : 4605,
+        "sessionId" : 1728,
+        "requestKey" : "W7-ANCHOR_PREFIX-R0-W11",
+        "seatIds" : [ 95729, 95728, 95727, 95726, 95725, 95724, 95723, 95722 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    } ],
+    "counts" : {
+      "created" : 3,
+      "completedRequests" : 12,
+      "unexpectedFailures" : 0,
+      "allocatedSeats" : 16,
+      "businessConflicts" : 9
+    },
+    "consistency" : {
+      "sessionId" : 1728,
+      "checkedAt" : "2026-10-21T02:00:00.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 3,
+        "seats" : 24,
+        "tickets" : 0,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 3,
+        "unresolvedPayments" : 0,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    },
+    "wholeGroupsAndUniqueOwnersVerified" : true
+  }, {
+    "workload" : "ANCHOR_PREFIX",
+    "round" : 1,
+    "sessionId" : 1729,
+    "status" : "PASSED",
+    "requestsInSubmissionOrder" : [ {
+      "worker" : 10,
+      "segment" : 2,
+      "customerId" : 4604,
+      "sessionId" : 1729,
+      "requestKey" : "W7-ANCHOR_PREFIX-R1-W10",
+      "seatIds" : [ 95751, 95750, 95749, 95748, 95747, 95746 ]
+    }, {
+      "worker" : 9,
+      "segment" : 2,
+      "customerId" : 4601,
+      "sessionId" : 1729,
+      "requestKey" : "W7-ANCHOR_PREFIX-R1-W9",
+      "seatIds" : [ 95746, 95747, 95748, 95749 ]
+    }, {
+      "worker" : 8,
+      "segment" : 2,
+      "customerId" : 4600,
+      "sessionId" : 1729,
+      "requestKey" : "W7-ANCHOR_PREFIX-R1-W8",
+      "seatIds" : [ 95747, 95746 ]
+    }, {
+      "worker" : 7,
+      "segment" : 1,
+      "customerId" : 4609,
+      "sessionId" : 1729,
+      "requestKey" : "W7-ANCHOR_PREFIX-R1-W7",
+      "seatIds" : [ 95738, 95739, 95740, 95741, 95742, 95743, 95744, 95745 ]
+    }, {
+      "worker" : 6,
+      "segment" : 1,
+      "customerId" : 4608,
+      "sessionId" : 1729,
+      "requestKey" : "W7-ANCHOR_PREFIX-R1-W6",
+      "seatIds" : [ 95743, 95742, 95741, 95740, 95739, 95738 ]
+    }, {
+      "worker" : 5,
+      "segment" : 1,
+      "customerId" : 4607,
+      "sessionId" : 1729,
+      "requestKey" : "W7-ANCHOR_PREFIX-R1-W5",
+      "seatIds" : [ 95738, 95739, 95740, 95741 ]
+    }, {
+      "worker" : 4,
+      "segment" : 1,
+      "customerId" : 4606,
+      "sessionId" : 1729,
+      "requestKey" : "W7-ANCHOR_PREFIX-R1-W4",
+      "seatIds" : [ 95739, 95738 ]
+    }, {
+      "worker" : 3,
+      "segment" : 0,
+      "customerId" : 4605,
+      "sessionId" : 1729,
+      "requestKey" : "W7-ANCHOR_PREFIX-R1-W3",
+      "seatIds" : [ 95730, 95731, 95732, 95733, 95734, 95735, 95736, 95737 ]
+    }, {
+      "worker" : 2,
+      "segment" : 0,
+      "customerId" : 4604,
+      "sessionId" : 1729,
+      "requestKey" : "W7-ANCHOR_PREFIX-R1-W2",
+      "seatIds" : [ 95735, 95734, 95733, 95732, 95731, 95730 ]
+    }, {
+      "worker" : 1,
+      "segment" : 0,
+      "customerId" : 4601,
+      "sessionId" : 1729,
+      "requestKey" : "W7-ANCHOR_PREFIX-R1-W1",
+      "seatIds" : [ 95730, 95731, 95732, 95733 ]
+    }, {
+      "worker" : 0,
+      "segment" : 0,
+      "customerId" : 4600,
+      "sessionId" : 1729,
+      "requestKey" : "W7-ANCHOR_PREFIX-R1-W0",
+      "seatIds" : [ 95731, 95730 ]
+    }, {
+      "worker" : 11,
+      "segment" : 2,
+      "customerId" : 4605,
+      "sessionId" : 1729,
+      "requestKey" : "W7-ANCHOR_PREFIX-R1-W11",
+      "seatIds" : [ 95746, 95747, 95748, 95749, 95750, 95751, 95752, 95753 ]
+    } ],
+    "outcomes" : [ {
+      "attempt" : {
+        "worker" : 10,
+        "segment" : 2,
+        "customerId" : 4604,
+        "sessionId" : 1729,
+        "requestKey" : "W7-ANCHOR_PREFIX-R1-W10",
+        "seatIds" : [ 95751, 95750, 95749, 95748, 95747, 95746 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 9,
+        "segment" : 2,
+        "customerId" : 4601,
+        "sessionId" : 1729,
+        "requestKey" : "W7-ANCHOR_PREFIX-R1-W9",
+        "seatIds" : [ 95746, 95747, 95748, 95749 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 8,
+        "segment" : 2,
+        "customerId" : 4600,
+        "sessionId" : 1729,
+        "requestKey" : "W7-ANCHOR_PREFIX-R1-W8",
+        "seatIds" : [ 95747, 95746 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1263,
+      "holdId" : 1252,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 7,
+        "segment" : 1,
+        "customerId" : 4609,
+        "sessionId" : 1729,
+        "requestKey" : "W7-ANCHOR_PREFIX-R1-W7",
+        "seatIds" : [ 95738, 95739, 95740, 95741, 95742, 95743, 95744, 95745 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 6,
+        "segment" : 1,
+        "customerId" : 4608,
+        "sessionId" : 1729,
+        "requestKey" : "W7-ANCHOR_PREFIX-R1-W6",
+        "seatIds" : [ 95743, 95742, 95741, 95740, 95739, 95738 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 5,
+        "segment" : 1,
+        "customerId" : 4607,
+        "sessionId" : 1729,
+        "requestKey" : "W7-ANCHOR_PREFIX-R1-W5",
+        "seatIds" : [ 95738, 95739, 95740, 95741 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1262,
+      "holdId" : 1251,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 4,
+        "segment" : 1,
+        "customerId" : 4606,
+        "sessionId" : 1729,
+        "requestKey" : "W7-ANCHOR_PREFIX-R1-W4",
+        "seatIds" : [ 95739, 95738 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 3,
+        "segment" : 0,
+        "customerId" : 4605,
+        "sessionId" : 1729,
+        "requestKey" : "W7-ANCHOR_PREFIX-R1-W3",
+        "seatIds" : [ 95730, 95731, 95732, 95733, 95734, 95735, 95736, 95737 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1264,
+      "holdId" : 1253,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 2,
+        "segment" : 0,
+        "customerId" : 4604,
+        "sessionId" : 1729,
+        "requestKey" : "W7-ANCHOR_PREFIX-R1-W2",
+        "seatIds" : [ 95735, 95734, 95733, 95732, 95731, 95730 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 1,
+        "segment" : 0,
+        "customerId" : 4601,
+        "sessionId" : 1729,
+        "requestKey" : "W7-ANCHOR_PREFIX-R1-W1",
+        "seatIds" : [ 95730, 95731, 95732, 95733 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 0,
+        "segment" : 0,
+        "customerId" : 4600,
+        "sessionId" : 1729,
+        "requestKey" : "W7-ANCHOR_PREFIX-R1-W0",
+        "seatIds" : [ 95731, 95730 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 11,
+        "segment" : 2,
+        "customerId" : 4605,
+        "sessionId" : 1729,
+        "requestKey" : "W7-ANCHOR_PREFIX-R1-W11",
+        "seatIds" : [ 95746, 95747, 95748, 95749, 95750, 95751, 95752, 95753 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    } ],
+    "counts" : {
+      "created" : 3,
+      "completedRequests" : 12,
+      "unexpectedFailures" : 0,
+      "allocatedSeats" : 14,
+      "businessConflicts" : 9
+    },
+    "consistency" : {
+      "sessionId" : 1729,
+      "checkedAt" : "2026-10-21T02:00:00.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 3,
+        "seats" : 24,
+        "tickets" : 0,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 3,
+        "unresolvedPayments" : 0,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    },
+    "wholeGroupsAndUniqueOwnersVerified" : true
+  }, {
+    "workload" : "ANCHOR_PREFIX",
+    "round" : 2,
+    "sessionId" : 1730,
+    "status" : "PASSED",
+    "requestsInSubmissionOrder" : [ {
+      "worker" : 10,
+      "segment" : 2,
+      "customerId" : 4604,
+      "sessionId" : 1730,
+      "requestKey" : "W7-ANCHOR_PREFIX-R2-W10",
+      "seatIds" : [ 95770, 95771, 95772, 95773, 95774, 95775 ]
+    }, {
+      "worker" : 11,
+      "segment" : 2,
+      "customerId" : 4605,
+      "sessionId" : 1730,
+      "requestKey" : "W7-ANCHOR_PREFIX-R2-W11",
+      "seatIds" : [ 95777, 95776, 95775, 95774, 95773, 95772, 95771, 95770 ]
+    }, {
+      "worker" : 0,
+      "segment" : 0,
+      "customerId" : 4600,
+      "sessionId" : 1730,
+      "requestKey" : "W7-ANCHOR_PREFIX-R2-W0",
+      "seatIds" : [ 95754, 95755 ]
+    }, {
+      "worker" : 1,
+      "segment" : 0,
+      "customerId" : 4601,
+      "sessionId" : 1730,
+      "requestKey" : "W7-ANCHOR_PREFIX-R2-W1",
+      "seatIds" : [ 95757, 95756, 95755, 95754 ]
+    }, {
+      "worker" : 2,
+      "segment" : 0,
+      "customerId" : 4604,
+      "sessionId" : 1730,
+      "requestKey" : "W7-ANCHOR_PREFIX-R2-W2",
+      "seatIds" : [ 95754, 95755, 95756, 95757, 95758, 95759 ]
+    }, {
+      "worker" : 3,
+      "segment" : 0,
+      "customerId" : 4605,
+      "sessionId" : 1730,
+      "requestKey" : "W7-ANCHOR_PREFIX-R2-W3",
+      "seatIds" : [ 95761, 95760, 95759, 95758, 95757, 95756, 95755, 95754 ]
+    }, {
+      "worker" : 4,
+      "segment" : 1,
+      "customerId" : 4606,
+      "sessionId" : 1730,
+      "requestKey" : "W7-ANCHOR_PREFIX-R2-W4",
+      "seatIds" : [ 95762, 95763 ]
+    }, {
+      "worker" : 5,
+      "segment" : 1,
+      "customerId" : 4607,
+      "sessionId" : 1730,
+      "requestKey" : "W7-ANCHOR_PREFIX-R2-W5",
+      "seatIds" : [ 95765, 95764, 95763, 95762 ]
+    }, {
+      "worker" : 6,
+      "segment" : 1,
+      "customerId" : 4608,
+      "sessionId" : 1730,
+      "requestKey" : "W7-ANCHOR_PREFIX-R2-W6",
+      "seatIds" : [ 95762, 95763, 95764, 95765, 95766, 95767 ]
+    }, {
+      "worker" : 7,
+      "segment" : 1,
+      "customerId" : 4609,
+      "sessionId" : 1730,
+      "requestKey" : "W7-ANCHOR_PREFIX-R2-W7",
+      "seatIds" : [ 95769, 95768, 95767, 95766, 95765, 95764, 95763, 95762 ]
+    }, {
+      "worker" : 8,
+      "segment" : 2,
+      "customerId" : 4600,
+      "sessionId" : 1730,
+      "requestKey" : "W7-ANCHOR_PREFIX-R2-W8",
+      "seatIds" : [ 95770, 95771 ]
+    }, {
+      "worker" : 9,
+      "segment" : 2,
+      "customerId" : 4601,
+      "sessionId" : 1730,
+      "requestKey" : "W7-ANCHOR_PREFIX-R2-W9",
+      "seatIds" : [ 95773, 95772, 95771, 95770 ]
+    } ],
+    "outcomes" : [ {
+      "attempt" : {
+        "worker" : 10,
+        "segment" : 2,
+        "customerId" : 4604,
+        "sessionId" : 1730,
+        "requestKey" : "W7-ANCHOR_PREFIX-R2-W10",
+        "seatIds" : [ 95770, 95771, 95772, 95773, 95774, 95775 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 11,
+        "segment" : 2,
+        "customerId" : 4605,
+        "sessionId" : 1730,
+        "requestKey" : "W7-ANCHOR_PREFIX-R2-W11",
+        "seatIds" : [ 95777, 95776, 95775, 95774, 95773, 95772, 95771, 95770 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1266,
+      "holdId" : 1255,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 0,
+        "segment" : 0,
+        "customerId" : 4600,
+        "sessionId" : 1730,
+        "requestKey" : "W7-ANCHOR_PREFIX-R2-W0",
+        "seatIds" : [ 95754, 95755 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1265,
+      "holdId" : 1254,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 1,
+        "segment" : 0,
+        "customerId" : 4601,
+        "sessionId" : 1730,
+        "requestKey" : "W7-ANCHOR_PREFIX-R2-W1",
+        "seatIds" : [ 95757, 95756, 95755, 95754 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 2,
+        "segment" : 0,
+        "customerId" : 4604,
+        "sessionId" : 1730,
+        "requestKey" : "W7-ANCHOR_PREFIX-R2-W2",
+        "seatIds" : [ 95754, 95755, 95756, 95757, 95758, 95759 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 3,
+        "segment" : 0,
+        "customerId" : 4605,
+        "sessionId" : 1730,
+        "requestKey" : "W7-ANCHOR_PREFIX-R2-W3",
+        "seatIds" : [ 95761, 95760, 95759, 95758, 95757, 95756, 95755, 95754 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 4,
+        "segment" : 1,
+        "customerId" : 4606,
+        "sessionId" : 1730,
+        "requestKey" : "W7-ANCHOR_PREFIX-R2-W4",
+        "seatIds" : [ 95762, 95763 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1267,
+      "holdId" : 1256,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 5,
+        "segment" : 1,
+        "customerId" : 4607,
+        "sessionId" : 1730,
+        "requestKey" : "W7-ANCHOR_PREFIX-R2-W5",
+        "seatIds" : [ 95765, 95764, 95763, 95762 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 6,
+        "segment" : 1,
+        "customerId" : 4608,
+        "sessionId" : 1730,
+        "requestKey" : "W7-ANCHOR_PREFIX-R2-W6",
+        "seatIds" : [ 95762, 95763, 95764, 95765, 95766, 95767 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 7,
+        "segment" : 1,
+        "customerId" : 4609,
+        "sessionId" : 1730,
+        "requestKey" : "W7-ANCHOR_PREFIX-R2-W7",
+        "seatIds" : [ 95769, 95768, 95767, 95766, 95765, 95764, 95763, 95762 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 8,
+        "segment" : 2,
+        "customerId" : 4600,
+        "sessionId" : 1730,
+        "requestKey" : "W7-ANCHOR_PREFIX-R2-W8",
+        "seatIds" : [ 95770, 95771 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 9,
+        "segment" : 2,
+        "customerId" : 4601,
+        "sessionId" : 1730,
+        "requestKey" : "W7-ANCHOR_PREFIX-R2-W9",
+        "seatIds" : [ 95773, 95772, 95771, 95770 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    } ],
+    "counts" : {
+      "created" : 3,
+      "completedRequests" : 12,
+      "unexpectedFailures" : 0,
+      "allocatedSeats" : 12,
+      "businessConflicts" : 9
+    },
+    "consistency" : {
+      "sessionId" : 1730,
+      "checkedAt" : "2026-10-21T02:00:00.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 3,
+        "seats" : 24,
+        "tickets" : 0,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 3,
+        "unresolvedPayments" : 0,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    },
+    "wholeGroupsAndUniqueOwnersVerified" : true
+  }, {
+    "workload" : "ANCHOR_PREFIX",
+    "round" : 3,
+    "sessionId" : 1731,
+    "status" : "PASSED",
+    "requestsInSubmissionOrder" : [ {
+      "worker" : 8,
+      "segment" : 2,
+      "customerId" : 4600,
+      "sessionId" : 1731,
+      "requestKey" : "W7-ANCHOR_PREFIX-R3-W8",
+      "seatIds" : [ 95795, 95794 ]
+    }, {
+      "worker" : 7,
+      "segment" : 1,
+      "customerId" : 4609,
+      "sessionId" : 1731,
+      "requestKey" : "W7-ANCHOR_PREFIX-R3-W7",
+      "seatIds" : [ 95786, 95787, 95788, 95789, 95790, 95791, 95792, 95793 ]
+    }, {
+      "worker" : 6,
+      "segment" : 1,
+      "customerId" : 4608,
+      "sessionId" : 1731,
+      "requestKey" : "W7-ANCHOR_PREFIX-R3-W6",
+      "seatIds" : [ 95791, 95790, 95789, 95788, 95787, 95786 ]
+    }, {
+      "worker" : 5,
+      "segment" : 1,
+      "customerId" : 4607,
+      "sessionId" : 1731,
+      "requestKey" : "W7-ANCHOR_PREFIX-R3-W5",
+      "seatIds" : [ 95786, 95787, 95788, 95789 ]
+    }, {
+      "worker" : 4,
+      "segment" : 1,
+      "customerId" : 4606,
+      "sessionId" : 1731,
+      "requestKey" : "W7-ANCHOR_PREFIX-R3-W4",
+      "seatIds" : [ 95787, 95786 ]
+    }, {
+      "worker" : 3,
+      "segment" : 0,
+      "customerId" : 4605,
+      "sessionId" : 1731,
+      "requestKey" : "W7-ANCHOR_PREFIX-R3-W3",
+      "seatIds" : [ 95778, 95779, 95780, 95781, 95782, 95783, 95784, 95785 ]
+    }, {
+      "worker" : 2,
+      "segment" : 0,
+      "customerId" : 4604,
+      "sessionId" : 1731,
+      "requestKey" : "W7-ANCHOR_PREFIX-R3-W2",
+      "seatIds" : [ 95783, 95782, 95781, 95780, 95779, 95778 ]
+    }, {
+      "worker" : 1,
+      "segment" : 0,
+      "customerId" : 4601,
+      "sessionId" : 1731,
+      "requestKey" : "W7-ANCHOR_PREFIX-R3-W1",
+      "seatIds" : [ 95778, 95779, 95780, 95781 ]
+    }, {
+      "worker" : 0,
+      "segment" : 0,
+      "customerId" : 4600,
+      "sessionId" : 1731,
+      "requestKey" : "W7-ANCHOR_PREFIX-R3-W0",
+      "seatIds" : [ 95779, 95778 ]
+    }, {
+      "worker" : 11,
+      "segment" : 2,
+      "customerId" : 4605,
+      "sessionId" : 1731,
+      "requestKey" : "W7-ANCHOR_PREFIX-R3-W11",
+      "seatIds" : [ 95794, 95795, 95796, 95797, 95798, 95799, 95800, 95801 ]
+    }, {
+      "worker" : 10,
+      "segment" : 2,
+      "customerId" : 4604,
+      "sessionId" : 1731,
+      "requestKey" : "W7-ANCHOR_PREFIX-R3-W10",
+      "seatIds" : [ 95799, 95798, 95797, 95796, 95795, 95794 ]
+    }, {
+      "worker" : 9,
+      "segment" : 2,
+      "customerId" : 4601,
+      "sessionId" : 1731,
+      "requestKey" : "W7-ANCHOR_PREFIX-R3-W9",
+      "seatIds" : [ 95794, 95795, 95796, 95797 ]
+    } ],
+    "outcomes" : [ {
+      "attempt" : {
+        "worker" : 8,
+        "segment" : 2,
+        "customerId" : 4600,
+        "sessionId" : 1731,
+        "requestKey" : "W7-ANCHOR_PREFIX-R3-W8",
+        "seatIds" : [ 95795, 95794 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1270,
+      "holdId" : 1259,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 7,
+        "segment" : 1,
+        "customerId" : 4609,
+        "sessionId" : 1731,
+        "requestKey" : "W7-ANCHOR_PREFIX-R3-W7",
+        "seatIds" : [ 95786, 95787, 95788, 95789, 95790, 95791, 95792, 95793 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 6,
+        "segment" : 1,
+        "customerId" : 4608,
+        "sessionId" : 1731,
+        "requestKey" : "W7-ANCHOR_PREFIX-R3-W6",
+        "seatIds" : [ 95791, 95790, 95789, 95788, 95787, 95786 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 5,
+        "segment" : 1,
+        "customerId" : 4607,
+        "sessionId" : 1731,
+        "requestKey" : "W7-ANCHOR_PREFIX-R3-W5",
+        "seatIds" : [ 95786, 95787, 95788, 95789 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1268,
+      "holdId" : 1257,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 4,
+        "segment" : 1,
+        "customerId" : 4606,
+        "sessionId" : 1731,
+        "requestKey" : "W7-ANCHOR_PREFIX-R3-W4",
+        "seatIds" : [ 95787, 95786 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 3,
+        "segment" : 0,
+        "customerId" : 4605,
+        "sessionId" : 1731,
+        "requestKey" : "W7-ANCHOR_PREFIX-R3-W3",
+        "seatIds" : [ 95778, 95779, 95780, 95781, 95782, 95783, 95784, 95785 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1269,
+      "holdId" : 1258,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 2,
+        "segment" : 0,
+        "customerId" : 4604,
+        "sessionId" : 1731,
+        "requestKey" : "W7-ANCHOR_PREFIX-R3-W2",
+        "seatIds" : [ 95783, 95782, 95781, 95780, 95779, 95778 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 1,
+        "segment" : 0,
+        "customerId" : 4601,
+        "sessionId" : 1731,
+        "requestKey" : "W7-ANCHOR_PREFIX-R3-W1",
+        "seatIds" : [ 95778, 95779, 95780, 95781 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 0,
+        "segment" : 0,
+        "customerId" : 4600,
+        "sessionId" : 1731,
+        "requestKey" : "W7-ANCHOR_PREFIX-R3-W0",
+        "seatIds" : [ 95779, 95778 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 11,
+        "segment" : 2,
+        "customerId" : 4605,
+        "sessionId" : 1731,
+        "requestKey" : "W7-ANCHOR_PREFIX-R3-W11",
+        "seatIds" : [ 95794, 95795, 95796, 95797, 95798, 95799, 95800, 95801 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 10,
+        "segment" : 2,
+        "customerId" : 4604,
+        "sessionId" : 1731,
+        "requestKey" : "W7-ANCHOR_PREFIX-R3-W10",
+        "seatIds" : [ 95799, 95798, 95797, 95796, 95795, 95794 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 9,
+        "segment" : 2,
+        "customerId" : 4601,
+        "sessionId" : 1731,
+        "requestKey" : "W7-ANCHOR_PREFIX-R3-W9",
+        "seatIds" : [ 95794, 95795, 95796, 95797 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    } ],
+    "counts" : {
+      "created" : 3,
+      "completedRequests" : 12,
+      "unexpectedFailures" : 0,
+      "allocatedSeats" : 14,
+      "businessConflicts" : 9
+    },
+    "consistency" : {
+      "sessionId" : 1731,
+      "checkedAt" : "2026-10-21T02:00:00.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 3,
+        "seats" : 24,
+        "tickets" : 0,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 3,
+        "unresolvedPayments" : 0,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    },
+    "wholeGroupsAndUniqueOwnersVerified" : true
+  }, {
+    "workload" : "ANCHOR_PREFIX",
+    "round" : 4,
+    "sessionId" : 1732,
+    "status" : "PASSED",
+    "requestsInSubmissionOrder" : [ {
+      "worker" : 8,
+      "segment" : 2,
+      "customerId" : 4600,
+      "sessionId" : 1732,
+      "requestKey" : "W7-ANCHOR_PREFIX-R4-W8",
+      "seatIds" : [ 95818, 95819 ]
+    }, {
+      "worker" : 9,
+      "segment" : 2,
+      "customerId" : 4601,
+      "sessionId" : 1732,
+      "requestKey" : "W7-ANCHOR_PREFIX-R4-W9",
+      "seatIds" : [ 95821, 95820, 95819, 95818 ]
+    }, {
+      "worker" : 10,
+      "segment" : 2,
+      "customerId" : 4604,
+      "sessionId" : 1732,
+      "requestKey" : "W7-ANCHOR_PREFIX-R4-W10",
+      "seatIds" : [ 95818, 95819, 95820, 95821, 95822, 95823 ]
+    }, {
+      "worker" : 11,
+      "segment" : 2,
+      "customerId" : 4605,
+      "sessionId" : 1732,
+      "requestKey" : "W7-ANCHOR_PREFIX-R4-W11",
+      "seatIds" : [ 95825, 95824, 95823, 95822, 95821, 95820, 95819, 95818 ]
+    }, {
+      "worker" : 0,
+      "segment" : 0,
+      "customerId" : 4600,
+      "sessionId" : 1732,
+      "requestKey" : "W7-ANCHOR_PREFIX-R4-W0",
+      "seatIds" : [ 95802, 95803 ]
+    }, {
+      "worker" : 1,
+      "segment" : 0,
+      "customerId" : 4601,
+      "sessionId" : 1732,
+      "requestKey" : "W7-ANCHOR_PREFIX-R4-W1",
+      "seatIds" : [ 95805, 95804, 95803, 95802 ]
+    }, {
+      "worker" : 2,
+      "segment" : 0,
+      "customerId" : 4604,
+      "sessionId" : 1732,
+      "requestKey" : "W7-ANCHOR_PREFIX-R4-W2",
+      "seatIds" : [ 95802, 95803, 95804, 95805, 95806, 95807 ]
+    }, {
+      "worker" : 3,
+      "segment" : 0,
+      "customerId" : 4605,
+      "sessionId" : 1732,
+      "requestKey" : "W7-ANCHOR_PREFIX-R4-W3",
+      "seatIds" : [ 95809, 95808, 95807, 95806, 95805, 95804, 95803, 95802 ]
+    }, {
+      "worker" : 4,
+      "segment" : 1,
+      "customerId" : 4606,
+      "sessionId" : 1732,
+      "requestKey" : "W7-ANCHOR_PREFIX-R4-W4",
+      "seatIds" : [ 95810, 95811 ]
+    }, {
+      "worker" : 5,
+      "segment" : 1,
+      "customerId" : 4607,
+      "sessionId" : 1732,
+      "requestKey" : "W7-ANCHOR_PREFIX-R4-W5",
+      "seatIds" : [ 95813, 95812, 95811, 95810 ]
+    }, {
+      "worker" : 6,
+      "segment" : 1,
+      "customerId" : 4608,
+      "sessionId" : 1732,
+      "requestKey" : "W7-ANCHOR_PREFIX-R4-W6",
+      "seatIds" : [ 95810, 95811, 95812, 95813, 95814, 95815 ]
+    }, {
+      "worker" : 7,
+      "segment" : 1,
+      "customerId" : 4609,
+      "sessionId" : 1732,
+      "requestKey" : "W7-ANCHOR_PREFIX-R4-W7",
+      "seatIds" : [ 95817, 95816, 95815, 95814, 95813, 95812, 95811, 95810 ]
+    } ],
+    "outcomes" : [ {
+      "attempt" : {
+        "worker" : 8,
+        "segment" : 2,
+        "customerId" : 4600,
+        "sessionId" : 1732,
+        "requestKey" : "W7-ANCHOR_PREFIX-R4-W8",
+        "seatIds" : [ 95818, 95819 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1272,
+      "holdId" : 1261,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 9,
+        "segment" : 2,
+        "customerId" : 4601,
+        "sessionId" : 1732,
+        "requestKey" : "W7-ANCHOR_PREFIX-R4-W9",
+        "seatIds" : [ 95821, 95820, 95819, 95818 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 10,
+        "segment" : 2,
+        "customerId" : 4604,
+        "sessionId" : 1732,
+        "requestKey" : "W7-ANCHOR_PREFIX-R4-W10",
+        "seatIds" : [ 95818, 95819, 95820, 95821, 95822, 95823 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 11,
+        "segment" : 2,
+        "customerId" : 4605,
+        "sessionId" : 1732,
+        "requestKey" : "W7-ANCHOR_PREFIX-R4-W11",
+        "seatIds" : [ 95825, 95824, 95823, 95822, 95821, 95820, 95819, 95818 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 0,
+        "segment" : 0,
+        "customerId" : 4600,
+        "sessionId" : 1732,
+        "requestKey" : "W7-ANCHOR_PREFIX-R4-W0",
+        "seatIds" : [ 95802, 95803 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1271,
+      "holdId" : 1260,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 1,
+        "segment" : 0,
+        "customerId" : 4601,
+        "sessionId" : 1732,
+        "requestKey" : "W7-ANCHOR_PREFIX-R4-W1",
+        "seatIds" : [ 95805, 95804, 95803, 95802 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 2,
+        "segment" : 0,
+        "customerId" : 4604,
+        "sessionId" : 1732,
+        "requestKey" : "W7-ANCHOR_PREFIX-R4-W2",
+        "seatIds" : [ 95802, 95803, 95804, 95805, 95806, 95807 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 3,
+        "segment" : 0,
+        "customerId" : 4605,
+        "sessionId" : 1732,
+        "requestKey" : "W7-ANCHOR_PREFIX-R4-W3",
+        "seatIds" : [ 95809, 95808, 95807, 95806, 95805, 95804, 95803, 95802 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 4,
+        "segment" : 1,
+        "customerId" : 4606,
+        "sessionId" : 1732,
+        "requestKey" : "W7-ANCHOR_PREFIX-R4-W4",
+        "seatIds" : [ 95810, 95811 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 5,
+        "segment" : 1,
+        "customerId" : 4607,
+        "sessionId" : 1732,
+        "requestKey" : "W7-ANCHOR_PREFIX-R4-W5",
+        "seatIds" : [ 95813, 95812, 95811, 95810 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 6,
+        "segment" : 1,
+        "customerId" : 4608,
+        "sessionId" : 1732,
+        "requestKey" : "W7-ANCHOR_PREFIX-R4-W6",
+        "seatIds" : [ 95810, 95811, 95812, 95813, 95814, 95815 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 7,
+        "segment" : 1,
+        "customerId" : 4609,
+        "sessionId" : 1732,
+        "requestKey" : "W7-ANCHOR_PREFIX-R4-W7",
+        "seatIds" : [ 95817, 95816, 95815, 95814, 95813, 95812, 95811, 95810 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1273,
+      "holdId" : 1262,
+      "unexpectedErrorType" : null
+    } ],
+    "counts" : {
+      "created" : 3,
+      "completedRequests" : 12,
+      "unexpectedFailures" : 0,
+      "allocatedSeats" : 12,
+      "businessConflicts" : 9
+    },
+    "consistency" : {
+      "sessionId" : 1732,
+      "checkedAt" : "2026-10-21T02:00:00.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 3,
+        "seats" : 24,
+        "tickets" : 0,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 3,
+        "unresolvedPayments" : 0,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    },
+    "wholeGroupsAndUniqueOwnersVerified" : true
+  }, {
+    "workload" : "ANCHOR_PREFIX",
+    "round" : 5,
+    "sessionId" : 1733,
+    "status" : "PASSED",
+    "requestsInSubmissionOrder" : [ {
+      "worker" : 6,
+      "segment" : 1,
+      "customerId" : 4608,
+      "sessionId" : 1733,
+      "requestKey" : "W7-ANCHOR_PREFIX-R5-W6",
+      "seatIds" : [ 95839, 95838, 95837, 95836, 95835, 95834 ]
+    }, {
+      "worker" : 5,
+      "segment" : 1,
+      "customerId" : 4607,
+      "sessionId" : 1733,
+      "requestKey" : "W7-ANCHOR_PREFIX-R5-W5",
+      "seatIds" : [ 95834, 95835, 95836, 95837 ]
+    }, {
+      "worker" : 4,
+      "segment" : 1,
+      "customerId" : 4606,
+      "sessionId" : 1733,
+      "requestKey" : "W7-ANCHOR_PREFIX-R5-W4",
+      "seatIds" : [ 95835, 95834 ]
+    }, {
+      "worker" : 3,
+      "segment" : 0,
+      "customerId" : 4605,
+      "sessionId" : 1733,
+      "requestKey" : "W7-ANCHOR_PREFIX-R5-W3",
+      "seatIds" : [ 95826, 95827, 95828, 95829, 95830, 95831, 95832, 95833 ]
+    }, {
+      "worker" : 2,
+      "segment" : 0,
+      "customerId" : 4604,
+      "sessionId" : 1733,
+      "requestKey" : "W7-ANCHOR_PREFIX-R5-W2",
+      "seatIds" : [ 95831, 95830, 95829, 95828, 95827, 95826 ]
+    }, {
+      "worker" : 1,
+      "segment" : 0,
+      "customerId" : 4601,
+      "sessionId" : 1733,
+      "requestKey" : "W7-ANCHOR_PREFIX-R5-W1",
+      "seatIds" : [ 95826, 95827, 95828, 95829 ]
+    }, {
+      "worker" : 0,
+      "segment" : 0,
+      "customerId" : 4600,
+      "sessionId" : 1733,
+      "requestKey" : "W7-ANCHOR_PREFIX-R5-W0",
+      "seatIds" : [ 95827, 95826 ]
+    }, {
+      "worker" : 11,
+      "segment" : 2,
+      "customerId" : 4605,
+      "sessionId" : 1733,
+      "requestKey" : "W7-ANCHOR_PREFIX-R5-W11",
+      "seatIds" : [ 95842, 95843, 95844, 95845, 95846, 95847, 95848, 95849 ]
+    }, {
+      "worker" : 10,
+      "segment" : 2,
+      "customerId" : 4604,
+      "sessionId" : 1733,
+      "requestKey" : "W7-ANCHOR_PREFIX-R5-W10",
+      "seatIds" : [ 95847, 95846, 95845, 95844, 95843, 95842 ]
+    }, {
+      "worker" : 9,
+      "segment" : 2,
+      "customerId" : 4601,
+      "sessionId" : 1733,
+      "requestKey" : "W7-ANCHOR_PREFIX-R5-W9",
+      "seatIds" : [ 95842, 95843, 95844, 95845 ]
+    }, {
+      "worker" : 8,
+      "segment" : 2,
+      "customerId" : 4600,
+      "sessionId" : 1733,
+      "requestKey" : "W7-ANCHOR_PREFIX-R5-W8",
+      "seatIds" : [ 95843, 95842 ]
+    }, {
+      "worker" : 7,
+      "segment" : 1,
+      "customerId" : 4609,
+      "sessionId" : 1733,
+      "requestKey" : "W7-ANCHOR_PREFIX-R5-W7",
+      "seatIds" : [ 95834, 95835, 95836, 95837, 95838, 95839, 95840, 95841 ]
+    } ],
+    "outcomes" : [ {
+      "attempt" : {
+        "worker" : 6,
+        "segment" : 1,
+        "customerId" : 4608,
+        "sessionId" : 1733,
+        "requestKey" : "W7-ANCHOR_PREFIX-R5-W6",
+        "seatIds" : [ 95839, 95838, 95837, 95836, 95835, 95834 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1274,
+      "holdId" : 1263,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 5,
+        "segment" : 1,
+        "customerId" : 4607,
+        "sessionId" : 1733,
+        "requestKey" : "W7-ANCHOR_PREFIX-R5-W5",
+        "seatIds" : [ 95834, 95835, 95836, 95837 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 4,
+        "segment" : 1,
+        "customerId" : 4606,
+        "sessionId" : 1733,
+        "requestKey" : "W7-ANCHOR_PREFIX-R5-W4",
+        "seatIds" : [ 95835, 95834 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 3,
+        "segment" : 0,
+        "customerId" : 4605,
+        "sessionId" : 1733,
+        "requestKey" : "W7-ANCHOR_PREFIX-R5-W3",
+        "seatIds" : [ 95826, 95827, 95828, 95829, 95830, 95831, 95832, 95833 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 2,
+        "segment" : 0,
+        "customerId" : 4604,
+        "sessionId" : 1733,
+        "requestKey" : "W7-ANCHOR_PREFIX-R5-W2",
+        "seatIds" : [ 95831, 95830, 95829, 95828, 95827, 95826 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 1,
+        "segment" : 0,
+        "customerId" : 4601,
+        "sessionId" : 1733,
+        "requestKey" : "W7-ANCHOR_PREFIX-R5-W1",
+        "seatIds" : [ 95826, 95827, 95828, 95829 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1275,
+      "holdId" : 1264,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 0,
+        "segment" : 0,
+        "customerId" : 4600,
+        "sessionId" : 1733,
+        "requestKey" : "W7-ANCHOR_PREFIX-R5-W0",
+        "seatIds" : [ 95827, 95826 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 11,
+        "segment" : 2,
+        "customerId" : 4605,
+        "sessionId" : 1733,
+        "requestKey" : "W7-ANCHOR_PREFIX-R5-W11",
+        "seatIds" : [ 95842, 95843, 95844, 95845, 95846, 95847, 95848, 95849 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1276,
+      "holdId" : 1265,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 10,
+        "segment" : 2,
+        "customerId" : 4604,
+        "sessionId" : 1733,
+        "requestKey" : "W7-ANCHOR_PREFIX-R5-W10",
+        "seatIds" : [ 95847, 95846, 95845, 95844, 95843, 95842 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 9,
+        "segment" : 2,
+        "customerId" : 4601,
+        "sessionId" : 1733,
+        "requestKey" : "W7-ANCHOR_PREFIX-R5-W9",
+        "seatIds" : [ 95842, 95843, 95844, 95845 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 8,
+        "segment" : 2,
+        "customerId" : 4600,
+        "sessionId" : 1733,
+        "requestKey" : "W7-ANCHOR_PREFIX-R5-W8",
+        "seatIds" : [ 95843, 95842 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 7,
+        "segment" : 1,
+        "customerId" : 4609,
+        "sessionId" : 1733,
+        "requestKey" : "W7-ANCHOR_PREFIX-R5-W7",
+        "seatIds" : [ 95834, 95835, 95836, 95837, 95838, 95839, 95840, 95841 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    } ],
+    "counts" : {
+      "created" : 3,
+      "completedRequests" : 12,
+      "unexpectedFailures" : 0,
+      "allocatedSeats" : 18,
+      "businessConflicts" : 9
+    },
+    "consistency" : {
+      "sessionId" : 1733,
+      "checkedAt" : "2026-10-21T02:00:00.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 3,
+        "seats" : 24,
+        "tickets" : 0,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 3,
+        "unresolvedPayments" : 0,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    },
+    "wholeGroupsAndUniqueOwnersVerified" : true
+  }, {
+    "workload" : "ANCHOR_PREFIX",
+    "round" : 6,
+    "sessionId" : 1734,
+    "status" : "PASSED",
+    "requestsInSubmissionOrder" : [ {
+      "worker" : 6,
+      "segment" : 1,
+      "customerId" : 4608,
+      "sessionId" : 1734,
+      "requestKey" : "W7-ANCHOR_PREFIX-R6-W6",
+      "seatIds" : [ 95858, 95859, 95860, 95861, 95862, 95863 ]
+    }, {
+      "worker" : 7,
+      "segment" : 1,
+      "customerId" : 4609,
+      "sessionId" : 1734,
+      "requestKey" : "W7-ANCHOR_PREFIX-R6-W7",
+      "seatIds" : [ 95865, 95864, 95863, 95862, 95861, 95860, 95859, 95858 ]
+    }, {
+      "worker" : 8,
+      "segment" : 2,
+      "customerId" : 4600,
+      "sessionId" : 1734,
+      "requestKey" : "W7-ANCHOR_PREFIX-R6-W8",
+      "seatIds" : [ 95866, 95867 ]
+    }, {
+      "worker" : 9,
+      "segment" : 2,
+      "customerId" : 4601,
+      "sessionId" : 1734,
+      "requestKey" : "W7-ANCHOR_PREFIX-R6-W9",
+      "seatIds" : [ 95869, 95868, 95867, 95866 ]
+    }, {
+      "worker" : 10,
+      "segment" : 2,
+      "customerId" : 4604,
+      "sessionId" : 1734,
+      "requestKey" : "W7-ANCHOR_PREFIX-R6-W10",
+      "seatIds" : [ 95866, 95867, 95868, 95869, 95870, 95871 ]
+    }, {
+      "worker" : 11,
+      "segment" : 2,
+      "customerId" : 4605,
+      "sessionId" : 1734,
+      "requestKey" : "W7-ANCHOR_PREFIX-R6-W11",
+      "seatIds" : [ 95873, 95872, 95871, 95870, 95869, 95868, 95867, 95866 ]
+    }, {
+      "worker" : 0,
+      "segment" : 0,
+      "customerId" : 4600,
+      "sessionId" : 1734,
+      "requestKey" : "W7-ANCHOR_PREFIX-R6-W0",
+      "seatIds" : [ 95850, 95851 ]
+    }, {
+      "worker" : 1,
+      "segment" : 0,
+      "customerId" : 4601,
+      "sessionId" : 1734,
+      "requestKey" : "W7-ANCHOR_PREFIX-R6-W1",
+      "seatIds" : [ 95853, 95852, 95851, 95850 ]
+    }, {
+      "worker" : 2,
+      "segment" : 0,
+      "customerId" : 4604,
+      "sessionId" : 1734,
+      "requestKey" : "W7-ANCHOR_PREFIX-R6-W2",
+      "seatIds" : [ 95850, 95851, 95852, 95853, 95854, 95855 ]
+    }, {
+      "worker" : 3,
+      "segment" : 0,
+      "customerId" : 4605,
+      "sessionId" : 1734,
+      "requestKey" : "W7-ANCHOR_PREFIX-R6-W3",
+      "seatIds" : [ 95857, 95856, 95855, 95854, 95853, 95852, 95851, 95850 ]
+    }, {
+      "worker" : 4,
+      "segment" : 1,
+      "customerId" : 4606,
+      "sessionId" : 1734,
+      "requestKey" : "W7-ANCHOR_PREFIX-R6-W4",
+      "seatIds" : [ 95858, 95859 ]
+    }, {
+      "worker" : 5,
+      "segment" : 1,
+      "customerId" : 4607,
+      "sessionId" : 1734,
+      "requestKey" : "W7-ANCHOR_PREFIX-R6-W5",
+      "seatIds" : [ 95861, 95860, 95859, 95858 ]
+    } ],
+    "outcomes" : [ {
+      "attempt" : {
+        "worker" : 6,
+        "segment" : 1,
+        "customerId" : 4608,
+        "sessionId" : 1734,
+        "requestKey" : "W7-ANCHOR_PREFIX-R6-W6",
+        "seatIds" : [ 95858, 95859, 95860, 95861, 95862, 95863 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1277,
+      "holdId" : 1266,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 7,
+        "segment" : 1,
+        "customerId" : 4609,
+        "sessionId" : 1734,
+        "requestKey" : "W7-ANCHOR_PREFIX-R6-W7",
+        "seatIds" : [ 95865, 95864, 95863, 95862, 95861, 95860, 95859, 95858 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 8,
+        "segment" : 2,
+        "customerId" : 4600,
+        "sessionId" : 1734,
+        "requestKey" : "W7-ANCHOR_PREFIX-R6-W8",
+        "seatIds" : [ 95866, 95867 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 9,
+        "segment" : 2,
+        "customerId" : 4601,
+        "sessionId" : 1734,
+        "requestKey" : "W7-ANCHOR_PREFIX-R6-W9",
+        "seatIds" : [ 95869, 95868, 95867, 95866 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1278,
+      "holdId" : 1267,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 10,
+        "segment" : 2,
+        "customerId" : 4604,
+        "sessionId" : 1734,
+        "requestKey" : "W7-ANCHOR_PREFIX-R6-W10",
+        "seatIds" : [ 95866, 95867, 95868, 95869, 95870, 95871 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 11,
+        "segment" : 2,
+        "customerId" : 4605,
+        "sessionId" : 1734,
+        "requestKey" : "W7-ANCHOR_PREFIX-R6-W11",
+        "seatIds" : [ 95873, 95872, 95871, 95870, 95869, 95868, 95867, 95866 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 0,
+        "segment" : 0,
+        "customerId" : 4600,
+        "sessionId" : 1734,
+        "requestKey" : "W7-ANCHOR_PREFIX-R6-W0",
+        "seatIds" : [ 95850, 95851 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 1,
+        "segment" : 0,
+        "customerId" : 4601,
+        "sessionId" : 1734,
+        "requestKey" : "W7-ANCHOR_PREFIX-R6-W1",
+        "seatIds" : [ 95853, 95852, 95851, 95850 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 2,
+        "segment" : 0,
+        "customerId" : 4604,
+        "sessionId" : 1734,
+        "requestKey" : "W7-ANCHOR_PREFIX-R6-W2",
+        "seatIds" : [ 95850, 95851, 95852, 95853, 95854, 95855 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1279,
+      "holdId" : 1268,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 3,
+        "segment" : 0,
+        "customerId" : 4605,
+        "sessionId" : 1734,
+        "requestKey" : "W7-ANCHOR_PREFIX-R6-W3",
+        "seatIds" : [ 95857, 95856, 95855, 95854, 95853, 95852, 95851, 95850 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 4,
+        "segment" : 1,
+        "customerId" : 4606,
+        "sessionId" : 1734,
+        "requestKey" : "W7-ANCHOR_PREFIX-R6-W4",
+        "seatIds" : [ 95858, 95859 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 5,
+        "segment" : 1,
+        "customerId" : 4607,
+        "sessionId" : 1734,
+        "requestKey" : "W7-ANCHOR_PREFIX-R6-W5",
+        "seatIds" : [ 95861, 95860, 95859, 95858 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    } ],
+    "counts" : {
+      "created" : 3,
+      "completedRequests" : 12,
+      "unexpectedFailures" : 0,
+      "allocatedSeats" : 16,
+      "businessConflicts" : 9
+    },
+    "consistency" : {
+      "sessionId" : 1734,
+      "checkedAt" : "2026-10-21T02:00:00.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 3,
+        "seats" : 24,
+        "tickets" : 0,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 3,
+        "unresolvedPayments" : 0,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    },
+    "wholeGroupsAndUniqueOwnersVerified" : true
+  }, {
+    "workload" : "ANCHOR_PREFIX",
+    "round" : 7,
+    "sessionId" : 1735,
+    "status" : "PASSED",
+    "requestsInSubmissionOrder" : [ {
+      "worker" : 4,
+      "segment" : 1,
+      "customerId" : 4606,
+      "sessionId" : 1735,
+      "requestKey" : "W7-ANCHOR_PREFIX-R7-W4",
+      "seatIds" : [ 95883, 95882 ]
+    }, {
+      "worker" : 3,
+      "segment" : 0,
+      "customerId" : 4605,
+      "sessionId" : 1735,
+      "requestKey" : "W7-ANCHOR_PREFIX-R7-W3",
+      "seatIds" : [ 95874, 95875, 95876, 95877, 95878, 95879, 95880, 95881 ]
+    }, {
+      "worker" : 2,
+      "segment" : 0,
+      "customerId" : 4604,
+      "sessionId" : 1735,
+      "requestKey" : "W7-ANCHOR_PREFIX-R7-W2",
+      "seatIds" : [ 95879, 95878, 95877, 95876, 95875, 95874 ]
+    }, {
+      "worker" : 1,
+      "segment" : 0,
+      "customerId" : 4601,
+      "sessionId" : 1735,
+      "requestKey" : "W7-ANCHOR_PREFIX-R7-W1",
+      "seatIds" : [ 95874, 95875, 95876, 95877 ]
+    }, {
+      "worker" : 0,
+      "segment" : 0,
+      "customerId" : 4600,
+      "sessionId" : 1735,
+      "requestKey" : "W7-ANCHOR_PREFIX-R7-W0",
+      "seatIds" : [ 95875, 95874 ]
+    }, {
+      "worker" : 11,
+      "segment" : 2,
+      "customerId" : 4605,
+      "sessionId" : 1735,
+      "requestKey" : "W7-ANCHOR_PREFIX-R7-W11",
+      "seatIds" : [ 95890, 95891, 95892, 95893, 95894, 95895, 95896, 95897 ]
+    }, {
+      "worker" : 10,
+      "segment" : 2,
+      "customerId" : 4604,
+      "sessionId" : 1735,
+      "requestKey" : "W7-ANCHOR_PREFIX-R7-W10",
+      "seatIds" : [ 95895, 95894, 95893, 95892, 95891, 95890 ]
+    }, {
+      "worker" : 9,
+      "segment" : 2,
+      "customerId" : 4601,
+      "sessionId" : 1735,
+      "requestKey" : "W7-ANCHOR_PREFIX-R7-W9",
+      "seatIds" : [ 95890, 95891, 95892, 95893 ]
+    }, {
+      "worker" : 8,
+      "segment" : 2,
+      "customerId" : 4600,
+      "sessionId" : 1735,
+      "requestKey" : "W7-ANCHOR_PREFIX-R7-W8",
+      "seatIds" : [ 95891, 95890 ]
+    }, {
+      "worker" : 7,
+      "segment" : 1,
+      "customerId" : 4609,
+      "sessionId" : 1735,
+      "requestKey" : "W7-ANCHOR_PREFIX-R7-W7",
+      "seatIds" : [ 95882, 95883, 95884, 95885, 95886, 95887, 95888, 95889 ]
+    }, {
+      "worker" : 6,
+      "segment" : 1,
+      "customerId" : 4608,
+      "sessionId" : 1735,
+      "requestKey" : "W7-ANCHOR_PREFIX-R7-W6",
+      "seatIds" : [ 95887, 95886, 95885, 95884, 95883, 95882 ]
+    }, {
+      "worker" : 5,
+      "segment" : 1,
+      "customerId" : 4607,
+      "sessionId" : 1735,
+      "requestKey" : "W7-ANCHOR_PREFIX-R7-W5",
+      "seatIds" : [ 95882, 95883, 95884, 95885 ]
+    } ],
+    "outcomes" : [ {
+      "attempt" : {
+        "worker" : 4,
+        "segment" : 1,
+        "customerId" : 4606,
+        "sessionId" : 1735,
+        "requestKey" : "W7-ANCHOR_PREFIX-R7-W4",
+        "seatIds" : [ 95883, 95882 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1281,
+      "holdId" : 1270,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 3,
+        "segment" : 0,
+        "customerId" : 4605,
+        "sessionId" : 1735,
+        "requestKey" : "W7-ANCHOR_PREFIX-R7-W3",
+        "seatIds" : [ 95874, 95875, 95876, 95877, 95878, 95879, 95880, 95881 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 2,
+        "segment" : 0,
+        "customerId" : 4604,
+        "sessionId" : 1735,
+        "requestKey" : "W7-ANCHOR_PREFIX-R7-W2",
+        "seatIds" : [ 95879, 95878, 95877, 95876, 95875, 95874 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1280,
+      "holdId" : 1269,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 1,
+        "segment" : 0,
+        "customerId" : 4601,
+        "sessionId" : 1735,
+        "requestKey" : "W7-ANCHOR_PREFIX-R7-W1",
+        "seatIds" : [ 95874, 95875, 95876, 95877 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 0,
+        "segment" : 0,
+        "customerId" : 4600,
+        "sessionId" : 1735,
+        "requestKey" : "W7-ANCHOR_PREFIX-R7-W0",
+        "seatIds" : [ 95875, 95874 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 11,
+        "segment" : 2,
+        "customerId" : 4605,
+        "sessionId" : 1735,
+        "requestKey" : "W7-ANCHOR_PREFIX-R7-W11",
+        "seatIds" : [ 95890, 95891, 95892, 95893, 95894, 95895, 95896, 95897 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 10,
+        "segment" : 2,
+        "customerId" : 4604,
+        "sessionId" : 1735,
+        "requestKey" : "W7-ANCHOR_PREFIX-R7-W10",
+        "seatIds" : [ 95895, 95894, 95893, 95892, 95891, 95890 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1282,
+      "holdId" : 1271,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 9,
+        "segment" : 2,
+        "customerId" : 4601,
+        "sessionId" : 1735,
+        "requestKey" : "W7-ANCHOR_PREFIX-R7-W9",
+        "seatIds" : [ 95890, 95891, 95892, 95893 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 8,
+        "segment" : 2,
+        "customerId" : 4600,
+        "sessionId" : 1735,
+        "requestKey" : "W7-ANCHOR_PREFIX-R7-W8",
+        "seatIds" : [ 95891, 95890 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 7,
+        "segment" : 1,
+        "customerId" : 4609,
+        "sessionId" : 1735,
+        "requestKey" : "W7-ANCHOR_PREFIX-R7-W7",
+        "seatIds" : [ 95882, 95883, 95884, 95885, 95886, 95887, 95888, 95889 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 6,
+        "segment" : 1,
+        "customerId" : 4608,
+        "sessionId" : 1735,
+        "requestKey" : "W7-ANCHOR_PREFIX-R7-W6",
+        "seatIds" : [ 95887, 95886, 95885, 95884, 95883, 95882 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 5,
+        "segment" : 1,
+        "customerId" : 4607,
+        "sessionId" : 1735,
+        "requestKey" : "W7-ANCHOR_PREFIX-R7-W5",
+        "seatIds" : [ 95882, 95883, 95884, 95885 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    } ],
+    "counts" : {
+      "created" : 3,
+      "completedRequests" : 12,
+      "unexpectedFailures" : 0,
+      "allocatedSeats" : 14,
+      "businessConflicts" : 9
+    },
+    "consistency" : {
+      "sessionId" : 1735,
+      "checkedAt" : "2026-10-21T02:00:00.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 3,
+        "seats" : 24,
+        "tickets" : 0,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 3,
+        "unresolvedPayments" : 0,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    },
+    "wholeGroupsAndUniqueOwnersVerified" : true
+  }, {
+    "workload" : "ANCHOR_PREFIX",
+    "round" : 8,
+    "sessionId" : 1736,
+    "status" : "PASSED",
+    "requestsInSubmissionOrder" : [ {
+      "worker" : 4,
+      "segment" : 1,
+      "customerId" : 4606,
+      "sessionId" : 1736,
+      "requestKey" : "W7-ANCHOR_PREFIX-R8-W4",
+      "seatIds" : [ 95906, 95907 ]
+    }, {
+      "worker" : 5,
+      "segment" : 1,
+      "customerId" : 4607,
+      "sessionId" : 1736,
+      "requestKey" : "W7-ANCHOR_PREFIX-R8-W5",
+      "seatIds" : [ 95909, 95908, 95907, 95906 ]
+    }, {
+      "worker" : 6,
+      "segment" : 1,
+      "customerId" : 4608,
+      "sessionId" : 1736,
+      "requestKey" : "W7-ANCHOR_PREFIX-R8-W6",
+      "seatIds" : [ 95906, 95907, 95908, 95909, 95910, 95911 ]
+    }, {
+      "worker" : 7,
+      "segment" : 1,
+      "customerId" : 4609,
+      "sessionId" : 1736,
+      "requestKey" : "W7-ANCHOR_PREFIX-R8-W7",
+      "seatIds" : [ 95913, 95912, 95911, 95910, 95909, 95908, 95907, 95906 ]
+    }, {
+      "worker" : 8,
+      "segment" : 2,
+      "customerId" : 4600,
+      "sessionId" : 1736,
+      "requestKey" : "W7-ANCHOR_PREFIX-R8-W8",
+      "seatIds" : [ 95914, 95915 ]
+    }, {
+      "worker" : 9,
+      "segment" : 2,
+      "customerId" : 4601,
+      "sessionId" : 1736,
+      "requestKey" : "W7-ANCHOR_PREFIX-R8-W9",
+      "seatIds" : [ 95917, 95916, 95915, 95914 ]
+    }, {
+      "worker" : 10,
+      "segment" : 2,
+      "customerId" : 4604,
+      "sessionId" : 1736,
+      "requestKey" : "W7-ANCHOR_PREFIX-R8-W10",
+      "seatIds" : [ 95914, 95915, 95916, 95917, 95918, 95919 ]
+    }, {
+      "worker" : 11,
+      "segment" : 2,
+      "customerId" : 4605,
+      "sessionId" : 1736,
+      "requestKey" : "W7-ANCHOR_PREFIX-R8-W11",
+      "seatIds" : [ 95921, 95920, 95919, 95918, 95917, 95916, 95915, 95914 ]
+    }, {
+      "worker" : 0,
+      "segment" : 0,
+      "customerId" : 4600,
+      "sessionId" : 1736,
+      "requestKey" : "W7-ANCHOR_PREFIX-R8-W0",
+      "seatIds" : [ 95898, 95899 ]
+    }, {
+      "worker" : 1,
+      "segment" : 0,
+      "customerId" : 4601,
+      "sessionId" : 1736,
+      "requestKey" : "W7-ANCHOR_PREFIX-R8-W1",
+      "seatIds" : [ 95901, 95900, 95899, 95898 ]
+    }, {
+      "worker" : 2,
+      "segment" : 0,
+      "customerId" : 4604,
+      "sessionId" : 1736,
+      "requestKey" : "W7-ANCHOR_PREFIX-R8-W2",
+      "seatIds" : [ 95898, 95899, 95900, 95901, 95902, 95903 ]
+    }, {
+      "worker" : 3,
+      "segment" : 0,
+      "customerId" : 4605,
+      "sessionId" : 1736,
+      "requestKey" : "W7-ANCHOR_PREFIX-R8-W3",
+      "seatIds" : [ 95905, 95904, 95903, 95902, 95901, 95900, 95899, 95898 ]
+    } ],
+    "outcomes" : [ {
+      "attempt" : {
+        "worker" : 4,
+        "segment" : 1,
+        "customerId" : 4606,
+        "sessionId" : 1736,
+        "requestKey" : "W7-ANCHOR_PREFIX-R8-W4",
+        "seatIds" : [ 95906, 95907 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1283,
+      "holdId" : 1272,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 5,
+        "segment" : 1,
+        "customerId" : 4607,
+        "sessionId" : 1736,
+        "requestKey" : "W7-ANCHOR_PREFIX-R8-W5",
+        "seatIds" : [ 95909, 95908, 95907, 95906 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 6,
+        "segment" : 1,
+        "customerId" : 4608,
+        "sessionId" : 1736,
+        "requestKey" : "W7-ANCHOR_PREFIX-R8-W6",
+        "seatIds" : [ 95906, 95907, 95908, 95909, 95910, 95911 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 7,
+        "segment" : 1,
+        "customerId" : 4609,
+        "sessionId" : 1736,
+        "requestKey" : "W7-ANCHOR_PREFIX-R8-W7",
+        "seatIds" : [ 95913, 95912, 95911, 95910, 95909, 95908, 95907, 95906 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 8,
+        "segment" : 2,
+        "customerId" : 4600,
+        "sessionId" : 1736,
+        "requestKey" : "W7-ANCHOR_PREFIX-R8-W8",
+        "seatIds" : [ 95914, 95915 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1284,
+      "holdId" : 1273,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 9,
+        "segment" : 2,
+        "customerId" : 4601,
+        "sessionId" : 1736,
+        "requestKey" : "W7-ANCHOR_PREFIX-R8-W9",
+        "seatIds" : [ 95917, 95916, 95915, 95914 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 10,
+        "segment" : 2,
+        "customerId" : 4604,
+        "sessionId" : 1736,
+        "requestKey" : "W7-ANCHOR_PREFIX-R8-W10",
+        "seatIds" : [ 95914, 95915, 95916, 95917, 95918, 95919 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 11,
+        "segment" : 2,
+        "customerId" : 4605,
+        "sessionId" : 1736,
+        "requestKey" : "W7-ANCHOR_PREFIX-R8-W11",
+        "seatIds" : [ 95921, 95920, 95919, 95918, 95917, 95916, 95915, 95914 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 0,
+        "segment" : 0,
+        "customerId" : 4600,
+        "sessionId" : 1736,
+        "requestKey" : "W7-ANCHOR_PREFIX-R8-W0",
+        "seatIds" : [ 95898, 95899 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 1,
+        "segment" : 0,
+        "customerId" : 4601,
+        "sessionId" : 1736,
+        "requestKey" : "W7-ANCHOR_PREFIX-R8-W1",
+        "seatIds" : [ 95901, 95900, 95899, 95898 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 2,
+        "segment" : 0,
+        "customerId" : 4604,
+        "sessionId" : 1736,
+        "requestKey" : "W7-ANCHOR_PREFIX-R8-W2",
+        "seatIds" : [ 95898, 95899, 95900, 95901, 95902, 95903 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 3,
+        "segment" : 0,
+        "customerId" : 4605,
+        "sessionId" : 1736,
+        "requestKey" : "W7-ANCHOR_PREFIX-R8-W3",
+        "seatIds" : [ 95905, 95904, 95903, 95902, 95901, 95900, 95899, 95898 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1285,
+      "holdId" : 1274,
+      "unexpectedErrorType" : null
+    } ],
+    "counts" : {
+      "created" : 3,
+      "completedRequests" : 12,
+      "unexpectedFailures" : 0,
+      "allocatedSeats" : 12,
+      "businessConflicts" : 9
+    },
+    "consistency" : {
+      "sessionId" : 1736,
+      "checkedAt" : "2026-10-21T02:00:00.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 3,
+        "seats" : 24,
+        "tickets" : 0,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 3,
+        "unresolvedPayments" : 0,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    },
+    "wholeGroupsAndUniqueOwnersVerified" : true
+  }, {
+    "workload" : "ANCHOR_PREFIX",
+    "round" : 9,
+    "sessionId" : 1737,
+    "status" : "PASSED",
+    "requestsInSubmissionOrder" : [ {
+      "worker" : 2,
+      "segment" : 0,
+      "customerId" : 4604,
+      "sessionId" : 1737,
+      "requestKey" : "W7-ANCHOR_PREFIX-R9-W2",
+      "seatIds" : [ 95927, 95926, 95925, 95924, 95923, 95922 ]
+    }, {
+      "worker" : 1,
+      "segment" : 0,
+      "customerId" : 4601,
+      "sessionId" : 1737,
+      "requestKey" : "W7-ANCHOR_PREFIX-R9-W1",
+      "seatIds" : [ 95922, 95923, 95924, 95925 ]
+    }, {
+      "worker" : 0,
+      "segment" : 0,
+      "customerId" : 4600,
+      "sessionId" : 1737,
+      "requestKey" : "W7-ANCHOR_PREFIX-R9-W0",
+      "seatIds" : [ 95923, 95922 ]
+    }, {
+      "worker" : 11,
+      "segment" : 2,
+      "customerId" : 4605,
+      "sessionId" : 1737,
+      "requestKey" : "W7-ANCHOR_PREFIX-R9-W11",
+      "seatIds" : [ 95938, 95939, 95940, 95941, 95942, 95943, 95944, 95945 ]
+    }, {
+      "worker" : 10,
+      "segment" : 2,
+      "customerId" : 4604,
+      "sessionId" : 1737,
+      "requestKey" : "W7-ANCHOR_PREFIX-R9-W10",
+      "seatIds" : [ 95943, 95942, 95941, 95940, 95939, 95938 ]
+    }, {
+      "worker" : 9,
+      "segment" : 2,
+      "customerId" : 4601,
+      "sessionId" : 1737,
+      "requestKey" : "W7-ANCHOR_PREFIX-R9-W9",
+      "seatIds" : [ 95938, 95939, 95940, 95941 ]
+    }, {
+      "worker" : 8,
+      "segment" : 2,
+      "customerId" : 4600,
+      "sessionId" : 1737,
+      "requestKey" : "W7-ANCHOR_PREFIX-R9-W8",
+      "seatIds" : [ 95939, 95938 ]
+    }, {
+      "worker" : 7,
+      "segment" : 1,
+      "customerId" : 4609,
+      "sessionId" : 1737,
+      "requestKey" : "W7-ANCHOR_PREFIX-R9-W7",
+      "seatIds" : [ 95930, 95931, 95932, 95933, 95934, 95935, 95936, 95937 ]
+    }, {
+      "worker" : 6,
+      "segment" : 1,
+      "customerId" : 4608,
+      "sessionId" : 1737,
+      "requestKey" : "W7-ANCHOR_PREFIX-R9-W6",
+      "seatIds" : [ 95935, 95934, 95933, 95932, 95931, 95930 ]
+    }, {
+      "worker" : 5,
+      "segment" : 1,
+      "customerId" : 4607,
+      "sessionId" : 1737,
+      "requestKey" : "W7-ANCHOR_PREFIX-R9-W5",
+      "seatIds" : [ 95930, 95931, 95932, 95933 ]
+    }, {
+      "worker" : 4,
+      "segment" : 1,
+      "customerId" : 4606,
+      "sessionId" : 1737,
+      "requestKey" : "W7-ANCHOR_PREFIX-R9-W4",
+      "seatIds" : [ 95931, 95930 ]
+    }, {
+      "worker" : 3,
+      "segment" : 0,
+      "customerId" : 4605,
+      "sessionId" : 1737,
+      "requestKey" : "W7-ANCHOR_PREFIX-R9-W3",
+      "seatIds" : [ 95922, 95923, 95924, 95925, 95926, 95927, 95928, 95929 ]
+    } ],
+    "outcomes" : [ {
+      "attempt" : {
+        "worker" : 2,
+        "segment" : 0,
+        "customerId" : 4604,
+        "sessionId" : 1737,
+        "requestKey" : "W7-ANCHOR_PREFIX-R9-W2",
+        "seatIds" : [ 95927, 95926, 95925, 95924, 95923, 95922 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 1,
+        "segment" : 0,
+        "customerId" : 4601,
+        "sessionId" : 1737,
+        "requestKey" : "W7-ANCHOR_PREFIX-R9-W1",
+        "seatIds" : [ 95922, 95923, 95924, 95925 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 0,
+        "segment" : 0,
+        "customerId" : 4600,
+        "sessionId" : 1737,
+        "requestKey" : "W7-ANCHOR_PREFIX-R9-W0",
+        "seatIds" : [ 95923, 95922 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 11,
+        "segment" : 2,
+        "customerId" : 4605,
+        "sessionId" : 1737,
+        "requestKey" : "W7-ANCHOR_PREFIX-R9-W11",
+        "seatIds" : [ 95938, 95939, 95940, 95941, 95942, 95943, 95944, 95945 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1287,
+      "holdId" : 1276,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 10,
+        "segment" : 2,
+        "customerId" : 4604,
+        "sessionId" : 1737,
+        "requestKey" : "W7-ANCHOR_PREFIX-R9-W10",
+        "seatIds" : [ 95943, 95942, 95941, 95940, 95939, 95938 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 9,
+        "segment" : 2,
+        "customerId" : 4601,
+        "sessionId" : 1737,
+        "requestKey" : "W7-ANCHOR_PREFIX-R9-W9",
+        "seatIds" : [ 95938, 95939, 95940, 95941 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 8,
+        "segment" : 2,
+        "customerId" : 4600,
+        "sessionId" : 1737,
+        "requestKey" : "W7-ANCHOR_PREFIX-R9-W8",
+        "seatIds" : [ 95939, 95938 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 7,
+        "segment" : 1,
+        "customerId" : 4609,
+        "sessionId" : 1737,
+        "requestKey" : "W7-ANCHOR_PREFIX-R9-W7",
+        "seatIds" : [ 95930, 95931, 95932, 95933, 95934, 95935, 95936, 95937 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 6,
+        "segment" : 1,
+        "customerId" : 4608,
+        "sessionId" : 1737,
+        "requestKey" : "W7-ANCHOR_PREFIX-R9-W6",
+        "seatIds" : [ 95935, 95934, 95933, 95932, 95931, 95930 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 5,
+        "segment" : 1,
+        "customerId" : 4607,
+        "sessionId" : 1737,
+        "requestKey" : "W7-ANCHOR_PREFIX-R9-W5",
+        "seatIds" : [ 95930, 95931, 95932, 95933 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1288,
+      "holdId" : 1277,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 4,
+        "segment" : 1,
+        "customerId" : 4606,
+        "sessionId" : 1737,
+        "requestKey" : "W7-ANCHOR_PREFIX-R9-W4",
+        "seatIds" : [ 95931, 95930 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 3,
+        "segment" : 0,
+        "customerId" : 4605,
+        "sessionId" : 1737,
+        "requestKey" : "W7-ANCHOR_PREFIX-R9-W3",
+        "seatIds" : [ 95922, 95923, 95924, 95925, 95926, 95927, 95928, 95929 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1286,
+      "holdId" : 1275,
+      "unexpectedErrorType" : null
+    } ],
+    "counts" : {
+      "created" : 3,
+      "completedRequests" : 12,
+      "unexpectedFailures" : 0,
+      "allocatedSeats" : 20,
+      "businessConflicts" : 9
+    },
+    "consistency" : {
+      "sessionId" : 1737,
+      "checkedAt" : "2026-10-21T02:00:00.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 3,
+        "seats" : 24,
+        "tickets" : 0,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 3,
+        "unresolvedPayments" : 0,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    },
+    "wholeGroupsAndUniqueOwnersVerified" : true
+  }, {
+    "workload" : "OVERLAP_CHAIN",
+    "round" : 0,
+    "sessionId" : 1738,
+    "status" : "PASSED",
+    "requestsInSubmissionOrder" : [ {
+      "worker" : 0,
+      "segment" : 0,
+      "customerId" : 4600,
+      "sessionId" : 1738,
+      "requestKey" : "W7-OVERLAP_CHAIN-R0-W0",
+      "seatIds" : [ 95946, 95947, 95948, 95949 ]
+    }, {
+      "worker" : 1,
+      "segment" : 0,
+      "customerId" : 4601,
+      "sessionId" : 1738,
+      "requestKey" : "W7-OVERLAP_CHAIN-R0-W1",
+      "seatIds" : [ 95951, 95950, 95949, 95948 ]
+    }, {
+      "worker" : 2,
+      "segment" : 0,
+      "customerId" : 4604,
+      "sessionId" : 1738,
+      "requestKey" : "W7-OVERLAP_CHAIN-R0-W2",
+      "seatIds" : [ 95950, 95951, 95952, 95953 ]
+    }, {
+      "worker" : 3,
+      "segment" : 0,
+      "customerId" : 4605,
+      "sessionId" : 1738,
+      "requestKey" : "W7-OVERLAP_CHAIN-R0-W3",
+      "seatIds" : [ 95953, 95952, 95951, 95950, 95949, 95948, 95947, 95946 ]
+    }, {
+      "worker" : 4,
+      "segment" : 1,
+      "customerId" : 4606,
+      "sessionId" : 1738,
+      "requestKey" : "W7-OVERLAP_CHAIN-R0-W4",
+      "seatIds" : [ 95954, 95955, 95956, 95957 ]
+    }, {
+      "worker" : 5,
+      "segment" : 1,
+      "customerId" : 4607,
+      "sessionId" : 1738,
+      "requestKey" : "W7-OVERLAP_CHAIN-R0-W5",
+      "seatIds" : [ 95959, 95958, 95957, 95956 ]
+    }, {
+      "worker" : 6,
+      "segment" : 1,
+      "customerId" : 4608,
+      "sessionId" : 1738,
+      "requestKey" : "W7-OVERLAP_CHAIN-R0-W6",
+      "seatIds" : [ 95958, 95959, 95960, 95961 ]
+    }, {
+      "worker" : 7,
+      "segment" : 1,
+      "customerId" : 4609,
+      "sessionId" : 1738,
+      "requestKey" : "W7-OVERLAP_CHAIN-R0-W7",
+      "seatIds" : [ 95961, 95960, 95959, 95958, 95957, 95956, 95955, 95954 ]
+    }, {
+      "worker" : 8,
+      "segment" : 2,
+      "customerId" : 4600,
+      "sessionId" : 1738,
+      "requestKey" : "W7-OVERLAP_CHAIN-R0-W8",
+      "seatIds" : [ 95962, 95963, 95964, 95965 ]
+    }, {
+      "worker" : 9,
+      "segment" : 2,
+      "customerId" : 4601,
+      "sessionId" : 1738,
+      "requestKey" : "W7-OVERLAP_CHAIN-R0-W9",
+      "seatIds" : [ 95967, 95966, 95965, 95964 ]
+    }, {
+      "worker" : 10,
+      "segment" : 2,
+      "customerId" : 4604,
+      "sessionId" : 1738,
+      "requestKey" : "W7-OVERLAP_CHAIN-R0-W10",
+      "seatIds" : [ 95966, 95967, 95968, 95969 ]
+    }, {
+      "worker" : 11,
+      "segment" : 2,
+      "customerId" : 4605,
+      "sessionId" : 1738,
+      "requestKey" : "W7-OVERLAP_CHAIN-R0-W11",
+      "seatIds" : [ 95969, 95968, 95967, 95966, 95965, 95964, 95963, 95962 ]
+    } ],
+    "outcomes" : [ {
+      "attempt" : {
+        "worker" : 0,
+        "segment" : 0,
+        "customerId" : 4600,
+        "sessionId" : 1738,
+        "requestKey" : "W7-OVERLAP_CHAIN-R0-W0",
+        "seatIds" : [ 95946, 95947, 95948, 95949 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 1,
+        "segment" : 0,
+        "customerId" : 4601,
+        "sessionId" : 1738,
+        "requestKey" : "W7-OVERLAP_CHAIN-R0-W1",
+        "seatIds" : [ 95951, 95950, 95949, 95948 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 2,
+        "segment" : 0,
+        "customerId" : 4604,
+        "sessionId" : 1738,
+        "requestKey" : "W7-OVERLAP_CHAIN-R0-W2",
+        "seatIds" : [ 95950, 95951, 95952, 95953 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 3,
+        "segment" : 0,
+        "customerId" : 4605,
+        "sessionId" : 1738,
+        "requestKey" : "W7-OVERLAP_CHAIN-R0-W3",
+        "seatIds" : [ 95953, 95952, 95951, 95950, 95949, 95948, 95947, 95946 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1289,
+      "holdId" : 1278,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 4,
+        "segment" : 1,
+        "customerId" : 4606,
+        "sessionId" : 1738,
+        "requestKey" : "W7-OVERLAP_CHAIN-R0-W4",
+        "seatIds" : [ 95954, 95955, 95956, 95957 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 5,
+        "segment" : 1,
+        "customerId" : 4607,
+        "sessionId" : 1738,
+        "requestKey" : "W7-OVERLAP_CHAIN-R0-W5",
+        "seatIds" : [ 95959, 95958, 95957, 95956 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1290,
+      "holdId" : 1279,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 6,
+        "segment" : 1,
+        "customerId" : 4608,
+        "sessionId" : 1738,
+        "requestKey" : "W7-OVERLAP_CHAIN-R0-W6",
+        "seatIds" : [ 95958, 95959, 95960, 95961 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 7,
+        "segment" : 1,
+        "customerId" : 4609,
+        "sessionId" : 1738,
+        "requestKey" : "W7-OVERLAP_CHAIN-R0-W7",
+        "seatIds" : [ 95961, 95960, 95959, 95958, 95957, 95956, 95955, 95954 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 8,
+        "segment" : 2,
+        "customerId" : 4600,
+        "sessionId" : 1738,
+        "requestKey" : "W7-OVERLAP_CHAIN-R0-W8",
+        "seatIds" : [ 95962, 95963, 95964, 95965 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1292,
+      "holdId" : 1281,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 9,
+        "segment" : 2,
+        "customerId" : 4601,
+        "sessionId" : 1738,
+        "requestKey" : "W7-OVERLAP_CHAIN-R0-W9",
+        "seatIds" : [ 95967, 95966, 95965, 95964 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 10,
+        "segment" : 2,
+        "customerId" : 4604,
+        "sessionId" : 1738,
+        "requestKey" : "W7-OVERLAP_CHAIN-R0-W10",
+        "seatIds" : [ 95966, 95967, 95968, 95969 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1291,
+      "holdId" : 1280,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 11,
+        "segment" : 2,
+        "customerId" : 4605,
+        "sessionId" : 1738,
+        "requestKey" : "W7-OVERLAP_CHAIN-R0-W11",
+        "seatIds" : [ 95969, 95968, 95967, 95966, 95965, 95964, 95963, 95962 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    } ],
+    "counts" : {
+      "created" : 4,
+      "completedRequests" : 12,
+      "unexpectedFailures" : 0,
+      "allocatedSeats" : 20,
+      "businessConflicts" : 8
+    },
+    "consistency" : {
+      "sessionId" : 1738,
+      "checkedAt" : "2026-10-21T02:00:00.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 4,
+        "seats" : 24,
+        "tickets" : 0,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 4,
+        "unresolvedPayments" : 0,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    },
+    "wholeGroupsAndUniqueOwnersVerified" : true
+  }, {
+    "workload" : "OVERLAP_CHAIN",
+    "round" : 1,
+    "sessionId" : 1739,
+    "status" : "PASSED",
+    "requestsInSubmissionOrder" : [ {
+      "worker" : 10,
+      "segment" : 2,
+      "customerId" : 4604,
+      "sessionId" : 1739,
+      "requestKey" : "W7-OVERLAP_CHAIN-R1-W10",
+      "seatIds" : [ 95993, 95992, 95991, 95990 ]
+    }, {
+      "worker" : 9,
+      "segment" : 2,
+      "customerId" : 4601,
+      "sessionId" : 1739,
+      "requestKey" : "W7-OVERLAP_CHAIN-R1-W9",
+      "seatIds" : [ 95988, 95989, 95990, 95991 ]
+    }, {
+      "worker" : 8,
+      "segment" : 2,
+      "customerId" : 4600,
+      "sessionId" : 1739,
+      "requestKey" : "W7-OVERLAP_CHAIN-R1-W8",
+      "seatIds" : [ 95989, 95988, 95987, 95986 ]
+    }, {
+      "worker" : 7,
+      "segment" : 1,
+      "customerId" : 4609,
+      "sessionId" : 1739,
+      "requestKey" : "W7-OVERLAP_CHAIN-R1-W7",
+      "seatIds" : [ 95978, 95979, 95980, 95981, 95982, 95983, 95984, 95985 ]
+    }, {
+      "worker" : 6,
+      "segment" : 1,
+      "customerId" : 4608,
+      "sessionId" : 1739,
+      "requestKey" : "W7-OVERLAP_CHAIN-R1-W6",
+      "seatIds" : [ 95985, 95984, 95983, 95982 ]
+    }, {
+      "worker" : 5,
+      "segment" : 1,
+      "customerId" : 4607,
+      "sessionId" : 1739,
+      "requestKey" : "W7-OVERLAP_CHAIN-R1-W5",
+      "seatIds" : [ 95980, 95981, 95982, 95983 ]
+    }, {
+      "worker" : 4,
+      "segment" : 1,
+      "customerId" : 4606,
+      "sessionId" : 1739,
+      "requestKey" : "W7-OVERLAP_CHAIN-R1-W4",
+      "seatIds" : [ 95981, 95980, 95979, 95978 ]
+    }, {
+      "worker" : 3,
+      "segment" : 0,
+      "customerId" : 4605,
+      "sessionId" : 1739,
+      "requestKey" : "W7-OVERLAP_CHAIN-R1-W3",
+      "seatIds" : [ 95970, 95971, 95972, 95973, 95974, 95975, 95976, 95977 ]
+    }, {
+      "worker" : 2,
+      "segment" : 0,
+      "customerId" : 4604,
+      "sessionId" : 1739,
+      "requestKey" : "W7-OVERLAP_CHAIN-R1-W2",
+      "seatIds" : [ 95977, 95976, 95975, 95974 ]
+    }, {
+      "worker" : 1,
+      "segment" : 0,
+      "customerId" : 4601,
+      "sessionId" : 1739,
+      "requestKey" : "W7-OVERLAP_CHAIN-R1-W1",
+      "seatIds" : [ 95972, 95973, 95974, 95975 ]
+    }, {
+      "worker" : 0,
+      "segment" : 0,
+      "customerId" : 4600,
+      "sessionId" : 1739,
+      "requestKey" : "W7-OVERLAP_CHAIN-R1-W0",
+      "seatIds" : [ 95973, 95972, 95971, 95970 ]
+    }, {
+      "worker" : 11,
+      "segment" : 2,
+      "customerId" : 4605,
+      "sessionId" : 1739,
+      "requestKey" : "W7-OVERLAP_CHAIN-R1-W11",
+      "seatIds" : [ 95986, 95987, 95988, 95989, 95990, 95991, 95992, 95993 ]
+    } ],
+    "outcomes" : [ {
+      "attempt" : {
+        "worker" : 10,
+        "segment" : 2,
+        "customerId" : 4604,
+        "sessionId" : 1739,
+        "requestKey" : "W7-OVERLAP_CHAIN-R1-W10",
+        "seatIds" : [ 95993, 95992, 95991, 95990 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 9,
+        "segment" : 2,
+        "customerId" : 4601,
+        "sessionId" : 1739,
+        "requestKey" : "W7-OVERLAP_CHAIN-R1-W9",
+        "seatIds" : [ 95988, 95989, 95990, 95991 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1294,
+      "holdId" : 1283,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 8,
+        "segment" : 2,
+        "customerId" : 4600,
+        "sessionId" : 1739,
+        "requestKey" : "W7-OVERLAP_CHAIN-R1-W8",
+        "seatIds" : [ 95989, 95988, 95987, 95986 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 7,
+        "segment" : 1,
+        "customerId" : 4609,
+        "sessionId" : 1739,
+        "requestKey" : "W7-OVERLAP_CHAIN-R1-W7",
+        "seatIds" : [ 95978, 95979, 95980, 95981, 95982, 95983, 95984, 95985 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1293,
+      "holdId" : 1282,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 6,
+        "segment" : 1,
+        "customerId" : 4608,
+        "sessionId" : 1739,
+        "requestKey" : "W7-OVERLAP_CHAIN-R1-W6",
+        "seatIds" : [ 95985, 95984, 95983, 95982 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 5,
+        "segment" : 1,
+        "customerId" : 4607,
+        "sessionId" : 1739,
+        "requestKey" : "W7-OVERLAP_CHAIN-R1-W5",
+        "seatIds" : [ 95980, 95981, 95982, 95983 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 4,
+        "segment" : 1,
+        "customerId" : 4606,
+        "sessionId" : 1739,
+        "requestKey" : "W7-OVERLAP_CHAIN-R1-W4",
+        "seatIds" : [ 95981, 95980, 95979, 95978 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 3,
+        "segment" : 0,
+        "customerId" : 4605,
+        "sessionId" : 1739,
+        "requestKey" : "W7-OVERLAP_CHAIN-R1-W3",
+        "seatIds" : [ 95970, 95971, 95972, 95973, 95974, 95975, 95976, 95977 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 2,
+        "segment" : 0,
+        "customerId" : 4604,
+        "sessionId" : 1739,
+        "requestKey" : "W7-OVERLAP_CHAIN-R1-W2",
+        "seatIds" : [ 95977, 95976, 95975, 95974 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1296,
+      "holdId" : 1285,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 1,
+        "segment" : 0,
+        "customerId" : 4601,
+        "sessionId" : 1739,
+        "requestKey" : "W7-OVERLAP_CHAIN-R1-W1",
+        "seatIds" : [ 95972, 95973, 95974, 95975 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 0,
+        "segment" : 0,
+        "customerId" : 4600,
+        "sessionId" : 1739,
+        "requestKey" : "W7-OVERLAP_CHAIN-R1-W0",
+        "seatIds" : [ 95973, 95972, 95971, 95970 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1295,
+      "holdId" : 1284,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 11,
+        "segment" : 2,
+        "customerId" : 4605,
+        "sessionId" : 1739,
+        "requestKey" : "W7-OVERLAP_CHAIN-R1-W11",
+        "seatIds" : [ 95986, 95987, 95988, 95989, 95990, 95991, 95992, 95993 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    } ],
+    "counts" : {
+      "created" : 4,
+      "completedRequests" : 12,
+      "unexpectedFailures" : 0,
+      "allocatedSeats" : 20,
+      "businessConflicts" : 8
+    },
+    "consistency" : {
+      "sessionId" : 1739,
+      "checkedAt" : "2026-10-21T02:00:00.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 4,
+        "seats" : 24,
+        "tickets" : 0,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 4,
+        "unresolvedPayments" : 0,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    },
+    "wholeGroupsAndUniqueOwnersVerified" : true
+  }, {
+    "workload" : "OVERLAP_CHAIN",
+    "round" : 2,
+    "sessionId" : 1740,
+    "status" : "PASSED",
+    "requestsInSubmissionOrder" : [ {
+      "worker" : 10,
+      "segment" : 2,
+      "customerId" : 4604,
+      "sessionId" : 1740,
+      "requestKey" : "W7-OVERLAP_CHAIN-R2-W10",
+      "seatIds" : [ 96014, 96015, 96016, 96017 ]
+    }, {
+      "worker" : 11,
+      "segment" : 2,
+      "customerId" : 4605,
+      "sessionId" : 1740,
+      "requestKey" : "W7-OVERLAP_CHAIN-R2-W11",
+      "seatIds" : [ 96017, 96016, 96015, 96014, 96013, 96012, 96011, 96010 ]
+    }, {
+      "worker" : 0,
+      "segment" : 0,
+      "customerId" : 4600,
+      "sessionId" : 1740,
+      "requestKey" : "W7-OVERLAP_CHAIN-R2-W0",
+      "seatIds" : [ 95994, 95995, 95996, 95997 ]
+    }, {
+      "worker" : 1,
+      "segment" : 0,
+      "customerId" : 4601,
+      "sessionId" : 1740,
+      "requestKey" : "W7-OVERLAP_CHAIN-R2-W1",
+      "seatIds" : [ 95999, 95998, 95997, 95996 ]
+    }, {
+      "worker" : 2,
+      "segment" : 0,
+      "customerId" : 4604,
+      "sessionId" : 1740,
+      "requestKey" : "W7-OVERLAP_CHAIN-R2-W2",
+      "seatIds" : [ 95998, 95999, 96000, 96001 ]
+    }, {
+      "worker" : 3,
+      "segment" : 0,
+      "customerId" : 4605,
+      "sessionId" : 1740,
+      "requestKey" : "W7-OVERLAP_CHAIN-R2-W3",
+      "seatIds" : [ 96001, 96000, 95999, 95998, 95997, 95996, 95995, 95994 ]
+    }, {
+      "worker" : 4,
+      "segment" : 1,
+      "customerId" : 4606,
+      "sessionId" : 1740,
+      "requestKey" : "W7-OVERLAP_CHAIN-R2-W4",
+      "seatIds" : [ 96002, 96003, 96004, 96005 ]
+    }, {
+      "worker" : 5,
+      "segment" : 1,
+      "customerId" : 4607,
+      "sessionId" : 1740,
+      "requestKey" : "W7-OVERLAP_CHAIN-R2-W5",
+      "seatIds" : [ 96007, 96006, 96005, 96004 ]
+    }, {
+      "worker" : 6,
+      "segment" : 1,
+      "customerId" : 4608,
+      "sessionId" : 1740,
+      "requestKey" : "W7-OVERLAP_CHAIN-R2-W6",
+      "seatIds" : [ 96006, 96007, 96008, 96009 ]
+    }, {
+      "worker" : 7,
+      "segment" : 1,
+      "customerId" : 4609,
+      "sessionId" : 1740,
+      "requestKey" : "W7-OVERLAP_CHAIN-R2-W7",
+      "seatIds" : [ 96009, 96008, 96007, 96006, 96005, 96004, 96003, 96002 ]
+    }, {
+      "worker" : 8,
+      "segment" : 2,
+      "customerId" : 4600,
+      "sessionId" : 1740,
+      "requestKey" : "W7-OVERLAP_CHAIN-R2-W8",
+      "seatIds" : [ 96010, 96011, 96012, 96013 ]
+    }, {
+      "worker" : 9,
+      "segment" : 2,
+      "customerId" : 4601,
+      "sessionId" : 1740,
+      "requestKey" : "W7-OVERLAP_CHAIN-R2-W9",
+      "seatIds" : [ 96015, 96014, 96013, 96012 ]
+    } ],
+    "outcomes" : [ {
+      "attempt" : {
+        "worker" : 10,
+        "segment" : 2,
+        "customerId" : 4604,
+        "sessionId" : 1740,
+        "requestKey" : "W7-OVERLAP_CHAIN-R2-W10",
+        "seatIds" : [ 96014, 96015, 96016, 96017 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 11,
+        "segment" : 2,
+        "customerId" : 4605,
+        "sessionId" : 1740,
+        "requestKey" : "W7-OVERLAP_CHAIN-R2-W11",
+        "seatIds" : [ 96017, 96016, 96015, 96014, 96013, 96012, 96011, 96010 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1297,
+      "holdId" : 1286,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 0,
+        "segment" : 0,
+        "customerId" : 4600,
+        "sessionId" : 1740,
+        "requestKey" : "W7-OVERLAP_CHAIN-R2-W0",
+        "seatIds" : [ 95994, 95995, 95996, 95997 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1298,
+      "holdId" : 1287,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 1,
+        "segment" : 0,
+        "customerId" : 4601,
+        "sessionId" : 1740,
+        "requestKey" : "W7-OVERLAP_CHAIN-R2-W1",
+        "seatIds" : [ 95999, 95998, 95997, 95996 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 2,
+        "segment" : 0,
+        "customerId" : 4604,
+        "sessionId" : 1740,
+        "requestKey" : "W7-OVERLAP_CHAIN-R2-W2",
+        "seatIds" : [ 95998, 95999, 96000, 96001 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1300,
+      "holdId" : 1289,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 3,
+        "segment" : 0,
+        "customerId" : 4605,
+        "sessionId" : 1740,
+        "requestKey" : "W7-OVERLAP_CHAIN-R2-W3",
+        "seatIds" : [ 96001, 96000, 95999, 95998, 95997, 95996, 95995, 95994 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 4,
+        "segment" : 1,
+        "customerId" : 4606,
+        "sessionId" : 1740,
+        "requestKey" : "W7-OVERLAP_CHAIN-R2-W4",
+        "seatIds" : [ 96002, 96003, 96004, 96005 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1299,
+      "holdId" : 1288,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 5,
+        "segment" : 1,
+        "customerId" : 4607,
+        "sessionId" : 1740,
+        "requestKey" : "W7-OVERLAP_CHAIN-R2-W5",
+        "seatIds" : [ 96007, 96006, 96005, 96004 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 6,
+        "segment" : 1,
+        "customerId" : 4608,
+        "sessionId" : 1740,
+        "requestKey" : "W7-OVERLAP_CHAIN-R2-W6",
+        "seatIds" : [ 96006, 96007, 96008, 96009 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1301,
+      "holdId" : 1290,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 7,
+        "segment" : 1,
+        "customerId" : 4609,
+        "sessionId" : 1740,
+        "requestKey" : "W7-OVERLAP_CHAIN-R2-W7",
+        "seatIds" : [ 96009, 96008, 96007, 96006, 96005, 96004, 96003, 96002 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 8,
+        "segment" : 2,
+        "customerId" : 4600,
+        "sessionId" : 1740,
+        "requestKey" : "W7-OVERLAP_CHAIN-R2-W8",
+        "seatIds" : [ 96010, 96011, 96012, 96013 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 9,
+        "segment" : 2,
+        "customerId" : 4601,
+        "sessionId" : 1740,
+        "requestKey" : "W7-OVERLAP_CHAIN-R2-W9",
+        "seatIds" : [ 96015, 96014, 96013, 96012 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    } ],
+    "counts" : {
+      "created" : 5,
+      "completedRequests" : 12,
+      "unexpectedFailures" : 0,
+      "allocatedSeats" : 24,
+      "businessConflicts" : 7
+    },
+    "consistency" : {
+      "sessionId" : 1740,
+      "checkedAt" : "2026-10-21T02:00:00.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 5,
+        "seats" : 24,
+        "tickets" : 0,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 5,
+        "unresolvedPayments" : 0,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    },
+    "wholeGroupsAndUniqueOwnersVerified" : true
+  }, {
+    "workload" : "OVERLAP_CHAIN",
+    "round" : 3,
+    "sessionId" : 1741,
+    "status" : "PASSED",
+    "requestsInSubmissionOrder" : [ {
+      "worker" : 8,
+      "segment" : 2,
+      "customerId" : 4600,
+      "sessionId" : 1741,
+      "requestKey" : "W7-OVERLAP_CHAIN-R3-W8",
+      "seatIds" : [ 96037, 96036, 96035, 96034 ]
+    }, {
+      "worker" : 7,
+      "segment" : 1,
+      "customerId" : 4609,
+      "sessionId" : 1741,
+      "requestKey" : "W7-OVERLAP_CHAIN-R3-W7",
+      "seatIds" : [ 96026, 96027, 96028, 96029, 96030, 96031, 96032, 96033 ]
+    }, {
+      "worker" : 6,
+      "segment" : 1,
+      "customerId" : 4608,
+      "sessionId" : 1741,
+      "requestKey" : "W7-OVERLAP_CHAIN-R3-W6",
+      "seatIds" : [ 96033, 96032, 96031, 96030 ]
+    }, {
+      "worker" : 5,
+      "segment" : 1,
+      "customerId" : 4607,
+      "sessionId" : 1741,
+      "requestKey" : "W7-OVERLAP_CHAIN-R3-W5",
+      "seatIds" : [ 96028, 96029, 96030, 96031 ]
+    }, {
+      "worker" : 4,
+      "segment" : 1,
+      "customerId" : 4606,
+      "sessionId" : 1741,
+      "requestKey" : "W7-OVERLAP_CHAIN-R3-W4",
+      "seatIds" : [ 96029, 96028, 96027, 96026 ]
+    }, {
+      "worker" : 3,
+      "segment" : 0,
+      "customerId" : 4605,
+      "sessionId" : 1741,
+      "requestKey" : "W7-OVERLAP_CHAIN-R3-W3",
+      "seatIds" : [ 96018, 96019, 96020, 96021, 96022, 96023, 96024, 96025 ]
+    }, {
+      "worker" : 2,
+      "segment" : 0,
+      "customerId" : 4604,
+      "sessionId" : 1741,
+      "requestKey" : "W7-OVERLAP_CHAIN-R3-W2",
+      "seatIds" : [ 96025, 96024, 96023, 96022 ]
+    }, {
+      "worker" : 1,
+      "segment" : 0,
+      "customerId" : 4601,
+      "sessionId" : 1741,
+      "requestKey" : "W7-OVERLAP_CHAIN-R3-W1",
+      "seatIds" : [ 96020, 96021, 96022, 96023 ]
+    }, {
+      "worker" : 0,
+      "segment" : 0,
+      "customerId" : 4600,
+      "sessionId" : 1741,
+      "requestKey" : "W7-OVERLAP_CHAIN-R3-W0",
+      "seatIds" : [ 96021, 96020, 96019, 96018 ]
+    }, {
+      "worker" : 11,
+      "segment" : 2,
+      "customerId" : 4605,
+      "sessionId" : 1741,
+      "requestKey" : "W7-OVERLAP_CHAIN-R3-W11",
+      "seatIds" : [ 96034, 96035, 96036, 96037, 96038, 96039, 96040, 96041 ]
+    }, {
+      "worker" : 10,
+      "segment" : 2,
+      "customerId" : 4604,
+      "sessionId" : 1741,
+      "requestKey" : "W7-OVERLAP_CHAIN-R3-W10",
+      "seatIds" : [ 96041, 96040, 96039, 96038 ]
+    }, {
+      "worker" : 9,
+      "segment" : 2,
+      "customerId" : 4601,
+      "sessionId" : 1741,
+      "requestKey" : "W7-OVERLAP_CHAIN-R3-W9",
+      "seatIds" : [ 96036, 96037, 96038, 96039 ]
+    } ],
+    "outcomes" : [ {
+      "attempt" : {
+        "worker" : 8,
+        "segment" : 2,
+        "customerId" : 4600,
+        "sessionId" : 1741,
+        "requestKey" : "W7-OVERLAP_CHAIN-R3-W8",
+        "seatIds" : [ 96037, 96036, 96035, 96034 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1302,
+      "holdId" : 1291,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 7,
+        "segment" : 1,
+        "customerId" : 4609,
+        "sessionId" : 1741,
+        "requestKey" : "W7-OVERLAP_CHAIN-R3-W7",
+        "seatIds" : [ 96026, 96027, 96028, 96029, 96030, 96031, 96032, 96033 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 6,
+        "segment" : 1,
+        "customerId" : 4608,
+        "sessionId" : 1741,
+        "requestKey" : "W7-OVERLAP_CHAIN-R3-W6",
+        "seatIds" : [ 96033, 96032, 96031, 96030 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 5,
+        "segment" : 1,
+        "customerId" : 4607,
+        "sessionId" : 1741,
+        "requestKey" : "W7-OVERLAP_CHAIN-R3-W5",
+        "seatIds" : [ 96028, 96029, 96030, 96031 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1305,
+      "holdId" : 1294,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 4,
+        "segment" : 1,
+        "customerId" : 4606,
+        "sessionId" : 1741,
+        "requestKey" : "W7-OVERLAP_CHAIN-R3-W4",
+        "seatIds" : [ 96029, 96028, 96027, 96026 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 3,
+        "segment" : 0,
+        "customerId" : 4605,
+        "sessionId" : 1741,
+        "requestKey" : "W7-OVERLAP_CHAIN-R3-W3",
+        "seatIds" : [ 96018, 96019, 96020, 96021, 96022, 96023, 96024, 96025 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 2,
+        "segment" : 0,
+        "customerId" : 4604,
+        "sessionId" : 1741,
+        "requestKey" : "W7-OVERLAP_CHAIN-R3-W2",
+        "seatIds" : [ 96025, 96024, 96023, 96022 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1303,
+      "holdId" : 1292,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 1,
+        "segment" : 0,
+        "customerId" : 4601,
+        "sessionId" : 1741,
+        "requestKey" : "W7-OVERLAP_CHAIN-R3-W1",
+        "seatIds" : [ 96020, 96021, 96022, 96023 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 0,
+        "segment" : 0,
+        "customerId" : 4600,
+        "sessionId" : 1741,
+        "requestKey" : "W7-OVERLAP_CHAIN-R3-W0",
+        "seatIds" : [ 96021, 96020, 96019, 96018 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1306,
+      "holdId" : 1295,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 11,
+        "segment" : 2,
+        "customerId" : 4605,
+        "sessionId" : 1741,
+        "requestKey" : "W7-OVERLAP_CHAIN-R3-W11",
+        "seatIds" : [ 96034, 96035, 96036, 96037, 96038, 96039, 96040, 96041 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 10,
+        "segment" : 2,
+        "customerId" : 4604,
+        "sessionId" : 1741,
+        "requestKey" : "W7-OVERLAP_CHAIN-R3-W10",
+        "seatIds" : [ 96041, 96040, 96039, 96038 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1304,
+      "holdId" : 1293,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 9,
+        "segment" : 2,
+        "customerId" : 4601,
+        "sessionId" : 1741,
+        "requestKey" : "W7-OVERLAP_CHAIN-R3-W9",
+        "seatIds" : [ 96036, 96037, 96038, 96039 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    } ],
+    "counts" : {
+      "created" : 5,
+      "completedRequests" : 12,
+      "unexpectedFailures" : 0,
+      "allocatedSeats" : 20,
+      "businessConflicts" : 7
+    },
+    "consistency" : {
+      "sessionId" : 1741,
+      "checkedAt" : "2026-10-21T02:00:00.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 5,
+        "seats" : 24,
+        "tickets" : 0,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 5,
+        "unresolvedPayments" : 0,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    },
+    "wholeGroupsAndUniqueOwnersVerified" : true
+  }, {
+    "workload" : "OVERLAP_CHAIN",
+    "round" : 4,
+    "sessionId" : 1742,
+    "status" : "PASSED",
+    "requestsInSubmissionOrder" : [ {
+      "worker" : 8,
+      "segment" : 2,
+      "customerId" : 4600,
+      "sessionId" : 1742,
+      "requestKey" : "W7-OVERLAP_CHAIN-R4-W8",
+      "seatIds" : [ 96058, 96059, 96060, 96061 ]
+    }, {
+      "worker" : 9,
+      "segment" : 2,
+      "customerId" : 4601,
+      "sessionId" : 1742,
+      "requestKey" : "W7-OVERLAP_CHAIN-R4-W9",
+      "seatIds" : [ 96063, 96062, 96061, 96060 ]
+    }, {
+      "worker" : 10,
+      "segment" : 2,
+      "customerId" : 4604,
+      "sessionId" : 1742,
+      "requestKey" : "W7-OVERLAP_CHAIN-R4-W10",
+      "seatIds" : [ 96062, 96063, 96064, 96065 ]
+    }, {
+      "worker" : 11,
+      "segment" : 2,
+      "customerId" : 4605,
+      "sessionId" : 1742,
+      "requestKey" : "W7-OVERLAP_CHAIN-R4-W11",
+      "seatIds" : [ 96065, 96064, 96063, 96062, 96061, 96060, 96059, 96058 ]
+    }, {
+      "worker" : 0,
+      "segment" : 0,
+      "customerId" : 4600,
+      "sessionId" : 1742,
+      "requestKey" : "W7-OVERLAP_CHAIN-R4-W0",
+      "seatIds" : [ 96042, 96043, 96044, 96045 ]
+    }, {
+      "worker" : 1,
+      "segment" : 0,
+      "customerId" : 4601,
+      "sessionId" : 1742,
+      "requestKey" : "W7-OVERLAP_CHAIN-R4-W1",
+      "seatIds" : [ 96047, 96046, 96045, 96044 ]
+    }, {
+      "worker" : 2,
+      "segment" : 0,
+      "customerId" : 4604,
+      "sessionId" : 1742,
+      "requestKey" : "W7-OVERLAP_CHAIN-R4-W2",
+      "seatIds" : [ 96046, 96047, 96048, 96049 ]
+    }, {
+      "worker" : 3,
+      "segment" : 0,
+      "customerId" : 4605,
+      "sessionId" : 1742,
+      "requestKey" : "W7-OVERLAP_CHAIN-R4-W3",
+      "seatIds" : [ 96049, 96048, 96047, 96046, 96045, 96044, 96043, 96042 ]
+    }, {
+      "worker" : 4,
+      "segment" : 1,
+      "customerId" : 4606,
+      "sessionId" : 1742,
+      "requestKey" : "W7-OVERLAP_CHAIN-R4-W4",
+      "seatIds" : [ 96050, 96051, 96052, 96053 ]
+    }, {
+      "worker" : 5,
+      "segment" : 1,
+      "customerId" : 4607,
+      "sessionId" : 1742,
+      "requestKey" : "W7-OVERLAP_CHAIN-R4-W5",
+      "seatIds" : [ 96055, 96054, 96053, 96052 ]
+    }, {
+      "worker" : 6,
+      "segment" : 1,
+      "customerId" : 4608,
+      "sessionId" : 1742,
+      "requestKey" : "W7-OVERLAP_CHAIN-R4-W6",
+      "seatIds" : [ 96054, 96055, 96056, 96057 ]
+    }, {
+      "worker" : 7,
+      "segment" : 1,
+      "customerId" : 4609,
+      "sessionId" : 1742,
+      "requestKey" : "W7-OVERLAP_CHAIN-R4-W7",
+      "seatIds" : [ 96057, 96056, 96055, 96054, 96053, 96052, 96051, 96050 ]
+    } ],
+    "outcomes" : [ {
+      "attempt" : {
+        "worker" : 8,
+        "segment" : 2,
+        "customerId" : 4600,
+        "sessionId" : 1742,
+        "requestKey" : "W7-OVERLAP_CHAIN-R4-W8",
+        "seatIds" : [ 96058, 96059, 96060, 96061 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 9,
+        "segment" : 2,
+        "customerId" : 4601,
+        "sessionId" : 1742,
+        "requestKey" : "W7-OVERLAP_CHAIN-R4-W9",
+        "seatIds" : [ 96063, 96062, 96061, 96060 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1308,
+      "holdId" : 1297,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 10,
+        "segment" : 2,
+        "customerId" : 4604,
+        "sessionId" : 1742,
+        "requestKey" : "W7-OVERLAP_CHAIN-R4-W10",
+        "seatIds" : [ 96062, 96063, 96064, 96065 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 11,
+        "segment" : 2,
+        "customerId" : 4605,
+        "sessionId" : 1742,
+        "requestKey" : "W7-OVERLAP_CHAIN-R4-W11",
+        "seatIds" : [ 96065, 96064, 96063, 96062, 96061, 96060, 96059, 96058 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 0,
+        "segment" : 0,
+        "customerId" : 4600,
+        "sessionId" : 1742,
+        "requestKey" : "W7-OVERLAP_CHAIN-R4-W0",
+        "seatIds" : [ 96042, 96043, 96044, 96045 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 1,
+        "segment" : 0,
+        "customerId" : 4601,
+        "sessionId" : 1742,
+        "requestKey" : "W7-OVERLAP_CHAIN-R4-W1",
+        "seatIds" : [ 96047, 96046, 96045, 96044 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1309,
+      "holdId" : 1298,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 2,
+        "segment" : 0,
+        "customerId" : 4604,
+        "sessionId" : 1742,
+        "requestKey" : "W7-OVERLAP_CHAIN-R4-W2",
+        "seatIds" : [ 96046, 96047, 96048, 96049 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 3,
+        "segment" : 0,
+        "customerId" : 4605,
+        "sessionId" : 1742,
+        "requestKey" : "W7-OVERLAP_CHAIN-R4-W3",
+        "seatIds" : [ 96049, 96048, 96047, 96046, 96045, 96044, 96043, 96042 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 4,
+        "segment" : 1,
+        "customerId" : 4606,
+        "sessionId" : 1742,
+        "requestKey" : "W7-OVERLAP_CHAIN-R4-W4",
+        "seatIds" : [ 96050, 96051, 96052, 96053 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 5,
+        "segment" : 1,
+        "customerId" : 4607,
+        "sessionId" : 1742,
+        "requestKey" : "W7-OVERLAP_CHAIN-R4-W5",
+        "seatIds" : [ 96055, 96054, 96053, 96052 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1307,
+      "holdId" : 1296,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 6,
+        "segment" : 1,
+        "customerId" : 4608,
+        "sessionId" : 1742,
+        "requestKey" : "W7-OVERLAP_CHAIN-R4-W6",
+        "seatIds" : [ 96054, 96055, 96056, 96057 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 7,
+        "segment" : 1,
+        "customerId" : 4609,
+        "sessionId" : 1742,
+        "requestKey" : "W7-OVERLAP_CHAIN-R4-W7",
+        "seatIds" : [ 96057, 96056, 96055, 96054, 96053, 96052, 96051, 96050 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    } ],
+    "counts" : {
+      "created" : 3,
+      "completedRequests" : 12,
+      "unexpectedFailures" : 0,
+      "allocatedSeats" : 12,
+      "businessConflicts" : 9
+    },
+    "consistency" : {
+      "sessionId" : 1742,
+      "checkedAt" : "2026-10-21T02:00:00.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 3,
+        "seats" : 24,
+        "tickets" : 0,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 3,
+        "unresolvedPayments" : 0,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    },
+    "wholeGroupsAndUniqueOwnersVerified" : true
+  }, {
+    "workload" : "OVERLAP_CHAIN",
+    "round" : 5,
+    "sessionId" : 1743,
+    "status" : "PASSED",
+    "requestsInSubmissionOrder" : [ {
+      "worker" : 6,
+      "segment" : 1,
+      "customerId" : 4608,
+      "sessionId" : 1743,
+      "requestKey" : "W7-OVERLAP_CHAIN-R5-W6",
+      "seatIds" : [ 96081, 96080, 96079, 96078 ]
+    }, {
+      "worker" : 5,
+      "segment" : 1,
+      "customerId" : 4607,
+      "sessionId" : 1743,
+      "requestKey" : "W7-OVERLAP_CHAIN-R5-W5",
+      "seatIds" : [ 96076, 96077, 96078, 96079 ]
+    }, {
+      "worker" : 4,
+      "segment" : 1,
+      "customerId" : 4606,
+      "sessionId" : 1743,
+      "requestKey" : "W7-OVERLAP_CHAIN-R5-W4",
+      "seatIds" : [ 96077, 96076, 96075, 96074 ]
+    }, {
+      "worker" : 3,
+      "segment" : 0,
+      "customerId" : 4605,
+      "sessionId" : 1743,
+      "requestKey" : "W7-OVERLAP_CHAIN-R5-W3",
+      "seatIds" : [ 96066, 96067, 96068, 96069, 96070, 96071, 96072, 96073 ]
+    }, {
+      "worker" : 2,
+      "segment" : 0,
+      "customerId" : 4604,
+      "sessionId" : 1743,
+      "requestKey" : "W7-OVERLAP_CHAIN-R5-W2",
+      "seatIds" : [ 96073, 96072, 96071, 96070 ]
+    }, {
+      "worker" : 1,
+      "segment" : 0,
+      "customerId" : 4601,
+      "sessionId" : 1743,
+      "requestKey" : "W7-OVERLAP_CHAIN-R5-W1",
+      "seatIds" : [ 96068, 96069, 96070, 96071 ]
+    }, {
+      "worker" : 0,
+      "segment" : 0,
+      "customerId" : 4600,
+      "sessionId" : 1743,
+      "requestKey" : "W7-OVERLAP_CHAIN-R5-W0",
+      "seatIds" : [ 96069, 96068, 96067, 96066 ]
+    }, {
+      "worker" : 11,
+      "segment" : 2,
+      "customerId" : 4605,
+      "sessionId" : 1743,
+      "requestKey" : "W7-OVERLAP_CHAIN-R5-W11",
+      "seatIds" : [ 96082, 96083, 96084, 96085, 96086, 96087, 96088, 96089 ]
+    }, {
+      "worker" : 10,
+      "segment" : 2,
+      "customerId" : 4604,
+      "sessionId" : 1743,
+      "requestKey" : "W7-OVERLAP_CHAIN-R5-W10",
+      "seatIds" : [ 96089, 96088, 96087, 96086 ]
+    }, {
+      "worker" : 9,
+      "segment" : 2,
+      "customerId" : 4601,
+      "sessionId" : 1743,
+      "requestKey" : "W7-OVERLAP_CHAIN-R5-W9",
+      "seatIds" : [ 96084, 96085, 96086, 96087 ]
+    }, {
+      "worker" : 8,
+      "segment" : 2,
+      "customerId" : 4600,
+      "sessionId" : 1743,
+      "requestKey" : "W7-OVERLAP_CHAIN-R5-W8",
+      "seatIds" : [ 96085, 96084, 96083, 96082 ]
+    }, {
+      "worker" : 7,
+      "segment" : 1,
+      "customerId" : 4609,
+      "sessionId" : 1743,
+      "requestKey" : "W7-OVERLAP_CHAIN-R5-W7",
+      "seatIds" : [ 96074, 96075, 96076, 96077, 96078, 96079, 96080, 96081 ]
+    } ],
+    "outcomes" : [ {
+      "attempt" : {
+        "worker" : 6,
+        "segment" : 1,
+        "customerId" : 4608,
+        "sessionId" : 1743,
+        "requestKey" : "W7-OVERLAP_CHAIN-R5-W6",
+        "seatIds" : [ 96081, 96080, 96079, 96078 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1310,
+      "holdId" : 1299,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 5,
+        "segment" : 1,
+        "customerId" : 4607,
+        "sessionId" : 1743,
+        "requestKey" : "W7-OVERLAP_CHAIN-R5-W5",
+        "seatIds" : [ 96076, 96077, 96078, 96079 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 4,
+        "segment" : 1,
+        "customerId" : 4606,
+        "sessionId" : 1743,
+        "requestKey" : "W7-OVERLAP_CHAIN-R5-W4",
+        "seatIds" : [ 96077, 96076, 96075, 96074 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1311,
+      "holdId" : 1300,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 3,
+        "segment" : 0,
+        "customerId" : 4605,
+        "sessionId" : 1743,
+        "requestKey" : "W7-OVERLAP_CHAIN-R5-W3",
+        "seatIds" : [ 96066, 96067, 96068, 96069, 96070, 96071, 96072, 96073 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 2,
+        "segment" : 0,
+        "customerId" : 4604,
+        "sessionId" : 1743,
+        "requestKey" : "W7-OVERLAP_CHAIN-R5-W2",
+        "seatIds" : [ 96073, 96072, 96071, 96070 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 1,
+        "segment" : 0,
+        "customerId" : 4601,
+        "sessionId" : 1743,
+        "requestKey" : "W7-OVERLAP_CHAIN-R5-W1",
+        "seatIds" : [ 96068, 96069, 96070, 96071 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1312,
+      "holdId" : 1301,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 0,
+        "segment" : 0,
+        "customerId" : 4600,
+        "sessionId" : 1743,
+        "requestKey" : "W7-OVERLAP_CHAIN-R5-W0",
+        "seatIds" : [ 96069, 96068, 96067, 96066 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 11,
+        "segment" : 2,
+        "customerId" : 4605,
+        "sessionId" : 1743,
+        "requestKey" : "W7-OVERLAP_CHAIN-R5-W11",
+        "seatIds" : [ 96082, 96083, 96084, 96085, 96086, 96087, 96088, 96089 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 10,
+        "segment" : 2,
+        "customerId" : 4604,
+        "sessionId" : 1743,
+        "requestKey" : "W7-OVERLAP_CHAIN-R5-W10",
+        "seatIds" : [ 96089, 96088, 96087, 96086 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 9,
+        "segment" : 2,
+        "customerId" : 4601,
+        "sessionId" : 1743,
+        "requestKey" : "W7-OVERLAP_CHAIN-R5-W9",
+        "seatIds" : [ 96084, 96085, 96086, 96087 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1313,
+      "holdId" : 1302,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 8,
+        "segment" : 2,
+        "customerId" : 4600,
+        "sessionId" : 1743,
+        "requestKey" : "W7-OVERLAP_CHAIN-R5-W8",
+        "seatIds" : [ 96085, 96084, 96083, 96082 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 7,
+        "segment" : 1,
+        "customerId" : 4609,
+        "sessionId" : 1743,
+        "requestKey" : "W7-OVERLAP_CHAIN-R5-W7",
+        "seatIds" : [ 96074, 96075, 96076, 96077, 96078, 96079, 96080, 96081 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    } ],
+    "counts" : {
+      "created" : 4,
+      "completedRequests" : 12,
+      "unexpectedFailures" : 0,
+      "allocatedSeats" : 16,
+      "businessConflicts" : 8
+    },
+    "consistency" : {
+      "sessionId" : 1743,
+      "checkedAt" : "2026-10-21T02:00:00.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 4,
+        "seats" : 24,
+        "tickets" : 0,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 4,
+        "unresolvedPayments" : 0,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    },
+    "wholeGroupsAndUniqueOwnersVerified" : true
+  }, {
+    "workload" : "OVERLAP_CHAIN",
+    "round" : 6,
+    "sessionId" : 1744,
+    "status" : "PASSED",
+    "requestsInSubmissionOrder" : [ {
+      "worker" : 6,
+      "segment" : 1,
+      "customerId" : 4608,
+      "sessionId" : 1744,
+      "requestKey" : "W7-OVERLAP_CHAIN-R6-W6",
+      "seatIds" : [ 96102, 96103, 96104, 96105 ]
+    }, {
+      "worker" : 7,
+      "segment" : 1,
+      "customerId" : 4609,
+      "sessionId" : 1744,
+      "requestKey" : "W7-OVERLAP_CHAIN-R6-W7",
+      "seatIds" : [ 96105, 96104, 96103, 96102, 96101, 96100, 96099, 96098 ]
+    }, {
+      "worker" : 8,
+      "segment" : 2,
+      "customerId" : 4600,
+      "sessionId" : 1744,
+      "requestKey" : "W7-OVERLAP_CHAIN-R6-W8",
+      "seatIds" : [ 96106, 96107, 96108, 96109 ]
+    }, {
+      "worker" : 9,
+      "segment" : 2,
+      "customerId" : 4601,
+      "sessionId" : 1744,
+      "requestKey" : "W7-OVERLAP_CHAIN-R6-W9",
+      "seatIds" : [ 96111, 96110, 96109, 96108 ]
+    }, {
+      "worker" : 10,
+      "segment" : 2,
+      "customerId" : 4604,
+      "sessionId" : 1744,
+      "requestKey" : "W7-OVERLAP_CHAIN-R6-W10",
+      "seatIds" : [ 96110, 96111, 96112, 96113 ]
+    }, {
+      "worker" : 11,
+      "segment" : 2,
+      "customerId" : 4605,
+      "sessionId" : 1744,
+      "requestKey" : "W7-OVERLAP_CHAIN-R6-W11",
+      "seatIds" : [ 96113, 96112, 96111, 96110, 96109, 96108, 96107, 96106 ]
+    }, {
+      "worker" : 0,
+      "segment" : 0,
+      "customerId" : 4600,
+      "sessionId" : 1744,
+      "requestKey" : "W7-OVERLAP_CHAIN-R6-W0",
+      "seatIds" : [ 96090, 96091, 96092, 96093 ]
+    }, {
+      "worker" : 1,
+      "segment" : 0,
+      "customerId" : 4601,
+      "sessionId" : 1744,
+      "requestKey" : "W7-OVERLAP_CHAIN-R6-W1",
+      "seatIds" : [ 96095, 96094, 96093, 96092 ]
+    }, {
+      "worker" : 2,
+      "segment" : 0,
+      "customerId" : 4604,
+      "sessionId" : 1744,
+      "requestKey" : "W7-OVERLAP_CHAIN-R6-W2",
+      "seatIds" : [ 96094, 96095, 96096, 96097 ]
+    }, {
+      "worker" : 3,
+      "segment" : 0,
+      "customerId" : 4605,
+      "sessionId" : 1744,
+      "requestKey" : "W7-OVERLAP_CHAIN-R6-W3",
+      "seatIds" : [ 96097, 96096, 96095, 96094, 96093, 96092, 96091, 96090 ]
+    }, {
+      "worker" : 4,
+      "segment" : 1,
+      "customerId" : 4606,
+      "sessionId" : 1744,
+      "requestKey" : "W7-OVERLAP_CHAIN-R6-W4",
+      "seatIds" : [ 96098, 96099, 96100, 96101 ]
+    }, {
+      "worker" : 5,
+      "segment" : 1,
+      "customerId" : 4607,
+      "sessionId" : 1744,
+      "requestKey" : "W7-OVERLAP_CHAIN-R6-W5",
+      "seatIds" : [ 96103, 96102, 96101, 96100 ]
+    } ],
+    "outcomes" : [ {
+      "attempt" : {
+        "worker" : 6,
+        "segment" : 1,
+        "customerId" : 4608,
+        "sessionId" : 1744,
+        "requestKey" : "W7-OVERLAP_CHAIN-R6-W6",
+        "seatIds" : [ 96102, 96103, 96104, 96105 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 7,
+        "segment" : 1,
+        "customerId" : 4609,
+        "sessionId" : 1744,
+        "requestKey" : "W7-OVERLAP_CHAIN-R6-W7",
+        "seatIds" : [ 96105, 96104, 96103, 96102, 96101, 96100, 96099, 96098 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1315,
+      "holdId" : 1304,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 8,
+        "segment" : 2,
+        "customerId" : 4600,
+        "sessionId" : 1744,
+        "requestKey" : "W7-OVERLAP_CHAIN-R6-W8",
+        "seatIds" : [ 96106, 96107, 96108, 96109 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1314,
+      "holdId" : 1303,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 9,
+        "segment" : 2,
+        "customerId" : 4601,
+        "sessionId" : 1744,
+        "requestKey" : "W7-OVERLAP_CHAIN-R6-W9",
+        "seatIds" : [ 96111, 96110, 96109, 96108 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 10,
+        "segment" : 2,
+        "customerId" : 4604,
+        "sessionId" : 1744,
+        "requestKey" : "W7-OVERLAP_CHAIN-R6-W10",
+        "seatIds" : [ 96110, 96111, 96112, 96113 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1317,
+      "holdId" : 1306,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 11,
+        "segment" : 2,
+        "customerId" : 4605,
+        "sessionId" : 1744,
+        "requestKey" : "W7-OVERLAP_CHAIN-R6-W11",
+        "seatIds" : [ 96113, 96112, 96111, 96110, 96109, 96108, 96107, 96106 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 0,
+        "segment" : 0,
+        "customerId" : 4600,
+        "sessionId" : 1744,
+        "requestKey" : "W7-OVERLAP_CHAIN-R6-W0",
+        "seatIds" : [ 96090, 96091, 96092, 96093 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 1,
+        "segment" : 0,
+        "customerId" : 4601,
+        "sessionId" : 1744,
+        "requestKey" : "W7-OVERLAP_CHAIN-R6-W1",
+        "seatIds" : [ 96095, 96094, 96093, 96092 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 2,
+        "segment" : 0,
+        "customerId" : 4604,
+        "sessionId" : 1744,
+        "requestKey" : "W7-OVERLAP_CHAIN-R6-W2",
+        "seatIds" : [ 96094, 96095, 96096, 96097 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 3,
+        "segment" : 0,
+        "customerId" : 4605,
+        "sessionId" : 1744,
+        "requestKey" : "W7-OVERLAP_CHAIN-R6-W3",
+        "seatIds" : [ 96097, 96096, 96095, 96094, 96093, 96092, 96091, 96090 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1316,
+      "holdId" : 1305,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 4,
+        "segment" : 1,
+        "customerId" : 4606,
+        "sessionId" : 1744,
+        "requestKey" : "W7-OVERLAP_CHAIN-R6-W4",
+        "seatIds" : [ 96098, 96099, 96100, 96101 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 5,
+        "segment" : 1,
+        "customerId" : 4607,
+        "sessionId" : 1744,
+        "requestKey" : "W7-OVERLAP_CHAIN-R6-W5",
+        "seatIds" : [ 96103, 96102, 96101, 96100 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    } ],
+    "counts" : {
+      "created" : 4,
+      "completedRequests" : 12,
+      "unexpectedFailures" : 0,
+      "allocatedSeats" : 24,
+      "businessConflicts" : 8
+    },
+    "consistency" : {
+      "sessionId" : 1744,
+      "checkedAt" : "2026-10-21T02:00:00.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 4,
+        "seats" : 24,
+        "tickets" : 0,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 4,
+        "unresolvedPayments" : 0,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    },
+    "wholeGroupsAndUniqueOwnersVerified" : true
+  }, {
+    "workload" : "OVERLAP_CHAIN",
+    "round" : 7,
+    "sessionId" : 1745,
+    "status" : "PASSED",
+    "requestsInSubmissionOrder" : [ {
+      "worker" : 4,
+      "segment" : 1,
+      "customerId" : 4606,
+      "sessionId" : 1745,
+      "requestKey" : "W7-OVERLAP_CHAIN-R7-W4",
+      "seatIds" : [ 96125, 96124, 96123, 96122 ]
+    }, {
+      "worker" : 3,
+      "segment" : 0,
+      "customerId" : 4605,
+      "sessionId" : 1745,
+      "requestKey" : "W7-OVERLAP_CHAIN-R7-W3",
+      "seatIds" : [ 96114, 96115, 96116, 96117, 96118, 96119, 96120, 96121 ]
+    }, {
+      "worker" : 2,
+      "segment" : 0,
+      "customerId" : 4604,
+      "sessionId" : 1745,
+      "requestKey" : "W7-OVERLAP_CHAIN-R7-W2",
+      "seatIds" : [ 96121, 96120, 96119, 96118 ]
+    }, {
+      "worker" : 1,
+      "segment" : 0,
+      "customerId" : 4601,
+      "sessionId" : 1745,
+      "requestKey" : "W7-OVERLAP_CHAIN-R7-W1",
+      "seatIds" : [ 96116, 96117, 96118, 96119 ]
+    }, {
+      "worker" : 0,
+      "segment" : 0,
+      "customerId" : 4600,
+      "sessionId" : 1745,
+      "requestKey" : "W7-OVERLAP_CHAIN-R7-W0",
+      "seatIds" : [ 96117, 96116, 96115, 96114 ]
+    }, {
+      "worker" : 11,
+      "segment" : 2,
+      "customerId" : 4605,
+      "sessionId" : 1745,
+      "requestKey" : "W7-OVERLAP_CHAIN-R7-W11",
+      "seatIds" : [ 96130, 96131, 96132, 96133, 96134, 96135, 96136, 96137 ]
+    }, {
+      "worker" : 10,
+      "segment" : 2,
+      "customerId" : 4604,
+      "sessionId" : 1745,
+      "requestKey" : "W7-OVERLAP_CHAIN-R7-W10",
+      "seatIds" : [ 96137, 96136, 96135, 96134 ]
+    }, {
+      "worker" : 9,
+      "segment" : 2,
+      "customerId" : 4601,
+      "sessionId" : 1745,
+      "requestKey" : "W7-OVERLAP_CHAIN-R7-W9",
+      "seatIds" : [ 96132, 96133, 96134, 96135 ]
+    }, {
+      "worker" : 8,
+      "segment" : 2,
+      "customerId" : 4600,
+      "sessionId" : 1745,
+      "requestKey" : "W7-OVERLAP_CHAIN-R7-W8",
+      "seatIds" : [ 96133, 96132, 96131, 96130 ]
+    }, {
+      "worker" : 7,
+      "segment" : 1,
+      "customerId" : 4609,
+      "sessionId" : 1745,
+      "requestKey" : "W7-OVERLAP_CHAIN-R7-W7",
+      "seatIds" : [ 96122, 96123, 96124, 96125, 96126, 96127, 96128, 96129 ]
+    }, {
+      "worker" : 6,
+      "segment" : 1,
+      "customerId" : 4608,
+      "sessionId" : 1745,
+      "requestKey" : "W7-OVERLAP_CHAIN-R7-W6",
+      "seatIds" : [ 96129, 96128, 96127, 96126 ]
+    }, {
+      "worker" : 5,
+      "segment" : 1,
+      "customerId" : 4607,
+      "sessionId" : 1745,
+      "requestKey" : "W7-OVERLAP_CHAIN-R7-W5",
+      "seatIds" : [ 96124, 96125, 96126, 96127 ]
+    } ],
+    "outcomes" : [ {
+      "attempt" : {
+        "worker" : 4,
+        "segment" : 1,
+        "customerId" : 4606,
+        "sessionId" : 1745,
+        "requestKey" : "W7-OVERLAP_CHAIN-R7-W4",
+        "seatIds" : [ 96125, 96124, 96123, 96122 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1318,
+      "holdId" : 1307,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 3,
+        "segment" : 0,
+        "customerId" : 4605,
+        "sessionId" : 1745,
+        "requestKey" : "W7-OVERLAP_CHAIN-R7-W3",
+        "seatIds" : [ 96114, 96115, 96116, 96117, 96118, 96119, 96120, 96121 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 2,
+        "segment" : 0,
+        "customerId" : 4604,
+        "sessionId" : 1745,
+        "requestKey" : "W7-OVERLAP_CHAIN-R7-W2",
+        "seatIds" : [ 96121, 96120, 96119, 96118 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 1,
+        "segment" : 0,
+        "customerId" : 4601,
+        "sessionId" : 1745,
+        "requestKey" : "W7-OVERLAP_CHAIN-R7-W1",
+        "seatIds" : [ 96116, 96117, 96118, 96119 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1319,
+      "holdId" : 1308,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 0,
+        "segment" : 0,
+        "customerId" : 4600,
+        "sessionId" : 1745,
+        "requestKey" : "W7-OVERLAP_CHAIN-R7-W0",
+        "seatIds" : [ 96117, 96116, 96115, 96114 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 11,
+        "segment" : 2,
+        "customerId" : 4605,
+        "sessionId" : 1745,
+        "requestKey" : "W7-OVERLAP_CHAIN-R7-W11",
+        "seatIds" : [ 96130, 96131, 96132, 96133, 96134, 96135, 96136, 96137 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1320,
+      "holdId" : 1309,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 10,
+        "segment" : 2,
+        "customerId" : 4604,
+        "sessionId" : 1745,
+        "requestKey" : "W7-OVERLAP_CHAIN-R7-W10",
+        "seatIds" : [ 96137, 96136, 96135, 96134 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 9,
+        "segment" : 2,
+        "customerId" : 4601,
+        "sessionId" : 1745,
+        "requestKey" : "W7-OVERLAP_CHAIN-R7-W9",
+        "seatIds" : [ 96132, 96133, 96134, 96135 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 8,
+        "segment" : 2,
+        "customerId" : 4600,
+        "sessionId" : 1745,
+        "requestKey" : "W7-OVERLAP_CHAIN-R7-W8",
+        "seatIds" : [ 96133, 96132, 96131, 96130 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 7,
+        "segment" : 1,
+        "customerId" : 4609,
+        "sessionId" : 1745,
+        "requestKey" : "W7-OVERLAP_CHAIN-R7-W7",
+        "seatIds" : [ 96122, 96123, 96124, 96125, 96126, 96127, 96128, 96129 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 6,
+        "segment" : 1,
+        "customerId" : 4608,
+        "sessionId" : 1745,
+        "requestKey" : "W7-OVERLAP_CHAIN-R7-W6",
+        "seatIds" : [ 96129, 96128, 96127, 96126 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1321,
+      "holdId" : 1310,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 5,
+        "segment" : 1,
+        "customerId" : 4607,
+        "sessionId" : 1745,
+        "requestKey" : "W7-OVERLAP_CHAIN-R7-W5",
+        "seatIds" : [ 96124, 96125, 96126, 96127 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    } ],
+    "counts" : {
+      "created" : 4,
+      "completedRequests" : 12,
+      "unexpectedFailures" : 0,
+      "allocatedSeats" : 20,
+      "businessConflicts" : 8
+    },
+    "consistency" : {
+      "sessionId" : 1745,
+      "checkedAt" : "2026-10-21T02:00:00.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 4,
+        "seats" : 24,
+        "tickets" : 0,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 4,
+        "unresolvedPayments" : 0,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    },
+    "wholeGroupsAndUniqueOwnersVerified" : true
+  }, {
+    "workload" : "OVERLAP_CHAIN",
+    "round" : 8,
+    "sessionId" : 1746,
+    "status" : "PASSED",
+    "requestsInSubmissionOrder" : [ {
+      "worker" : 4,
+      "segment" : 1,
+      "customerId" : 4606,
+      "sessionId" : 1746,
+      "requestKey" : "W7-OVERLAP_CHAIN-R8-W4",
+      "seatIds" : [ 96146, 96147, 96148, 96149 ]
+    }, {
+      "worker" : 5,
+      "segment" : 1,
+      "customerId" : 4607,
+      "sessionId" : 1746,
+      "requestKey" : "W7-OVERLAP_CHAIN-R8-W5",
+      "seatIds" : [ 96151, 96150, 96149, 96148 ]
+    }, {
+      "worker" : 6,
+      "segment" : 1,
+      "customerId" : 4608,
+      "sessionId" : 1746,
+      "requestKey" : "W7-OVERLAP_CHAIN-R8-W6",
+      "seatIds" : [ 96150, 96151, 96152, 96153 ]
+    }, {
+      "worker" : 7,
+      "segment" : 1,
+      "customerId" : 4609,
+      "sessionId" : 1746,
+      "requestKey" : "W7-OVERLAP_CHAIN-R8-W7",
+      "seatIds" : [ 96153, 96152, 96151, 96150, 96149, 96148, 96147, 96146 ]
+    }, {
+      "worker" : 8,
+      "segment" : 2,
+      "customerId" : 4600,
+      "sessionId" : 1746,
+      "requestKey" : "W7-OVERLAP_CHAIN-R8-W8",
+      "seatIds" : [ 96154, 96155, 96156, 96157 ]
+    }, {
+      "worker" : 9,
+      "segment" : 2,
+      "customerId" : 4601,
+      "sessionId" : 1746,
+      "requestKey" : "W7-OVERLAP_CHAIN-R8-W9",
+      "seatIds" : [ 96159, 96158, 96157, 96156 ]
+    }, {
+      "worker" : 10,
+      "segment" : 2,
+      "customerId" : 4604,
+      "sessionId" : 1746,
+      "requestKey" : "W7-OVERLAP_CHAIN-R8-W10",
+      "seatIds" : [ 96158, 96159, 96160, 96161 ]
+    }, {
+      "worker" : 11,
+      "segment" : 2,
+      "customerId" : 4605,
+      "sessionId" : 1746,
+      "requestKey" : "W7-OVERLAP_CHAIN-R8-W11",
+      "seatIds" : [ 96161, 96160, 96159, 96158, 96157, 96156, 96155, 96154 ]
+    }, {
+      "worker" : 0,
+      "segment" : 0,
+      "customerId" : 4600,
+      "sessionId" : 1746,
+      "requestKey" : "W7-OVERLAP_CHAIN-R8-W0",
+      "seatIds" : [ 96138, 96139, 96140, 96141 ]
+    }, {
+      "worker" : 1,
+      "segment" : 0,
+      "customerId" : 4601,
+      "sessionId" : 1746,
+      "requestKey" : "W7-OVERLAP_CHAIN-R8-W1",
+      "seatIds" : [ 96143, 96142, 96141, 96140 ]
+    }, {
+      "worker" : 2,
+      "segment" : 0,
+      "customerId" : 4604,
+      "sessionId" : 1746,
+      "requestKey" : "W7-OVERLAP_CHAIN-R8-W2",
+      "seatIds" : [ 96142, 96143, 96144, 96145 ]
+    }, {
+      "worker" : 3,
+      "segment" : 0,
+      "customerId" : 4605,
+      "sessionId" : 1746,
+      "requestKey" : "W7-OVERLAP_CHAIN-R8-W3",
+      "seatIds" : [ 96145, 96144, 96143, 96142, 96141, 96140, 96139, 96138 ]
+    } ],
+    "outcomes" : [ {
+      "attempt" : {
+        "worker" : 4,
+        "segment" : 1,
+        "customerId" : 4606,
+        "sessionId" : 1746,
+        "requestKey" : "W7-OVERLAP_CHAIN-R8-W4",
+        "seatIds" : [ 96146, 96147, 96148, 96149 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 5,
+        "segment" : 1,
+        "customerId" : 4607,
+        "sessionId" : 1746,
+        "requestKey" : "W7-OVERLAP_CHAIN-R8-W5",
+        "seatIds" : [ 96151, 96150, 96149, 96148 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 6,
+        "segment" : 1,
+        "customerId" : 4608,
+        "sessionId" : 1746,
+        "requestKey" : "W7-OVERLAP_CHAIN-R8-W6",
+        "seatIds" : [ 96150, 96151, 96152, 96153 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 7,
+        "segment" : 1,
+        "customerId" : 4609,
+        "sessionId" : 1746,
+        "requestKey" : "W7-OVERLAP_CHAIN-R8-W7",
+        "seatIds" : [ 96153, 96152, 96151, 96150, 96149, 96148, 96147, 96146 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1322,
+      "holdId" : 1311,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 8,
+        "segment" : 2,
+        "customerId" : 4600,
+        "sessionId" : 1746,
+        "requestKey" : "W7-OVERLAP_CHAIN-R8-W8",
+        "seatIds" : [ 96154, 96155, 96156, 96157 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1323,
+      "holdId" : 1312,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 9,
+        "segment" : 2,
+        "customerId" : 4601,
+        "sessionId" : 1746,
+        "requestKey" : "W7-OVERLAP_CHAIN-R8-W9",
+        "seatIds" : [ 96159, 96158, 96157, 96156 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 10,
+        "segment" : 2,
+        "customerId" : 4604,
+        "sessionId" : 1746,
+        "requestKey" : "W7-OVERLAP_CHAIN-R8-W10",
+        "seatIds" : [ 96158, 96159, 96160, 96161 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1326,
+      "holdId" : 1315,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 11,
+        "segment" : 2,
+        "customerId" : 4605,
+        "sessionId" : 1746,
+        "requestKey" : "W7-OVERLAP_CHAIN-R8-W11",
+        "seatIds" : [ 96161, 96160, 96159, 96158, 96157, 96156, 96155, 96154 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 0,
+        "segment" : 0,
+        "customerId" : 4600,
+        "sessionId" : 1746,
+        "requestKey" : "W7-OVERLAP_CHAIN-R8-W0",
+        "seatIds" : [ 96138, 96139, 96140, 96141 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1325,
+      "holdId" : 1314,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 1,
+        "segment" : 0,
+        "customerId" : 4601,
+        "sessionId" : 1746,
+        "requestKey" : "W7-OVERLAP_CHAIN-R8-W1",
+        "seatIds" : [ 96143, 96142, 96141, 96140 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 2,
+        "segment" : 0,
+        "customerId" : 4604,
+        "sessionId" : 1746,
+        "requestKey" : "W7-OVERLAP_CHAIN-R8-W2",
+        "seatIds" : [ 96142, 96143, 96144, 96145 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1324,
+      "holdId" : 1313,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 3,
+        "segment" : 0,
+        "customerId" : 4605,
+        "sessionId" : 1746,
+        "requestKey" : "W7-OVERLAP_CHAIN-R8-W3",
+        "seatIds" : [ 96145, 96144, 96143, 96142, 96141, 96140, 96139, 96138 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    } ],
+    "counts" : {
+      "created" : 5,
+      "completedRequests" : 12,
+      "unexpectedFailures" : 0,
+      "allocatedSeats" : 24,
+      "businessConflicts" : 7
+    },
+    "consistency" : {
+      "sessionId" : 1746,
+      "checkedAt" : "2026-10-21T02:00:00.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 5,
+        "seats" : 24,
+        "tickets" : 0,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 5,
+        "unresolvedPayments" : 0,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    },
+    "wholeGroupsAndUniqueOwnersVerified" : true
+  }, {
+    "workload" : "OVERLAP_CHAIN",
+    "round" : 9,
+    "sessionId" : 1747,
+    "status" : "PASSED",
+    "requestsInSubmissionOrder" : [ {
+      "worker" : 2,
+      "segment" : 0,
+      "customerId" : 4604,
+      "sessionId" : 1747,
+      "requestKey" : "W7-OVERLAP_CHAIN-R9-W2",
+      "seatIds" : [ 96169, 96168, 96167, 96166 ]
+    }, {
+      "worker" : 1,
+      "segment" : 0,
+      "customerId" : 4601,
+      "sessionId" : 1747,
+      "requestKey" : "W7-OVERLAP_CHAIN-R9-W1",
+      "seatIds" : [ 96164, 96165, 96166, 96167 ]
+    }, {
+      "worker" : 0,
+      "segment" : 0,
+      "customerId" : 4600,
+      "sessionId" : 1747,
+      "requestKey" : "W7-OVERLAP_CHAIN-R9-W0",
+      "seatIds" : [ 96165, 96164, 96163, 96162 ]
+    }, {
+      "worker" : 11,
+      "segment" : 2,
+      "customerId" : 4605,
+      "sessionId" : 1747,
+      "requestKey" : "W7-OVERLAP_CHAIN-R9-W11",
+      "seatIds" : [ 96178, 96179, 96180, 96181, 96182, 96183, 96184, 96185 ]
+    }, {
+      "worker" : 10,
+      "segment" : 2,
+      "customerId" : 4604,
+      "sessionId" : 1747,
+      "requestKey" : "W7-OVERLAP_CHAIN-R9-W10",
+      "seatIds" : [ 96185, 96184, 96183, 96182 ]
+    }, {
+      "worker" : 9,
+      "segment" : 2,
+      "customerId" : 4601,
+      "sessionId" : 1747,
+      "requestKey" : "W7-OVERLAP_CHAIN-R9-W9",
+      "seatIds" : [ 96180, 96181, 96182, 96183 ]
+    }, {
+      "worker" : 8,
+      "segment" : 2,
+      "customerId" : 4600,
+      "sessionId" : 1747,
+      "requestKey" : "W7-OVERLAP_CHAIN-R9-W8",
+      "seatIds" : [ 96181, 96180, 96179, 96178 ]
+    }, {
+      "worker" : 7,
+      "segment" : 1,
+      "customerId" : 4609,
+      "sessionId" : 1747,
+      "requestKey" : "W7-OVERLAP_CHAIN-R9-W7",
+      "seatIds" : [ 96170, 96171, 96172, 96173, 96174, 96175, 96176, 96177 ]
+    }, {
+      "worker" : 6,
+      "segment" : 1,
+      "customerId" : 4608,
+      "sessionId" : 1747,
+      "requestKey" : "W7-OVERLAP_CHAIN-R9-W6",
+      "seatIds" : [ 96177, 96176, 96175, 96174 ]
+    }, {
+      "worker" : 5,
+      "segment" : 1,
+      "customerId" : 4607,
+      "sessionId" : 1747,
+      "requestKey" : "W7-OVERLAP_CHAIN-R9-W5",
+      "seatIds" : [ 96172, 96173, 96174, 96175 ]
+    }, {
+      "worker" : 4,
+      "segment" : 1,
+      "customerId" : 4606,
+      "sessionId" : 1747,
+      "requestKey" : "W7-OVERLAP_CHAIN-R9-W4",
+      "seatIds" : [ 96173, 96172, 96171, 96170 ]
+    }, {
+      "worker" : 3,
+      "segment" : 0,
+      "customerId" : 4605,
+      "sessionId" : 1747,
+      "requestKey" : "W7-OVERLAP_CHAIN-R9-W3",
+      "seatIds" : [ 96162, 96163, 96164, 96165, 96166, 96167, 96168, 96169 ]
+    } ],
+    "outcomes" : [ {
+      "attempt" : {
+        "worker" : 2,
+        "segment" : 0,
+        "customerId" : 4604,
+        "sessionId" : 1747,
+        "requestKey" : "W7-OVERLAP_CHAIN-R9-W2",
+        "seatIds" : [ 96169, 96168, 96167, 96166 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 1,
+        "segment" : 0,
+        "customerId" : 4601,
+        "sessionId" : 1747,
+        "requestKey" : "W7-OVERLAP_CHAIN-R9-W1",
+        "seatIds" : [ 96164, 96165, 96166, 96167 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1328,
+      "holdId" : 1317,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 0,
+        "segment" : 0,
+        "customerId" : 4600,
+        "sessionId" : 1747,
+        "requestKey" : "W7-OVERLAP_CHAIN-R9-W0",
+        "seatIds" : [ 96165, 96164, 96163, 96162 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 11,
+        "segment" : 2,
+        "customerId" : 4605,
+        "sessionId" : 1747,
+        "requestKey" : "W7-OVERLAP_CHAIN-R9-W11",
+        "seatIds" : [ 96178, 96179, 96180, 96181, 96182, 96183, 96184, 96185 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1327,
+      "holdId" : 1316,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 10,
+        "segment" : 2,
+        "customerId" : 4604,
+        "sessionId" : 1747,
+        "requestKey" : "W7-OVERLAP_CHAIN-R9-W10",
+        "seatIds" : [ 96185, 96184, 96183, 96182 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 9,
+        "segment" : 2,
+        "customerId" : 4601,
+        "sessionId" : 1747,
+        "requestKey" : "W7-OVERLAP_CHAIN-R9-W9",
+        "seatIds" : [ 96180, 96181, 96182, 96183 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 8,
+        "segment" : 2,
+        "customerId" : 4600,
+        "sessionId" : 1747,
+        "requestKey" : "W7-OVERLAP_CHAIN-R9-W8",
+        "seatIds" : [ 96181, 96180, 96179, 96178 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 7,
+        "segment" : 1,
+        "customerId" : 4609,
+        "sessionId" : 1747,
+        "requestKey" : "W7-OVERLAP_CHAIN-R9-W7",
+        "seatIds" : [ 96170, 96171, 96172, 96173, 96174, 96175, 96176, 96177 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 6,
+        "segment" : 1,
+        "customerId" : 4608,
+        "sessionId" : 1747,
+        "requestKey" : "W7-OVERLAP_CHAIN-R9-W6",
+        "seatIds" : [ 96177, 96176, 96175, 96174 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1330,
+      "holdId" : 1319,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 5,
+        "segment" : 1,
+        "customerId" : 4607,
+        "sessionId" : 1747,
+        "requestKey" : "W7-OVERLAP_CHAIN-R9-W5",
+        "seatIds" : [ 96172, 96173, 96174, 96175 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 4,
+        "segment" : 1,
+        "customerId" : 4606,
+        "sessionId" : 1747,
+        "requestKey" : "W7-OVERLAP_CHAIN-R9-W4",
+        "seatIds" : [ 96173, 96172, 96171, 96170 ]
+      },
+      "result" : "CREATED",
+      "orderId" : 1329,
+      "holdId" : 1318,
+      "unexpectedErrorType" : null
+    }, {
+      "attempt" : {
+        "worker" : 3,
+        "segment" : 0,
+        "customerId" : 4605,
+        "sessionId" : 1747,
+        "requestKey" : "W7-OVERLAP_CHAIN-R9-W3",
+        "seatIds" : [ 96162, 96163, 96164, 96165, 96166, 96167, 96168, 96169 ]
+      },
+      "result" : "SEAT_NOT_AVAILABLE",
+      "orderId" : null,
+      "holdId" : null,
+      "unexpectedErrorType" : null
+    } ],
+    "counts" : {
+      "created" : 4,
+      "completedRequests" : 12,
+      "unexpectedFailures" : 0,
+      "allocatedSeats" : 20,
+      "businessConflicts" : 8
+    },
+    "consistency" : {
+      "sessionId" : 1747,
+      "checkedAt" : "2026-10-21T02:00:00.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 4,
+        "seats" : 24,
+        "tickets" : 0,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 4,
+        "unresolvedPayments" : 0,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    },
+    "wholeGroupsAndUniqueOwnersVerified" : true
+  } ],
+  "totals" : {
+    "created" : 72,
+    "completedRequests" : 240,
+    "unexpectedFailures" : 0,
+    "allocatedSeats" : 348,
+    "businessConflicts" : 168
+  },
+  "completedRounds" : 20,
+  "finishedAtUtc" : "2026-10-21T02:37:01.554497900Z"
+}

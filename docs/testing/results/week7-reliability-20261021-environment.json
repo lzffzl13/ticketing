@@ -1,0 +1,79 @@
+{
+  "status": "COMPLETED",
+  "startedAtUtc": "2026-10-21T02:36:25.1402064+00:00",
+  "gitHead": "7bbb0cff601cc4b4e5be2f8d8b403e521031bc96",
+  "gitBranch": "codex/week7-reliability",
+  "trackedChanges": [],
+  "untrackedSources": [
+    "scripts/verify-week7-reliability.ps1",
+    "src/test/java/com/ticketing/trade/Week7InventoryReliabilityIT.java",
+    "src/test/java/com/ticketing/trade/Week7PaymentReliabilityIT.java"
+  ],
+  "database": {
+    "name": "ticketing_test",
+    "host": "127.0.0.1",
+    "port": 3308
+  },
+  "machine": {
+    "operatingSystem": "Microsoft Windows 11 家庭版 中文版",
+    "version": "10.0.26200",
+    "architecture": "64 位",
+    "totalMemoryBytes": 33873752064,
+    "processors": [
+      {
+        "Name": "Intel(R) Core(TM) Ultra 5 336H",
+        "NumberOfCores": 12,
+        "NumberOfLogicalProcessors": 12
+      }
+    ]
+  },
+  "javaVersion": "openjdk version \"21.0.12.1\" 2026-08-18 LTS\r\nOpenJDK Runtime Environment Temurin-21.0.12.1+1 (build 21.0.12.1+1-LTS)\r\nOpenJDK 64-Bit Server VM Temurin-21.0.12.1+1 (build 21.0.12.1+1-LTS, mixed mode, sharing)",
+  "sourceHashes": [
+    {
+      "path": "scripts/verify-week7-reliability.ps1",
+      "sha256": "3D88425D44F9B86F2014DC38B9D55C3474922585F0D1FF72C5528976E36F1FA7"
+    },
+    {
+      "path": "src/test/java/com/ticketing/trade/Week7InventoryReliabilityIT.java",
+      "sha256": "840674C796EF5C4C7EF50B54B8991BA426080D7CE1F518502AF861EAC3F5CE01"
+    },
+    {
+      "path": "src/test/java/com/ticketing/trade/Week7PaymentReliabilityIT.java",
+      "sha256": "71A9CDF994E92915700F0A31E5BF544D94B81670269A3E355423DF4F10E568DB"
+    }
+  ],
+  "testClasses": [
+    "Week7InventoryReliabilityIT",
+    "Week7PaymentReliabilityIT"
+  ],
+  "scope": "Real MySQL service-level correctness experiments; controlled test Clock; no HTTP throughput measurement.",
+  "isolation": "Dedicated ticketing_test only. Existing integration fixtures reset this test database. Run serially with all other integration tests and benchmarks.",
+  "faultModel": "Test-only latches, mapper exceptions and simulator acknowledgement failure; these do not constitute an OS process-kill experiment.",
+  "reports": [
+    {
+      "class": "Week7InventoryReliabilityIT",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "elapsedSeconds": 19.861,
+      "cases": [
+        "repeatedMultiUserOverlapsCommitOnlyWholeDisjointWinningGroups"
+      ]
+    },
+    {
+      "class": "Week7PaymentReliabilityIT",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "elapsedSeconds": 13.642,
+      "cases": [
+        "staleWorkerCannotClearTakeoverClaimAndTwoRetryWorkersRecoverTheTakeoversActualTicketRollback",
+        "delayedFailedAndProcessingNoticesOfAnExpiredOrderCannotAffectTheSeatsNewPaidOwner",
+        "committedTicketsSurviveLostAcknowledgementConcurrentRedeliveryAndAnOlderProcessingNotice"
+      ]
+    }
+  ],
+  "completedAtUtc": "2026-10-21T02:37:15.7222934+00:00"
+}

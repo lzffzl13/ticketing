@@ -1,0 +1,620 @@
+{
+  "experimentType" : "real services and MySQL with controlled in-process fault injection",
+  "experiments" : [ {
+    "id" : "expired-worker-old-snapshot-and-replacement-write-failure",
+    "faultSource" : "Latch after a real PROCESSING query; expire its lease with the test Clock. A replacement queries real success, then throws after the first actual ticket INSERT. No table facts are fabricated.",
+    "originalOrderId" : 1331,
+    "originalOrderNumber" : "c2a44759-68e8-4aaf-9b5c-2bd913057155",
+    "sessionId" : 1748,
+    "selectedSeatIds" : [ 96186, 96187 ],
+    "assertionsCompleted" : true,
+    "stages" : [ {
+      "name" : "expired lease counted once while replacement owns a fresh claim",
+      "testClock" : "2026-10-10T03:01:06.123456Z",
+      "expected" : {
+        "failures" : 1,
+        "error" : "RECOVERY_LEASE_EXPIRED",
+        "channelQueries" : 2,
+        "leaseActive" : true
+      },
+      "actual" : {
+        "failures" : 1,
+        "error" : "RECOVERY_LEASE_EXPIRED",
+        "channelQueries" : 2,
+        "leaseActive" : true
+      },
+      "originalOrderState" : {
+        "orderId" : 1331,
+        "orderStatus" : "PENDING_PAYMENT",
+        "cancellationRequestedAt" : null,
+        "cancellationReason" : null,
+        "firstUnresolvedAt" : "2026-10-10T03:01:05.123456Z",
+        "consecutiveFailures" : 1,
+        "nextRecoveryAt" : "2026-10-10T03:01:06.123456Z",
+        "recentError" : "RECOVERY_LEASE_EXPIRED",
+        "manualRequired" : false,
+        "recoveryClaimUntil" : "2026-10-10T03:02:06.123456Z",
+        "payments" : [ {
+          "id" : 642,
+          "orderId" : 1331,
+          "sessionId" : 1748,
+          "paymentNumber" : "db78a470-ee58-4701-b139-e2112c9c6772",
+          "amount" : 760.00,
+          "paymentExpiresAt" : "2026-10-10T03:15:00.123456Z",
+          "requestKey" : "w7-takeover-rollback",
+          "paymentStatus" : "PROCESSING",
+          "acceptedAt" : "2026-10-10T03:00:00.123456Z",
+          "resultAt" : null,
+          "failureCode" : null,
+          "createdAt" : "2026-10-10T03:00:00.123456Z",
+          "updatedAt" : "2026-10-10T03:00:00.123456Z"
+        } ]
+      },
+      "originalNotifications" : [ {
+        "notificationNumber" : "ccb9d81d-88d6-4d56-9b9d-4f754a45641f",
+        "paymentNumber" : "db78a470-ee58-4701-b139-e2112c9c6772",
+        "observedStatus" : "PROCESSING",
+        "observedAt" : "2026-10-10T03:00:00.123456Z",
+        "deliveredAt" : null
+      }, {
+        "notificationNumber" : "223d2c19-59bf-4b4c-adb3-cb1245810471",
+        "paymentNumber" : "db78a470-ee58-4701-b139-e2112c9c6772",
+        "observedStatus" : "SUCCEEDED",
+        "observedAt" : "2026-10-10T03:01:06.123456Z",
+        "deliveredAt" : null
+      } ]
+    }, {
+      "name" : "old PROCESSING result returns without clearing replacement ownership",
+      "testClock" : "2026-10-10T03:01:06.123456Z",
+      "expected" : {
+        "replacementStillOwnsClaim" : true,
+        "tickets" : 0,
+        "localPayment" : "PROCESSING",
+        "failures" : 1
+      },
+      "actual" : {
+        "replacementStillOwnsClaim" : true,
+        "tickets" : 0,
+        "localPayment" : "PROCESSING",
+        "failures" : 1
+      },
+      "originalOrderState" : {
+        "orderId" : 1331,
+        "orderStatus" : "PENDING_PAYMENT",
+        "cancellationRequestedAt" : null,
+        "cancellationReason" : null,
+        "firstUnresolvedAt" : "2026-10-10T03:01:05.123456Z",
+        "consecutiveFailures" : 1,
+        "nextRecoveryAt" : "2026-10-10T03:01:06.123456Z",
+        "recentError" : "RECOVERY_LEASE_EXPIRED",
+        "manualRequired" : false,
+        "recoveryClaimUntil" : "2026-10-10T03:02:06.123456Z",
+        "payments" : [ {
+          "id" : 642,
+          "orderId" : 1331,
+          "sessionId" : 1748,
+          "paymentNumber" : "db78a470-ee58-4701-b139-e2112c9c6772",
+          "amount" : 760.00,
+          "paymentExpiresAt" : "2026-10-10T03:15:00.123456Z",
+          "requestKey" : "w7-takeover-rollback",
+          "paymentStatus" : "PROCESSING",
+          "acceptedAt" : "2026-10-10T03:00:00.123456Z",
+          "resultAt" : null,
+          "failureCode" : null,
+          "createdAt" : "2026-10-10T03:00:00.123456Z",
+          "updatedAt" : "2026-10-10T03:01:06.123456Z"
+        } ]
+      },
+      "originalNotifications" : [ {
+        "notificationNumber" : "ccb9d81d-88d6-4d56-9b9d-4f754a45641f",
+        "paymentNumber" : "db78a470-ee58-4701-b139-e2112c9c6772",
+        "observedStatus" : "PROCESSING",
+        "observedAt" : "2026-10-10T03:00:00.123456Z",
+        "deliveredAt" : null
+      }, {
+        "notificationNumber" : "223d2c19-59bf-4b4c-adb3-cb1245810471",
+        "paymentNumber" : "db78a470-ee58-4701-b139-e2112c9c6772",
+        "observedStatus" : "SUCCEEDED",
+        "observedAt" : "2026-10-10T03:01:06.123456Z",
+        "deliveredAt" : null
+      } ]
+    }, {
+      "name" : "replacement INSERT fault rolls back the complete local result and adds one failure",
+      "testClock" : "2026-10-10T03:01:06.123456Z",
+      "expected" : {
+        "firstUnresolvedAt" : "2026-10-10T03:01:05.123456Z",
+        "claimCleared" : true,
+        "retryAt" : "2026-10-10T03:01:21.123456Z",
+        "prematureScanCandidates" : 0,
+        "failures" : 2,
+        "error" : "LOCAL_APPLY_FAILED",
+        "tickets" : 0,
+        "channelStatus" : "SUCCEEDED"
+      },
+      "actual" : {
+        "firstUnresolvedAt" : "2026-10-10T03:01:05.123456Z",
+        "claimCleared" : true,
+        "retryAt" : "2026-10-10T03:01:21.123456Z",
+        "prematureScanCandidates" : 0,
+        "failures" : 2,
+        "error" : "LOCAL_APPLY_FAILED",
+        "tickets" : 0,
+        "channelStatus" : "SUCCEEDED"
+      },
+      "originalOrderState" : {
+        "orderId" : 1331,
+        "orderStatus" : "PENDING_PAYMENT",
+        "cancellationRequestedAt" : null,
+        "cancellationReason" : null,
+        "firstUnresolvedAt" : "2026-10-10T03:01:05.123456Z",
+        "consecutiveFailures" : 2,
+        "nextRecoveryAt" : "2026-10-10T03:01:21.123456Z",
+        "recentError" : "LOCAL_APPLY_FAILED",
+        "manualRequired" : false,
+        "recoveryClaimUntil" : null,
+        "payments" : [ {
+          "id" : 642,
+          "orderId" : 1331,
+          "sessionId" : 1748,
+          "paymentNumber" : "db78a470-ee58-4701-b139-e2112c9c6772",
+          "amount" : 760.00,
+          "paymentExpiresAt" : "2026-10-10T03:15:00.123456Z",
+          "requestKey" : "w7-takeover-rollback",
+          "paymentStatus" : "PROCESSING",
+          "acceptedAt" : "2026-10-10T03:00:00.123456Z",
+          "resultAt" : null,
+          "failureCode" : null,
+          "createdAt" : "2026-10-10T03:00:00.123456Z",
+          "updatedAt" : "2026-10-10T03:01:06.123456Z"
+        } ]
+      },
+      "originalNotifications" : [ {
+        "notificationNumber" : "ccb9d81d-88d6-4d56-9b9d-4f754a45641f",
+        "paymentNumber" : "db78a470-ee58-4701-b139-e2112c9c6772",
+        "observedStatus" : "PROCESSING",
+        "observedAt" : "2026-10-10T03:00:00.123456Z",
+        "deliveredAt" : null
+      }, {
+        "notificationNumber" : "223d2c19-59bf-4b4c-adb3-cb1245810471",
+        "paymentNumber" : "db78a470-ee58-4701-b139-e2112c9c6772",
+        "observedStatus" : "SUCCEEDED",
+        "observedAt" : "2026-10-10T03:01:06.123456Z",
+        "deliveredAt" : null
+      } ]
+    }, {
+      "name" : "two retry scanners select one order and perform only one new channel query",
+      "testClock" : "2026-10-10T03:01:21.123456Z",
+      "expected" : {
+        "tickets" : 2,
+        "channelQueries" : 3,
+        "noticeStillPending" : true,
+        "failures" : 0,
+        "claimCleared" : true
+      },
+      "actual" : {
+        "tickets" : 2,
+        "channelQueries" : 3,
+        "noticeStillPending" : true,
+        "failures" : 0,
+        "claimCleared" : true
+      },
+      "originalOrderState" : {
+        "orderId" : 1331,
+        "orderStatus" : "PAID",
+        "cancellationRequestedAt" : null,
+        "cancellationReason" : null,
+        "firstUnresolvedAt" : null,
+        "consecutiveFailures" : 0,
+        "nextRecoveryAt" : null,
+        "recentError" : null,
+        "manualRequired" : false,
+        "recoveryClaimUntil" : null,
+        "payments" : [ {
+          "id" : 642,
+          "orderId" : 1331,
+          "sessionId" : 1748,
+          "paymentNumber" : "db78a470-ee58-4701-b139-e2112c9c6772",
+          "amount" : 760.00,
+          "paymentExpiresAt" : "2026-10-10T03:15:00.123456Z",
+          "requestKey" : "w7-takeover-rollback",
+          "paymentStatus" : "SUCCEEDED",
+          "acceptedAt" : "2026-10-10T03:00:00.123456Z",
+          "resultAt" : "2026-10-10T03:01:06.123456Z",
+          "failureCode" : null,
+          "createdAt" : "2026-10-10T03:00:00.123456Z",
+          "updatedAt" : "2026-10-10T03:01:21.123456Z"
+        } ]
+      },
+      "originalNotifications" : [ {
+        "notificationNumber" : "ccb9d81d-88d6-4d56-9b9d-4f754a45641f",
+        "paymentNumber" : "db78a470-ee58-4701-b139-e2112c9c6772",
+        "observedStatus" : "PROCESSING",
+        "observedAt" : "2026-10-10T03:00:00.123456Z",
+        "deliveredAt" : null
+      }, {
+        "notificationNumber" : "223d2c19-59bf-4b4c-adb3-cb1245810471",
+        "paymentNumber" : "db78a470-ee58-4701-b139-e2112c9c6772",
+        "observedStatus" : "SUCCEEDED",
+        "observedAt" : "2026-10-10T03:01:06.123456Z",
+        "deliveredAt" : null
+      } ]
+    }, {
+      "name" : "late original notices are acknowledged without repeating the recovered ticket writes",
+      "testClock" : "2026-10-10T03:01:21.123456Z",
+      "expected" : {
+        "successDelivered" : true,
+        "sameTicketIds" : true,
+        "failures" : 0,
+        "oldProcessingDelivered" : true
+      },
+      "actual" : {
+        "successDelivered" : true,
+        "sameTicketIds" : true,
+        "failures" : 0,
+        "oldProcessingDelivered" : true
+      },
+      "originalOrderState" : {
+        "orderId" : 1331,
+        "orderStatus" : "PAID",
+        "cancellationRequestedAt" : null,
+        "cancellationReason" : null,
+        "firstUnresolvedAt" : null,
+        "consecutiveFailures" : 0,
+        "nextRecoveryAt" : null,
+        "recentError" : null,
+        "manualRequired" : false,
+        "recoveryClaimUntil" : null,
+        "payments" : [ {
+          "id" : 642,
+          "orderId" : 1331,
+          "sessionId" : 1748,
+          "paymentNumber" : "db78a470-ee58-4701-b139-e2112c9c6772",
+          "amount" : 760.00,
+          "paymentExpiresAt" : "2026-10-10T03:15:00.123456Z",
+          "requestKey" : "w7-takeover-rollback",
+          "paymentStatus" : "SUCCEEDED",
+          "acceptedAt" : "2026-10-10T03:00:00.123456Z",
+          "resultAt" : "2026-10-10T03:01:06.123456Z",
+          "failureCode" : null,
+          "createdAt" : "2026-10-10T03:00:00.123456Z",
+          "updatedAt" : "2026-10-10T03:01:21.123456Z"
+        } ]
+      },
+      "originalNotifications" : [ {
+        "notificationNumber" : "ccb9d81d-88d6-4d56-9b9d-4f754a45641f",
+        "paymentNumber" : "db78a470-ee58-4701-b139-e2112c9c6772",
+        "observedStatus" : "PROCESSING",
+        "observedAt" : "2026-10-10T03:00:00.123456Z",
+        "deliveredAt" : "2026-10-10T03:01:21.123456Z"
+      }, {
+        "notificationNumber" : "223d2c19-59bf-4b4c-adb3-cb1245810471",
+        "paymentNumber" : "db78a470-ee58-4701-b139-e2112c9c6772",
+        "observedStatus" : "SUCCEEDED",
+        "observedAt" : "2026-10-10T03:01:06.123456Z",
+        "deliveredAt" : "2026-10-10T03:01:21.123456Z"
+      } ]
+    } ],
+    "finalConsistency" : {
+      "sessionId" : 1748,
+      "checkedAt" : "2026-10-10T03:01:21.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 1,
+        "seats" : 56,
+        "tickets" : 2,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 0,
+        "unresolvedPayments" : 0,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    }
+  }, {
+    "id" : "historical-notices-after-cancellation-and-resale",
+    "faultSource" : "Delay persisted PROCESSING/FAILED notifications until the original failed order is safely expired and consumer2 has bought the same two seats; replay old notices and the old recovery task concurrently.",
+    "originalOrderId" : 1332,
+    "originalOrderNumber" : "faf9a8ba-a8b5-4a9e-bacc-e18072b1688a",
+    "sessionId" : 1749,
+    "selectedSeatIds" : [ 96242, 96243 ],
+    "assertionsCompleted" : true,
+    "stages" : [ {
+      "name" : "failed original order safely expires before any resale",
+      "testClock" : "2026-10-10T03:15:00.123456Z",
+      "expected" : {
+        "paymentStatus" : "FAILED",
+        "orderStatus" : "CANCELLED",
+        "tickets" : 0,
+        "failureNoticePending" : true
+      },
+      "actual" : {
+        "paymentStatus" : "FAILED",
+        "orderStatus" : "CANCELLED",
+        "tickets" : 0,
+        "failureNoticePending" : true
+      },
+      "originalOrderState" : {
+        "orderId" : 1332,
+        "orderStatus" : "CANCELLED",
+        "cancellationRequestedAt" : "2026-10-10T03:15:00.123456Z",
+        "cancellationReason" : "TIMEOUT",
+        "firstUnresolvedAt" : null,
+        "consecutiveFailures" : 0,
+        "nextRecoveryAt" : null,
+        "recentError" : null,
+        "manualRequired" : false,
+        "recoveryClaimUntil" : null,
+        "payments" : [ {
+          "id" : 643,
+          "orderId" : 1332,
+          "sessionId" : 1749,
+          "paymentNumber" : "01225236-db97-4903-89c9-da3bd1f8e3b0",
+          "amount" : 760.00,
+          "paymentExpiresAt" : "2026-10-10T03:15:00.123456Z",
+          "requestKey" : "w7-original-failed",
+          "paymentStatus" : "FAILED",
+          "acceptedAt" : "2026-10-10T03:00:00.123456Z",
+          "resultAt" : "2026-10-10T03:00:00.123456Z",
+          "failureCode" : "SIMULATED_FAILURE",
+          "createdAt" : "2026-10-10T03:00:00.123456Z",
+          "updatedAt" : "2026-10-10T03:00:00.123456Z"
+        } ]
+      },
+      "originalNotifications" : [ {
+        "notificationNumber" : "82e3c5a2-005c-4338-8731-b588031c34c6",
+        "paymentNumber" : "01225236-db97-4903-89c9-da3bd1f8e3b0",
+        "observedStatus" : "FAILED",
+        "observedAt" : "2026-10-10T03:00:00.123456Z",
+        "deliveredAt" : null
+      }, {
+        "notificationNumber" : "bf4ab7b9-5c10-4aff-af07-d673e1ebc737",
+        "paymentNumber" : "01225236-db97-4903-89c9-da3bd1f8e3b0",
+        "observedStatus" : "PROCESSING",
+        "observedAt" : "2026-10-10T03:00:00.123456Z",
+        "deliveredAt" : null
+      } ]
+    }, {
+      "name" : "late old notices and repeated recovery preserve the new buyer's sold inventory and original tickets",
+      "testClock" : "2026-10-10T03:15:00.123456Z",
+      "expected" : {
+        "sameNewTicketIds" : true,
+        "newPaymentStatus" : "SUCCEEDED",
+        "oldOrderStatus" : "CANCELLED",
+        "originalTickets" : 0,
+        "bothOldNoticesDelivered" : true,
+        "soldWithNoHold" : 2,
+        "oldPaymentStatus" : "FAILED",
+        "newOrderStatus" : "PAID",
+        "newTickets" : 2
+      },
+      "actual" : {
+        "sameNewTicketIds" : true,
+        "newPaymentStatus" : "SUCCEEDED",
+        "oldOrderStatus" : "CANCELLED",
+        "originalTickets" : 0,
+        "bothOldNoticesDelivered" : true,
+        "soldWithNoHold" : 2,
+        "oldPaymentStatus" : "FAILED",
+        "newOrderStatus" : "PAID",
+        "newTickets" : 2
+      },
+      "originalOrderState" : {
+        "orderId" : 1332,
+        "orderStatus" : "CANCELLED",
+        "cancellationRequestedAt" : "2026-10-10T03:15:00.123456Z",
+        "cancellationReason" : "TIMEOUT",
+        "firstUnresolvedAt" : null,
+        "consecutiveFailures" : 0,
+        "nextRecoveryAt" : null,
+        "recentError" : null,
+        "manualRequired" : false,
+        "recoveryClaimUntil" : null,
+        "payments" : [ {
+          "id" : 643,
+          "orderId" : 1332,
+          "sessionId" : 1749,
+          "paymentNumber" : "01225236-db97-4903-89c9-da3bd1f8e3b0",
+          "amount" : 760.00,
+          "paymentExpiresAt" : "2026-10-10T03:15:00.123456Z",
+          "requestKey" : "w7-original-failed",
+          "paymentStatus" : "FAILED",
+          "acceptedAt" : "2026-10-10T03:00:00.123456Z",
+          "resultAt" : "2026-10-10T03:00:00.123456Z",
+          "failureCode" : "SIMULATED_FAILURE",
+          "createdAt" : "2026-10-10T03:00:00.123456Z",
+          "updatedAt" : "2026-10-10T03:00:00.123456Z"
+        } ]
+      },
+      "originalNotifications" : [ {
+        "notificationNumber" : "82e3c5a2-005c-4338-8731-b588031c34c6",
+        "paymentNumber" : "01225236-db97-4903-89c9-da3bd1f8e3b0",
+        "observedStatus" : "FAILED",
+        "observedAt" : "2026-10-10T03:00:00.123456Z",
+        "deliveredAt" : "2026-10-10T03:15:00.123456Z"
+      }, {
+        "notificationNumber" : "bf4ab7b9-5c10-4aff-af07-d673e1ebc737",
+        "paymentNumber" : "01225236-db97-4903-89c9-da3bd1f8e3b0",
+        "observedStatus" : "PROCESSING",
+        "observedAt" : "2026-10-10T03:00:00.123456Z",
+        "deliveredAt" : "2026-10-10T03:15:00.123456Z"
+      } ]
+    } ],
+    "replacementOrderId" : 1333,
+    "replacementOrderNumber" : "f7228a40-2ddd-4f4e-8c7d-d220a7686d37",
+    "replacementPaymentNumber" : "3070619c-c84a-4ec8-91f2-9e8797aa4b62",
+    "finalConsistency" : {
+      "sessionId" : 1749,
+      "checkedAt" : "2026-10-10T03:15:00.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 2,
+        "seats" : 56,
+        "tickets" : 2,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 0,
+        "unresolvedPayments" : 0,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    }
+  }, {
+    "id" : "committed-result-before-notice-acknowledgement",
+    "faultSource" : "Throw before the first simulator acknowledgement, after the receiver has committed local success.",
+    "originalOrderId" : 1334,
+    "originalOrderNumber" : "c94ec540-3976-4ff6-a257-29620be38b5f",
+    "sessionId" : 1750,
+    "selectedSeatIds" : [ 96298, 96299 ],
+    "assertionsCompleted" : true,
+    "stages" : [ {
+      "name" : "local commit survives acknowledgement failure",
+      "testClock" : "2026-10-10T03:00:00.123456Z",
+      "expected" : {
+        "failures" : 0,
+        "orderStatus" : "PAID",
+        "tickets" : 2,
+        "noticeDelivered" : false
+      },
+      "actual" : {
+        "failures" : 0,
+        "orderStatus" : "PAID",
+        "tickets" : 2,
+        "noticeDelivered" : false
+      },
+      "originalOrderState" : {
+        "orderId" : 1334,
+        "orderStatus" : "PAID",
+        "cancellationRequestedAt" : null,
+        "cancellationReason" : null,
+        "firstUnresolvedAt" : null,
+        "consecutiveFailures" : 0,
+        "nextRecoveryAt" : null,
+        "recentError" : null,
+        "manualRequired" : false,
+        "recoveryClaimUntil" : null,
+        "payments" : [ {
+          "id" : 645,
+          "orderId" : 1334,
+          "sessionId" : 1750,
+          "paymentNumber" : "cbdd61c2-88ce-43a0-90de-fb2b0f46e73e",
+          "amount" : 760.00,
+          "paymentExpiresAt" : "2026-10-10T03:15:00.123456Z",
+          "requestKey" : "w7-ack-window",
+          "paymentStatus" : "SUCCEEDED",
+          "acceptedAt" : "2026-10-10T03:00:00.123456Z",
+          "resultAt" : "2026-10-10T03:00:00.123456Z",
+          "failureCode" : null,
+          "createdAt" : "2026-10-10T03:00:00.123456Z",
+          "updatedAt" : "2026-10-10T03:00:00.123456Z"
+        } ]
+      },
+      "originalNotifications" : [ {
+        "notificationNumber" : "3fa15d50-07d3-47b5-836a-d71817612c0a",
+        "paymentNumber" : "cbdd61c2-88ce-43a0-90de-fb2b0f46e73e",
+        "observedStatus" : "PROCESSING",
+        "observedAt" : "2026-10-10T03:00:00.123456Z",
+        "deliveredAt" : null
+      }, {
+        "notificationNumber" : "f3b112ea-11fc-4bd0-9a3e-0ad7e327cf20",
+        "paymentNumber" : "cbdd61c2-88ce-43a0-90de-fb2b0f46e73e",
+        "observedStatus" : "SUCCEEDED",
+        "observedAt" : "2026-10-10T03:00:00.123456Z",
+        "deliveredAt" : null
+      } ]
+    }, {
+      "name" : "duplicate and old notices preserve the original tickets and acknowledgement time",
+      "testClock" : "2026-10-10T03:00:02.123456Z",
+      "expected" : {
+        "firstAcknowledgementPreserved" : true,
+        "oldProcessingDelivered" : true,
+        "failures" : 0,
+        "sameTicketIds" : true,
+        "successDelivered" : true,
+        "selectedPaidOrders" : 0
+      },
+      "actual" : {
+        "firstAcknowledgementPreserved" : true,
+        "oldProcessingDelivered" : true,
+        "failures" : 0,
+        "sameTicketIds" : true,
+        "successDelivered" : true,
+        "selectedPaidOrders" : 0
+      },
+      "originalOrderState" : {
+        "orderId" : 1334,
+        "orderStatus" : "PAID",
+        "cancellationRequestedAt" : null,
+        "cancellationReason" : null,
+        "firstUnresolvedAt" : null,
+        "consecutiveFailures" : 0,
+        "nextRecoveryAt" : null,
+        "recentError" : null,
+        "manualRequired" : false,
+        "recoveryClaimUntil" : null,
+        "payments" : [ {
+          "id" : 645,
+          "orderId" : 1334,
+          "sessionId" : 1750,
+          "paymentNumber" : "cbdd61c2-88ce-43a0-90de-fb2b0f46e73e",
+          "amount" : 760.00,
+          "paymentExpiresAt" : "2026-10-10T03:15:00.123456Z",
+          "requestKey" : "w7-ack-window",
+          "paymentStatus" : "SUCCEEDED",
+          "acceptedAt" : "2026-10-10T03:00:00.123456Z",
+          "resultAt" : "2026-10-10T03:00:00.123456Z",
+          "failureCode" : null,
+          "createdAt" : "2026-10-10T03:00:00.123456Z",
+          "updatedAt" : "2026-10-10T03:00:00.123456Z"
+        } ]
+      },
+      "originalNotifications" : [ {
+        "notificationNumber" : "3fa15d50-07d3-47b5-836a-d71817612c0a",
+        "paymentNumber" : "cbdd61c2-88ce-43a0-90de-fb2b0f46e73e",
+        "observedStatus" : "PROCESSING",
+        "observedAt" : "2026-10-10T03:00:00.123456Z",
+        "deliveredAt" : "2026-10-10T03:00:01.123456Z"
+      }, {
+        "notificationNumber" : "f3b112ea-11fc-4bd0-9a3e-0ad7e327cf20",
+        "paymentNumber" : "cbdd61c2-88ce-43a0-90de-fb2b0f46e73e",
+        "observedStatus" : "SUCCEEDED",
+        "observedAt" : "2026-10-10T03:00:00.123456Z",
+        "deliveredAt" : "2026-10-10T03:00:01.123456Z"
+      }, {
+        "notificationNumber" : "24cd784d-8b4d-4d96-9995-d98e3c86f2b0",
+        "paymentNumber" : "cbdd61c2-88ce-43a0-90de-fb2b0f46e73e",
+        "observedStatus" : "SUCCEEDED",
+        "observedAt" : "2026-10-10T03:00:02.123456Z",
+        "deliveredAt" : "2026-10-10T03:00:02.123456Z"
+      } ]
+    } ],
+    "finalConsistency" : {
+      "sessionId" : 1750,
+      "checkedAt" : "2026-10-10T03:00:02.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 1,
+        "seats" : 56,
+        "tickets" : 2,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 0,
+        "unresolvedPayments" : 0,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    }
+  } ],
+  "recordedAt" : "2026-10-21T02:37:15.249798700Z"
+}

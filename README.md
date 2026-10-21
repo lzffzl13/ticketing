@@ -84,6 +84,9 @@
 | [核销与一致性代码导读](docs/development/checkin-consistency.md) | 入口、优先级、事务、异常、恢复限制与后续学习材料 |
 | [完整履约演示](docs/development/week-06-demo.md) | 固定种子购买、退款回流、同座重售、真实等待核销及只读重跑 |
 | [第六周进度](docs/progress/week-06.md) | 工程交付、真实证据、业务学习收尾及第七周接续 |
+| [第七周可靠性评审](docs/design/week-07-reliability-review.md) | 锁座及超时替代方案、证据边界与仍开放的 Q-10 |
+| [第七周可靠性实验](docs/testing/week-07-reliability.md) | 多用户重叠抢座、支付组合故障、复现入口与原始结果 |
+| [第七周进度](docs/progress/week-07.md) | 本轮执行、方案讨论及尚未完成的任务 |
 
 ## 当前进度
 
@@ -127,6 +130,10 @@
 - [x] 第六周422项完整回归、真实 HTTP 履约演示与重启后审计验证
 - [x] 第六周本轮业务闭环、典型问题讲解与收尾（2026-10-19，负责人要求）
 - [ ] 第六周核心代码深入与剩余理解边界（负责人选择后续有时间再进行）
+- [x] 第七周多轮多用户重叠抢座与支付通知/恢复组合故障定向验证
+- [x] 第七周首个小闭环完整回归 426 项通过（2026-10-21）
+- [ ] 第七周 Q-10 替代方案讨论与最终架构确认
+- [ ] 第七周独立进程中断实验、基线复测及整周收尾
 
 ## 运行方式
 
@@ -177,6 +184,8 @@
 开发库与测试库均由 Flyway 执行 V1 场馆场次、V2 身份/订单/锁座、V3 模拟支付、V4 本地支付/票、V5 退款及 V6 核销审计迁移。固定种子重跑会核对和复用已有数据；检测到改动时保留数据并报错。下单与支付原键重放不续期；独立购买使用新命名空间，不删除历史交易。Swagger 已提供消费者支付、票码、取消与退款，工作人员核销及审计，以及运营渠道控制、通知投递、恢复和一致性报告入口。
 
 第六周 `POST /api/checkins` 需 CHECKER，只有 `data.result=SUCCESS` 才能放行；业务拒绝返回明确结果并追加安全审计。`GET /api/checkins` 允许 CHECKER / OPERATOR，支持场次、票、时间和游标分页。一致性报告 `GET /api/operations/sessions/{id}/consistency` 需 OPERATOR；默认后台每轮结束 60 秒、每批 10 场次，通过 CONSISTENCY_ENABLED / CONSISTENCY_FIXED_DELAY_MS / CONSISTENCY_BATCH_SIZE 配置。检测器只报告，恢复继续走原支付/退款协议。完整演示脚本约真实等待 2 分钟进入入场窗口，重跑默认只读验证；不改应用 Clock 或原支付期限。具体限制与恢复见[导读](docs/development/checkin-consistency.md)。
+
+第七周执行 `.\scripts\verify-week7-reliability.ps1` 可单独重做两个测试类、四项可靠性实验，包括二十轮/二百四十次重叠抢座及三项支付组合故障。它清理专用测试库 `ticketing_test`，须与完整回归和基线实验串行执行；原始结果保存在 `.local`，提交证据见[实验报告](docs/testing/week-07-reliability.md)。工作线程数不等于数据库同时运行事务数，异常与 Clock 注入不代表真实进程终止，没有吞吐容量结论。
 
 ## MVP 之外
 
