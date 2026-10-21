@@ -1,0 +1,31 @@
+name: ticketing-week7-reliability
+
+services:
+  mysql-week7:
+    image: mysql:8.4.11
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_DATABASE: ticketing_week7
+      MYSQL_USER: ticketing_week7
+      MYSQL_PASSWORD: ${MYSQL_TEST_PASSWORD:?Run scripts/start-infra.ps1 first}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_TEST_ROOT_PASSWORD:?Run scripts/start-infra.ps1 first}
+    ports:
+      - "127.0.0.1:${WEEK7_MYSQL_PORT:-3309}:3306"
+    volumes:
+      - mysql-week7-data:/var/lib/mysql
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >-
+          MYSQL_PWD="$${MYSQL_PASSWORD}" mysql --protocol=TCP --host=127.0.0.1
+          --user="$${MYSQL_USER}" --database="$${MYSQL_DATABASE}"
+          --batch --skip-column-names --execute="SELECT 1"
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+volumes:
+  mysql-week7-data:

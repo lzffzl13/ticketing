@@ -1,0 +1,449 @@
+{
+  "status" : "COMPLETED",
+  "namespace" : "RB20261021025822331-884D05",
+  "startedAtUtc" : "2026-10-21T02:58:41.729538300Z",
+  "database" : "ticketing_test",
+  "mysqlVersion" : "8.4.11",
+  "mysqlDefaultIsolation" : "REPEATABLE-READ",
+  "hikariMaximumPoolSize" : 5,
+  "ordersPerMeasuredCase" : 50,
+  "warmupOrdersPerWorkload" : 5,
+  "measuredBatchSizes" : [ 1, 10, 50 ],
+  "syntheticBusinessClockUtc" : "2000-01-01T00:00:00.123456Z",
+  "syntheticReleaseClockUtc" : "2000-01-01T00:15:00.123456Z",
+  "originalPaymentWindowSeconds" : 900,
+  "clockMeaning" : "Synthetic year-2000 business fixtures isolate modern historical orders. Advancing the test Clock does not wait 15 real minutes or measure elapsed time.",
+  "generation" : "One shared virtual venue; 20 enabled seats per row, one area/tier/aisle segment; 100.00 each; aligned disjoint two-seat orders; forbidNewOrphan=true; one fresh session per case; no randomness or history deletion",
+  "workloads" : [ "NO_PAYMENT_TIMEOUT: no payment attempt, due order safely cancels/releases", "CHANNEL_SUCCESS: accepted before deadline, independent channel success saved, local PROCESSING until overdue scan issues tickets" ],
+  "scanTiming" : "System.nanoTime immediately around real scanOnce, including candidate query, each full recovery and transaction commits. Fixture generation, assertions, consistency reports, output and completion observation SQL excluded from total_scan_ns.",
+  "completionBounds" : "All backlog becomes eligible at one release. Each order is first observed terminal after its scan returns; completion_upper_bound_ns uses that scan return minus release, an upper bound on local completion, not the exact transaction commit timestamp. It includes preceding observation SQL/gaps; percentile uses nearest rank.",
+  "throughput" : "Completed orders / sum of scanOnce durations. drain_ns_including_observation_gaps includes SQL observations between compact scans; no intentional scheduler wait.",
+  "isolation" : "Before each case and release, the production due predicate must find zero foreign candidates; otherwise stop and preserve evidence. Run serially with ITs, other experiments and application writers.",
+  "limits" : "Single JVM and scanner, finite healthy backlog, no HTTP/real-time arrival/fault load; background scanners disabled by test profile. No real 15-minute wait or default 1-second fixed-delay scheduler. No production SLA, automatic release latency or capacity claim; one run per batch/workload, warmup does not control JVM/cache/OS noise.",
+  "cases" : [ {
+    "case" : 1,
+    "workload" : "NO_PAYMENT_TIMEOUT",
+    "warmup" : true,
+    "batchSize" : 1,
+    "orders" : 5,
+    "sessionId" : 2010,
+    "status" : "COMPLETED",
+    "beforeConsistency" : {
+      "sessionId" : 2010,
+      "checkedAt" : "2000-01-01T00:15:00.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 5,
+        "seats" : 100,
+        "tickets" : 0,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 5,
+        "unresolvedPayments" : 0,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    },
+    "fixtureReleaseAt" : "2000-01-01T00:15:00.123456Z",
+    "finalConsistency" : {
+      "sessionId" : 2010,
+      "checkedAt" : "2000-01-01T00:15:00.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 5,
+        "seats" : 100,
+        "tickets" : 0,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 0,
+        "unresolvedPayments" : 0,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    },
+    "scanCalls" : 5,
+    "scanNanos" : 220897400,
+    "drainNanosIncludingObservationGaps" : 224587700,
+    "completedOrders" : 5
+  }, {
+    "case" : 2,
+    "workload" : "NO_PAYMENT_TIMEOUT",
+    "warmup" : false,
+    "batchSize" : 1,
+    "orders" : 50,
+    "sessionId" : 2011,
+    "status" : "COMPLETED",
+    "beforeConsistency" : {
+      "sessionId" : 2011,
+      "checkedAt" : "2000-01-01T00:15:00.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 50,
+        "seats" : 100,
+        "tickets" : 0,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 50,
+        "unresolvedPayments" : 0,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    },
+    "fixtureReleaseAt" : "2000-01-01T00:15:00.123456Z",
+    "finalConsistency" : {
+      "sessionId" : 2011,
+      "checkedAt" : "2000-01-01T00:15:00.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 50,
+        "seats" : 100,
+        "tickets" : 0,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 0,
+        "unresolvedPayments" : 0,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    },
+    "scanCalls" : 50,
+    "scanNanos" : 1210348500,
+    "drainNanosIncludingObservationGaps" : 1241809000,
+    "completedOrders" : 50
+  }, {
+    "case" : 3,
+    "workload" : "NO_PAYMENT_TIMEOUT",
+    "warmup" : false,
+    "batchSize" : 10,
+    "orders" : 50,
+    "sessionId" : 2012,
+    "status" : "COMPLETED",
+    "beforeConsistency" : {
+      "sessionId" : 2012,
+      "checkedAt" : "2000-01-01T00:15:00.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 50,
+        "seats" : 100,
+        "tickets" : 0,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 50,
+        "unresolvedPayments" : 0,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    },
+    "fixtureReleaseAt" : "2000-01-01T00:15:00.123456Z",
+    "finalConsistency" : {
+      "sessionId" : 2012,
+      "checkedAt" : "2000-01-01T00:15:00.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 50,
+        "seats" : 100,
+        "tickets" : 0,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 0,
+        "unresolvedPayments" : 0,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    },
+    "scanCalls" : 5,
+    "scanNanos" : 1205405300,
+    "drainNanosIncludingObservationGaps" : 1208214200,
+    "completedOrders" : 50
+  }, {
+    "case" : 4,
+    "workload" : "NO_PAYMENT_TIMEOUT",
+    "warmup" : false,
+    "batchSize" : 50,
+    "orders" : 50,
+    "sessionId" : 2013,
+    "status" : "COMPLETED",
+    "beforeConsistency" : {
+      "sessionId" : 2013,
+      "checkedAt" : "2000-01-01T00:15:00.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 50,
+        "seats" : 100,
+        "tickets" : 0,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 50,
+        "unresolvedPayments" : 0,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    },
+    "fixtureReleaseAt" : "2000-01-01T00:15:00.123456Z",
+    "finalConsistency" : {
+      "sessionId" : 2013,
+      "checkedAt" : "2000-01-01T00:15:00.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 50,
+        "seats" : 100,
+        "tickets" : 0,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 0,
+        "unresolvedPayments" : 0,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    },
+    "scanCalls" : 1,
+    "scanNanos" : 1281560000,
+    "drainNanosIncludingObservationGaps" : 1281561300,
+    "completedOrders" : 50
+  }, {
+    "case" : 5,
+    "workload" : "CHANNEL_SUCCESS",
+    "warmup" : true,
+    "batchSize" : 1,
+    "orders" : 5,
+    "sessionId" : 2014,
+    "status" : "COMPLETED",
+    "beforeConsistency" : {
+      "sessionId" : 2014,
+      "checkedAt" : "2000-01-01T00:15:00.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 5,
+        "seats" : 100,
+        "tickets" : 0,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 5,
+        "unresolvedPayments" : 5,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    },
+    "fixtureReleaseAt" : "2000-01-01T00:15:00.123456Z",
+    "finalConsistency" : {
+      "sessionId" : 2014,
+      "checkedAt" : "2000-01-01T00:15:00.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 5,
+        "seats" : 100,
+        "tickets" : 10,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 0,
+        "unresolvedPayments" : 0,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    },
+    "scanCalls" : 5,
+    "scanNanos" : 443314500,
+    "drainNanosIncludingObservationGaps" : 446254300,
+    "completedOrders" : 5
+  }, {
+    "case" : 6,
+    "workload" : "CHANNEL_SUCCESS",
+    "warmup" : false,
+    "batchSize" : 50,
+    "orders" : 50,
+    "sessionId" : 2015,
+    "status" : "COMPLETED",
+    "beforeConsistency" : {
+      "sessionId" : 2015,
+      "checkedAt" : "2000-01-01T00:15:00.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 50,
+        "seats" : 100,
+        "tickets" : 0,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 50,
+        "unresolvedPayments" : 50,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    },
+    "fixtureReleaseAt" : "2000-01-01T00:15:00.123456Z",
+    "finalConsistency" : {
+      "sessionId" : 2015,
+      "checkedAt" : "2000-01-01T00:15:00.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 50,
+        "seats" : 100,
+        "tickets" : 100,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 0,
+        "unresolvedPayments" : 0,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    },
+    "scanCalls" : 1,
+    "scanNanos" : 2797652700,
+    "drainNanosIncludingObservationGaps" : 2797654500,
+    "completedOrders" : 50
+  }, {
+    "case" : 7,
+    "workload" : "CHANNEL_SUCCESS",
+    "warmup" : false,
+    "batchSize" : 10,
+    "orders" : 50,
+    "sessionId" : 2016,
+    "status" : "COMPLETED",
+    "beforeConsistency" : {
+      "sessionId" : 2016,
+      "checkedAt" : "2000-01-01T00:15:00.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 50,
+        "seats" : 100,
+        "tickets" : 0,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 50,
+        "unresolvedPayments" : 50,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    },
+    "fixtureReleaseAt" : "2000-01-01T00:15:00.123456Z",
+    "finalConsistency" : {
+      "sessionId" : 2016,
+      "checkedAt" : "2000-01-01T00:15:00.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 50,
+        "seats" : 100,
+        "tickets" : 100,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 0,
+        "unresolvedPayments" : 0,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    },
+    "scanCalls" : 5,
+    "scanNanos" : 2763744000,
+    "drainNanosIncludingObservationGaps" : 2765519700,
+    "completedOrders" : 50
+  }, {
+    "case" : 8,
+    "workload" : "CHANNEL_SUCCESS",
+    "warmup" : false,
+    "batchSize" : 1,
+    "orders" : 50,
+    "sessionId" : 2017,
+    "status" : "COMPLETED",
+    "beforeConsistency" : {
+      "sessionId" : 2017,
+      "checkedAt" : "2000-01-01T00:15:00.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 50,
+        "seats" : 100,
+        "tickets" : 0,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 50,
+        "unresolvedPayments" : 50,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    },
+    "fixtureReleaseAt" : "2000-01-01T00:15:00.123456Z",
+    "finalConsistency" : {
+      "sessionId" : 2017,
+      "checkedAt" : "2000-01-01T00:15:00.123456Z",
+      "consistent" : true,
+      "counts" : {
+        "orders" : 50,
+        "seats" : 100,
+        "tickets" : 100,
+        "refunds" : 0,
+        "successfulCheckins" : 0
+      },
+      "recovery" : {
+        "pendingOrders" : 0,
+        "unresolvedPayments" : 0,
+        "manualOrders" : 0,
+        "unresolvedRefunds" : 0,
+        "manualRefunds" : 0
+      },
+      "differences" : [ ]
+    },
+    "scanCalls" : 50,
+    "scanNanos" : 2717371600,
+    "drainNanosIncludingObservationGaps" : 2741202300,
+    "completedOrders" : 50
+  } ],
+  "finishedAtUtc" : "2026-10-21T02:59:20.492343900Z"
+}

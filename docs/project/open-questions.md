@@ -11,12 +11,12 @@
 | 编号 | 优先级 | 问题 | 为什么需要决定 | 最晚决策时间 | 状态 |
 | --- | --- | --- | --- | --- | --- |
 | Q-09 | P2 | 候补支付期限、触发方式和回流事务边界 | 候补是条件增强，只有达到启动门槛才实施 | 候补启动前 | 开放 |
-| Q-10 | P2 | 是否引入 Redis、消息队列或延迟队列 | 必须依据数据库基线和故障边界决定 | 第七周方案定稿 | [第七周比较稿](../design/week-07-reliability-review.md)已准备；2026-10-21 负责人选择先讨论替代方案，保持开放 |
 
 ## 3. 已解决问题索引
 
 | 主题 | 结论位置 |
 | --- | --- |
+| Q-10 已解决：2026-10-21 负责人先要求讨论替代方案，讨论后明确采纳现阶段保留 MySQL 场次行锁与持久扫描，不引入 Redis、MQ 或延迟组件；分段锁留作后续对照，未声称替代实现已测 | [ADR-0021](../decisions/0021-retain-mysql-session-inventory-lock.md)、[ADR-0022](../decisions/0022-retain-durable-recovery-scanning.md)；比较与重评边界见[第七周评审](../design/week-07-reliability-review.md) |
 | Q-08 已解决：一致快照只读检测并报告，本地矛盾交人工，自动处理复用已确认支付/退款恢复协议 | [ADR-0020](../decisions/0020-read-only-consistency-reports.md)；实现与执行证据见第六周周报 |
 | Q-12 已解决：原成交价全额单票退票、消费者请求键幂等、独立渠道与通知、原子回流及退款单恢复 | [ADR-0018](../decisions/0018-single-ticket-refunds-and-durable-recovery.md)；实现与验证另记第五周周报 |
 | Q-07 已解决：按需 HMAC 凭证；正常保留到停签后既有票场次最晚入场截止；紧急移除旧 kid 并停旧进程重启，旧码直接拒绝 | [ADR-0017](../decisions/0017-hmac-ticket-credentials.md)；实现/验证进度另见第五周周报 |

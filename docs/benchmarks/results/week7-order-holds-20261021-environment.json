@@ -1,0 +1,53 @@
+{
+  "status": "COMPLETED",
+  "recordedAtUtc": "2026-10-21T10:54:13.7791373+08:00",
+  "namespace": "HB20261021025413779-0BC45E",
+  "baseline": "Current complete MySQL-backed OrderService.create; concurrency=1 is the serial control for each seat count.",
+  "database": {
+    "name": "ticketing_test",
+    "host": "127.0.0.1",
+    "port": 3308,
+    "username": "ticketing_test"
+  },
+  "machine": {
+    "operatingSystem": "Microsoft Windows 11 家庭版 中文版",
+    "version": "10.0.26200",
+    "architecture": "64 位",
+    "totalMemoryBytes": 33873752064,
+    "processors": [
+      {
+        "Name": "Intel(R) Core(TM) Ultra 5 336H",
+        "NumberOfCores": 12,
+        "NumberOfLogicalProcessors": 12
+      }
+    ]
+  },
+  "javaVersion": "openjdk version \"21.0.12.1\" 2026-08-18 LTS\r\nOpenJDK Runtime Environment Temurin-21.0.12.1+1 (build 21.0.12.1+1-LTS)\r\nOpenJDK 64-Bit Server VM Temurin-21.0.12.1+1 (build 21.0.12.1+1-LTS, mixed mode, sharing)",
+  "mavenVersion": "Apache Maven 3.9.9 (8e8579a9e76f7d015ee5ec7bfcdc97d260186937)\r\nMaven home: C:\\Users\\kk\\.m2\\wrapper\\dists\\apache-maven-3.9.9\\8e74001100ff70d6af083c5511fcc5ec49282d7017cde82c3698eee8fdf86698\r\nJava version: 21.0.12.1, vendor: Eclipse Adoptium, runtime: D:\\project\\ticketing\\.local\\tools\\jdk-21.0.12.1+1\r\nDefault locale: zh_CN, platform encoding: UTF-8\r\nOS name: \"windows 11\", version: \"10.0\", arch: \"amd64\", family: \"windows\"",
+  "parameters": {
+    "seatCounts": [
+      100,
+      500
+    ],
+    "concurrency": [
+      1,
+      4,
+      8
+    ],
+    "measuredBatchesPerCase": 4,
+    "warmupBatchesPerCase": 1,
+    "seatsPerOrder": 2,
+    "areaCount": 1,
+    "tierCount": 1,
+    "seatsPerRow": 20,
+    "aisleSegmentsPerRow": 1,
+    "unavailableRatio": 0,
+    "forbidNewOrphan": true
+  },
+  "timing": "System.nanoTime around each full OrderService.create; includes connection/row-lock waits and commit/result loading; excludes fixture generation, HTTP/auth, warmup, assertions and I/O.",
+  "concurrencyModel": "Fixed worker count; every finite wave starts from a CountDownLatch barrier; distinct aligned two-seat pairs on the same session, same customer, unique keys.",
+  "throughputDefinition": "Successful measured orders divided by the sum of measured wave durations; setup and gaps between waves excluded.",
+  "limitations": "Finite service-level observations, no HTTP/auth or payment/cancellation load, no overlapping-seat load, no production capacity or optimization gain claim. Hikari maximum pool size is recorded by the runner.",
+  "preservation": "No cleanup, no Flyway clean, no FK bypass; unique fixture namespace and all non-sensitive request keys remain recorded in requests.csv.",
+  "completedAtUtc": "2026-10-21T10:54:33.8658563+08:00"
+}

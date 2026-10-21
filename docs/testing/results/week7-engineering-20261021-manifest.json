@@ -1,0 +1,60 @@
+{
+  "sourceBaseCommit": "4c641d7ff2a663f0c735f1a9252cfcc074e296b9",
+  "hashBasis": "UTF-8 source text, CRLF normalized to LF, BOM omitted",
+  "sources": [
+    {
+      "path": "src/test/java/com/ticketing/benchmark/PaymentRecoveryBacklogExperiment.java",
+      "sha256": "5A3C4E9F2BF2690C3C18868A9FA76ADBE5BFAB91FC16E006252C0EE70C6D7C46"
+    },
+    {
+      "path": "scripts/benchmark-payment-recovery.ps1",
+      "sha256": "D8A3BB1644E0A95EE5BD1F65EDA1717F18F706E4A3F94270307E1006B0875FF6"
+    },
+    {
+      "path": "scripts/demo-week7-restart.ps1",
+      "sha256": "9C579C609DB3C3C137D2E8FDE2CD257D9A585D279D467AE8032B2F1F49034A7B"
+    },
+    {
+      "path": "scripts/start-week7-infra.ps1",
+      "sha256": "69FAB05212A944ADD558CBB82C67715518D7507F347DF1A6665309A7146F8726"
+    },
+    {
+      "path": "compose.week7.yaml",
+      "sha256": "1F160289F7902E6DDBBC68455E82D5533F52732E92F8D87B8363EA7D561818B4"
+    }
+  ],
+  "productionJavaAndMigrationsChanged": [],
+  "regularRegression": {
+    "executedAt": "2026-10-21T10:42:59+08:00",
+    "tests": 426,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "scope": "Earlier week-seven full regression; not re-counted with explicit experiments"
+  },
+  "explicitExperiments": [
+    {
+      "name": "OrderHoldBenchmarkExperiment",
+      "completedAt": "2026-10-21T10:54:33+08:00",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "PaymentRecoveryBacklogExperiment",
+      "completedAt": "2026-10-21T10:59:20+08:00",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "restartEvidence": "week7-real-restart-20261021.json",
+  "cleanup": {
+    "ownedApplicationPort18091Closed": true,
+    "isolatedMysqlStoppedWithVolumePreserved": true,
+    "originalDevelopmentAndTestMysqlHealthy": true,
+    "originalApplication18090Process": 22968
+  }
+}

@@ -84,9 +84,14 @@
 | [核销与一致性代码导读](docs/development/checkin-consistency.md) | 入口、优先级、事务、异常、恢复限制与后续学习材料 |
 | [完整履约演示](docs/development/week-06-demo.md) | 固定种子购买、退款回流、同座重售、真实等待核销及只读重跑 |
 | [第六周进度](docs/progress/week-06.md) | 工程交付、真实证据、业务学习收尾及第七周接续 |
-| [第七周可靠性评审](docs/design/week-07-reliability-review.md) | 锁座及超时替代方案、证据边界与仍开放的 Q-10 |
+| [第七周可靠性评审](docs/design/week-07-reliability-review.md) | 锁座及超时替代方案、证据边界与已确认的 Q-10 |
 | [第七周可靠性实验](docs/testing/week-07-reliability.md) | 多用户重叠抢座、支付组合故障、复现入口与原始结果 |
 | [第七周进度](docs/progress/week-07.md) | 本轮执行、方案讨论及尚未完成的任务 |
+| [ADR-0021](docs/decisions/0021-retain-mysql-session-inventory-lock.md) | 首版保留场次行锁，分段锁留后续，不引入 Redis |
+| [ADR-0022](docs/decisions/0022-retain-durable-recovery-scanning.md) | 首版保留 MySQL 持久扫描，不引入消息或延迟组件 |
+| [首版架构](docs/design/mvp-architecture.md) | 已实现模块、事务、恢复与保留限制 |
+| [第七周数据库观测](docs/benchmarks/week-07-observations.md) | 锁座同参数复测、恢复积压的定义、结果与原始样本 |
+| [第七周真实重启演示](docs/development/week-07-restart-demo.md) | 隔离实例、真实进程终止、原编号续跑与只读重验 |
 
 ## 当前进度
 
@@ -132,8 +137,9 @@
 - [ ] 第六周核心代码深入与剩余理解边界（负责人选择后续有时间再进行）
 - [x] 第七周多轮多用户重叠抢座与支付通知/恢复组合故障定向验证
 - [x] 第七周首个小闭环完整回归 426 项通过（2026-10-21）
-- [ ] 第七周 Q-10 替代方案讨论与最终架构确认
-- [ ] 第七周独立进程中断实验、基线复测及整周收尾
+- [x] 第七周 Q-10 替代方案讨论与最终架构确认
+- [x] 第七周独立进程中断恢复、基线复测和扫描积压观测
+- [x] 第七周工程验收与文档收尾（源码深入仍留后续）
 
 ## 运行方式
 
@@ -186,6 +192,10 @@
 第六周 `POST /api/checkins` 需 CHECKER，只有 `data.result=SUCCESS` 才能放行；业务拒绝返回明确结果并追加安全审计。`GET /api/checkins` 允许 CHECKER / OPERATOR，支持场次、票、时间和游标分页。一致性报告 `GET /api/operations/sessions/{id}/consistency` 需 OPERATOR；默认后台每轮结束 60 秒、每批 10 场次，通过 CONSISTENCY_ENABLED / CONSISTENCY_FIXED_DELAY_MS / CONSISTENCY_BATCH_SIZE 配置。检测器只报告，恢复继续走原支付/退款协议。完整演示脚本约真实等待 2 分钟进入入场窗口，重跑默认只读验证；不改应用 Clock 或原支付期限。具体限制与恢复见[导读](docs/development/checkin-consistency.md)。
 
 第七周执行 `.\scripts\verify-week7-reliability.ps1` 可单独重做两个测试类、四项可靠性实验，包括二十轮/二百四十次重叠抢座及三项支付组合故障。它清理专用测试库 `ticketing_test`，须与完整回归和基线实验串行执行；原始结果保存在 `.local`，提交证据见[实验报告](docs/testing/week-07-reliability.md)。工作线程数不等于数据库同时运行事务数，异常与 Clock 注入不代表真实进程终止，没有吞吐容量结论。
+
+第七周 `scripts/benchmark-payment-recovery.ps1` 显式执行两类有限积压、批量 1/10/50 的真实服务实验，保留原期限，用合成业务 Clock 到期、真实 nanoTime 计时；不清历史，也不含默认一秒调度等待，定义与结果见[观测报告](docs/benchmarks/week-07-observations.md)。不要与清理测试库的回归并发执行。
+
+真实重启演示先运行 `.\scripts\start-week7-infra.ps1`，再执行 `.\scripts\demo-week7-restart.ps1 -KeyFile <现有受控密钥文件>`。它用额外的独立 MySQL 实例 `ticketing_week7:3309`、应用端口 18091，避免原应用扫描干扰，强制终止本次创建且身份核验的进程，再重启观察原支付出票和退款回流；原开发/测试实例及已有应用不被停止。命名空间重跑业务只读校验，失败保留原请求和历史。密钥与二进制准备、停止实验实例及边界见[导读](docs/development/week-07-restart-demo.md)。首版业务架构仍只需原 MySQL，额外实例仅用于实验隔离。
 
 ## MVP 之外
 

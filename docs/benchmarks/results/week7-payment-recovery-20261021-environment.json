@@ -1,0 +1,49 @@
+{
+  "status": "COMPLETED",
+  "recordedAtUtc": "2026-10-21T10:58:22.3317733+08:00",
+  "namespace": "RB20261021025822331-884D05",
+  "database": {
+    "name": "ticketing_test",
+    "host": "127.0.0.1",
+    "port": 3308,
+    "username": "ticketing_test"
+  },
+  "machine": {
+    "operatingSystem": "Microsoft Windows 11 家庭版 中文版",
+    "version": "10.0.26200",
+    "architecture": "64 位",
+    "totalMemoryBytes": 33873752064,
+    "processors": [
+      {
+        "Name": "Intel(R) Core(TM) Ultra 5 336H",
+        "NumberOfCores": 12,
+        "NumberOfLogicalProcessors": 12
+      }
+    ]
+  },
+  "javaVersion": "openjdk version \"21.0.12.1\" 2026-08-18 LTS\r\nOpenJDK Runtime Environment Temurin-21.0.12.1+1 (build 21.0.12.1+1-LTS)\r\nOpenJDK 64-Bit Server VM Temurin-21.0.12.1+1 (build 21.0.12.1+1-LTS, mixed mode, sharing)",
+  "mavenVersion": "Apache Maven 3.9.9 (8e8579a9e76f7d015ee5ec7bfcdc97d260186937)\r\nMaven home: C:\\Users\\kk\\.m2\\wrapper\\dists\\apache-maven-3.9.9\\8e74001100ff70d6af083c5511fcc5ec49282d7017cde82c3698eee8fdf86698\r\nJava version: 21.0.12.1, vendor: Eclipse Adoptium, runtime: D:\\project\\ticketing\\.local\\tools\\jdk-21.0.12.1+1\r\nDefault locale: zh_CN, platform encoding: UTF-8\r\nOS name: \"windows 11\", version: \"10.0\", arch: \"amd64\", family: \"windows\"",
+  "parameters": {
+    "ordersPerMeasuredCase": 50,
+    "measuredBatchSizes": [
+      1,
+      10,
+      50
+    ],
+    "warmupOrdersPerWorkload": 5,
+    "workloadCount": 2,
+    "seatsPerOrder": 2,
+    "seatsPerRow": 20,
+    "areaCount": 1,
+    "tierCount": 1,
+    "forbidNewOrphan": true,
+    "originalPaymentWindowSeconds": 900,
+    "syntheticBusinessClockUtc": "2000-01-01T00:00:00.123456Z"
+  },
+  "baseline": "Same real PaymentRecoveryScanner and service/transaction protocol at batch=1 versus larger batches; one scanner thread, finite already-due backlog.",
+  "timing": "Real System.nanoTime around scanOnce. Per-order completion is an upper bound at the first scan return observing terminal state, not an exact commit timestamp.",
+  "drainTiming": "Uniform release of synthetic overdue backlog through the last scan return, including observation SQL between scans. No intentional 1-second fixed-delay scheduling wait.",
+  "preservation": "No cleanup, migration rewrite or FK bypass. Unique namespace retains all orders and channel facts. Abort if the production due predicate finds foreign candidate orders.",
+  "limitations": "Year-2000 test Clock advances original 15-minute deadlines without real waiting. Compact service scans cannot establish real automatic-release delay, production SLA or capacity. Warmup is separate; machine/JVM/cache noise is uncontrolled.",
+  "completedAtUtc": "2026-10-21T10:59:20.7831633+08:00"
+}

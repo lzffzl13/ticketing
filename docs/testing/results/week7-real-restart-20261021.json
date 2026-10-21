@@ -1,0 +1,833 @@
+{
+  "status": "COMPLETED",
+  "namespace": "W4PW71021A",
+  "database": {
+    "host": "127.0.0.1",
+    "port": 3309,
+    "name": "ticketing_week7",
+    "user": "ticketing_week7"
+  },
+  "jarSha256": "38A07855167888D58658C31F4B9B9512F1D77C0346CB544C7B0A61286837BE14",
+  "scriptSha256": "9C579C609DB3C3C137D2E8FDE2CD257D9A585D279D467AE8032B2F1F49034A7B",
+  "scope": "Real forced termination after independently committed channel success, before local result application; not an in-transaction process kill or performance test.",
+  "startedAtUtc": "2026-10-21T11:00:05.0236443+08:00",
+  "completedAtUtc": "2026-10-21T11:23:20.3193866+08:00",
+  "payment": {
+    "namespace": "W4PW71021AP",
+    "sessionId": 2,
+    "orderId": 1,
+    "paymentNumber": "dd54de6e-ee22-46df-9198-eeb6a0be85fe",
+    "paymentExpiresAt": "2026-10-21T03:15:21.069253Z",
+    "successNotificationNumber": "f661d481-ae6d-4233-bf41-880972b5e7a6",
+    "seatIds": [
+      73,
+      74
+    ],
+    "ticketIds": [
+      3,
+      4
+    ],
+    "ticketNumbers": [
+      "c4d05b52-6965-4ccb-9993-b39f05ed72cb",
+      "5bdc507f-9c53-479a-9992-85cb3ef7ab87"
+    ]
+  },
+  "refund": {
+    "namespace": "W4PW71021AR",
+    "sessionId": 4,
+    "orderId": 2,
+    "paymentNumber": "8cffc89f-144f-45b1-a5d0-ca9f4a3ff35a",
+    "paymentExpiresAt": "2026-10-21T03:15:22.770975Z",
+    "ticketId": 1,
+    "ticketNumber": "c0e9f26f-5091-452a-b27d-03201317ad25",
+    "otherTicketId": 2,
+    "otherTicketNumber": "b5ffa720-66ed-4933-9e4a-0daf749fc3c2",
+    "sessionSeatId": 185,
+    "refundId": 1,
+    "refundNumber": "63f6fc08-0428-459c-a2d9-cd8f940b0f9d",
+    "amount": 380.0,
+    "successNotificationNumber": "430dbe00-b6d3-4651-8441-b432d368b4e0"
+  },
+  "pause": {
+    "observedAtUtc": "2026-10-21T11:00:25.1013616+08:00",
+    "payment": {
+      "orderId": 1,
+      "orderStatus": "PENDING_PAYMENT",
+      "holdStatus": "ACTIVE",
+      "paymentExpiresAt": "2026-10-21T03:15:21.069253Z",
+      "payments": [
+        {
+          "id": 1,
+          "orderId": 1,
+          "sessionId": 2,
+          "paymentNumber": "dd54de6e-ee22-46df-9198-eeb6a0be85fe",
+          "amount": 760.0,
+          "paymentExpiresAt": "2026-10-21T03:15:21.069253Z",
+          "requestKey": "payment-buy-W4PW71021AP",
+          "paymentStatus": "PROCESSING",
+          "acceptedAt": "2026-10-21T03:00:21.189033Z",
+          "resultAt": null,
+          "failureCode": null,
+          "createdAt": "2026-10-21T03:00:21.163012Z",
+          "updatedAt": "2026-10-21T03:00:21.209288Z"
+        }
+      ],
+      "tickets": [],
+      "seats": [
+        {
+          "id": 73,
+          "seatStatus": "HELD"
+        },
+        {
+          "id": 74,
+          "seatStatus": "HELD"
+        }
+      ],
+      "successNotice": {
+        "notificationNumber": "f661d481-ae6d-4233-bf41-880972b5e7a6",
+        "paymentNumber": "dd54de6e-ee22-46df-9198-eeb6a0be85fe",
+        "observedStatus": "SUCCEEDED",
+        "observedAt": "2026-10-21T03:00:21.330861Z",
+        "deliveredAt": null
+      },
+      "recovery": {
+        "orderId": 1,
+        "orderStatus": "PENDING_PAYMENT",
+        "cancellationRequestedAt": null,
+        "cancellationReason": null,
+        "firstUnresolvedAt": null,
+        "consecutiveFailures": 0,
+        "nextRecoveryAt": "2026-10-21T03:00:26.233047Z",
+        "recentError": null,
+        "manualRequired": false,
+        "recoveryClaimUntil": null,
+        "payments": [
+          {
+            "id": 1,
+            "orderId": 1,
+            "sessionId": 2,
+            "paymentNumber": "dd54de6e-ee22-46df-9198-eeb6a0be85fe",
+            "amount": 760.0,
+            "paymentExpiresAt": "2026-10-21T03:15:21.069253Z",
+            "requestKey": "payment-buy-W4PW71021AP",
+            "paymentStatus": "PROCESSING",
+            "acceptedAt": "2026-10-21T03:00:21.189033Z",
+            "resultAt": null,
+            "failureCode": null,
+            "createdAt": "2026-10-21T03:00:21.163012Z",
+            "updatedAt": "2026-10-21T03:00:21.209288Z"
+          }
+        ]
+      }
+    },
+    "refund": {
+      "orderId": 2,
+      "orderStatus": "PAID",
+      "holdStatus": "CONSUMED",
+      "paymentExpiresAt": "2026-10-21T03:15:22.770975Z",
+      "payments": [
+        {
+          "id": 2,
+          "orderId": 2,
+          "sessionId": 4,
+          "paymentNumber": "8cffc89f-144f-45b1-a5d0-ca9f4a3ff35a",
+          "amount": 760.0,
+          "paymentExpiresAt": "2026-10-21T03:15:22.770975Z",
+          "requestKey": "payment-buy-W4PW71021AR",
+          "paymentStatus": "SUCCEEDED",
+          "acceptedAt": "2026-10-21T03:00:22.834631Z",
+          "resultAt": "2026-10-21T03:00:22.935141Z",
+          "failureCode": null,
+          "createdAt": "2026-10-21T03:00:22.81267Z",
+          "updatedAt": "2026-10-21T03:00:23.016358Z"
+        }
+      ],
+      "refund": {
+        "id": 1,
+        "refundNumber": "63f6fc08-0428-459c-a2d9-cd8f940b0f9d",
+        "customerId": 1,
+        "orderId": 2,
+        "orderItemId": 3,
+        "sessionId": 4,
+        "sessionSeatId": 185,
+        "ticketId": 1,
+        "ticketNumber": "c0e9f26f-5091-452a-b27d-03201317ad25",
+        "paymentId": 2,
+        "paymentNumber": "8cffc89f-144f-45b1-a5d0-ca9f4a3ff35a",
+        "amount": 380.0,
+        "requestKey": "refund-W4PW71021AR",
+        "refundStatus": "PROCESSING",
+        "requestedAt": "2026-10-21T03:00:23.807343Z",
+        "acceptedAt": "2026-10-21T03:00:23.931904Z",
+        "resultAt": null,
+        "failureCode": null,
+        "createdAt": "2026-10-21T03:00:23.807343Z",
+        "updatedAt": "2026-10-21T03:00:24.027951Z",
+        "firstUnresolvedAt": null,
+        "consecutiveFailures": 0,
+        "nextRecoveryAt": "2026-10-21T03:00:29.027951Z",
+        "recentError": null,
+        "manualRequired": false,
+        "recoveryClaimUntil": null
+      },
+      "tickets": [
+        {
+          "id": 1,
+          "ticketNumber": "c0e9f26f-5091-452a-b27d-03201317ad25",
+          "orderItemId": 3,
+          "orderId": 2,
+          "sessionId": 4,
+          "sessionSeatId": 185,
+          "ticketStatus": "REFUNDING",
+          "issuedAt": "2026-10-21T03:00:23.016358Z"
+        },
+        {
+          "id": 2,
+          "ticketNumber": "b5ffa720-66ed-4933-9e4a-0daf749fc3c2",
+          "orderItemId": 4,
+          "orderId": 2,
+          "sessionId": 4,
+          "sessionSeatId": 186,
+          "ticketStatus": "VALID",
+          "issuedAt": "2026-10-21T03:00:23.016358Z"
+        }
+      ],
+      "seats": [
+        {
+          "id": 185,
+          "seatStatus": "SOLD"
+        }
+      ],
+      "successNotice": {
+        "notificationNumber": "430dbe00-b6d3-4651-8441-b432d368b4e0",
+        "refund": {
+          "refundNumber": "63f6fc08-0428-459c-a2d9-cd8f940b0f9d",
+          "paymentNumber": "8cffc89f-144f-45b1-a5d0-ca9f4a3ff35a",
+          "merchantOrderNumber": "881a1f1f-aeef-40dd-9253-399dbfaecdf9",
+          "ticketNumber": "c0e9f26f-5091-452a-b27d-03201317ad25",
+          "amount": 380.0,
+          "refundStatus": "SUCCEEDED",
+          "acceptedAt": "2026-10-21T03:00:23.931904Z",
+          "resultAt": "2026-10-21T03:00:24.142118Z",
+          "failureCode": null
+        },
+        "notifiedAt": "2026-10-21T03:00:24.142118Z",
+        "deliveredAt": null
+      }
+    }
+  },
+  "recovered": {
+    "observedAtUtc": "2026-10-21T11:23:20.262018+08:00",
+    "payment": {
+      "orderId": 1,
+      "orderStatus": "PAID",
+      "holdStatus": "CONSUMED",
+      "paymentExpiresAt": "2026-10-21T03:15:21.069253Z",
+      "payments": [
+        {
+          "id": 1,
+          "orderId": 1,
+          "sessionId": 2,
+          "paymentNumber": "dd54de6e-ee22-46df-9198-eeb6a0be85fe",
+          "amount": 760.0,
+          "paymentExpiresAt": "2026-10-21T03:15:21.069253Z",
+          "requestKey": "payment-buy-W4PW71021AP",
+          "paymentStatus": "SUCCEEDED",
+          "acceptedAt": "2026-10-21T03:00:21.189033Z",
+          "resultAt": "2026-10-21T03:00:21.330861Z",
+          "failureCode": null,
+          "createdAt": "2026-10-21T03:00:21.163012Z",
+          "updatedAt": "2026-10-21T03:23:16.81405Z"
+        }
+      ],
+      "tickets": [
+        {
+          "id": 3,
+          "ticketNumber": "c4d05b52-6965-4ccb-9993-b39f05ed72cb",
+          "orderItemId": 1,
+          "orderId": 1,
+          "sessionId": 2,
+          "sessionSeatId": 73,
+          "ticketStatus": "VALID",
+          "issuedAt": "2026-10-21T03:23:16.81405Z"
+        },
+        {
+          "id": 4,
+          "ticketNumber": "5bdc507f-9c53-479a-9992-85cb3ef7ab87",
+          "orderItemId": 2,
+          "orderId": 1,
+          "sessionId": 2,
+          "sessionSeatId": 74,
+          "ticketStatus": "VALID",
+          "issuedAt": "2026-10-21T03:23:16.81405Z"
+        }
+      ],
+      "seats": [
+        {
+          "id": 73,
+          "seatStatus": "SOLD"
+        },
+        {
+          "id": 74,
+          "seatStatus": "SOLD"
+        }
+      ],
+      "successNotice": {
+        "notificationNumber": "f661d481-ae6d-4233-bf41-880972b5e7a6",
+        "paymentNumber": "dd54de6e-ee22-46df-9198-eeb6a0be85fe",
+        "observedStatus": "SUCCEEDED",
+        "observedAt": "2026-10-21T03:00:21.330861Z",
+        "deliveredAt": null
+      },
+      "recovery": {
+        "orderId": 1,
+        "orderStatus": "PAID",
+        "cancellationRequestedAt": "2026-10-21T03:23:16.762779Z",
+        "cancellationReason": "TIMEOUT",
+        "firstUnresolvedAt": null,
+        "consecutiveFailures": 0,
+        "nextRecoveryAt": null,
+        "recentError": null,
+        "manualRequired": false,
+        "recoveryClaimUntil": null,
+        "payments": [
+          {
+            "id": 1,
+            "orderId": 1,
+            "sessionId": 2,
+            "paymentNumber": "dd54de6e-ee22-46df-9198-eeb6a0be85fe",
+            "amount": 760.0,
+            "paymentExpiresAt": "2026-10-21T03:15:21.069253Z",
+            "requestKey": "payment-buy-W4PW71021AP",
+            "paymentStatus": "SUCCEEDED",
+            "acceptedAt": "2026-10-21T03:00:21.189033Z",
+            "resultAt": "2026-10-21T03:00:21.330861Z",
+            "failureCode": null,
+            "createdAt": "2026-10-21T03:00:21.163012Z",
+            "updatedAt": "2026-10-21T03:23:16.81405Z"
+          }
+        ]
+      }
+    },
+    "refund": {
+      "orderId": 2,
+      "orderStatus": "PARTIALLY_REFUNDED",
+      "holdStatus": "CONSUMED",
+      "paymentExpiresAt": "2026-10-21T03:15:22.770975Z",
+      "payments": [
+        {
+          "id": 2,
+          "orderId": 2,
+          "sessionId": 4,
+          "paymentNumber": "8cffc89f-144f-45b1-a5d0-ca9f4a3ff35a",
+          "amount": 760.0,
+          "paymentExpiresAt": "2026-10-21T03:15:22.770975Z",
+          "requestKey": "payment-buy-W4PW71021AR",
+          "paymentStatus": "SUCCEEDED",
+          "acceptedAt": "2026-10-21T03:00:22.834631Z",
+          "resultAt": "2026-10-21T03:00:22.935141Z",
+          "failureCode": null,
+          "createdAt": "2026-10-21T03:00:22.81267Z",
+          "updatedAt": "2026-10-21T03:00:23.016358Z"
+        }
+      ],
+      "refund": {
+        "id": 1,
+        "refundNumber": "63f6fc08-0428-459c-a2d9-cd8f940b0f9d",
+        "customerId": 1,
+        "orderId": 2,
+        "orderItemId": 3,
+        "sessionId": 4,
+        "sessionSeatId": 185,
+        "ticketId": 1,
+        "ticketNumber": "c0e9f26f-5091-452a-b27d-03201317ad25",
+        "paymentId": 2,
+        "paymentNumber": "8cffc89f-144f-45b1-a5d0-ca9f4a3ff35a",
+        "amount": 380.0,
+        "requestKey": "refund-W4PW71021AR",
+        "refundStatus": "SUCCEEDED",
+        "requestedAt": "2026-10-21T03:00:23.807343Z",
+        "acceptedAt": "2026-10-21T03:00:23.931904Z",
+        "resultAt": "2026-10-21T03:00:24.142118Z",
+        "failureCode": null,
+        "createdAt": "2026-10-21T03:00:23.807343Z",
+        "updatedAt": "2026-10-21T03:23:16.977536Z",
+        "firstUnresolvedAt": null,
+        "consecutiveFailures": 0,
+        "nextRecoveryAt": null,
+        "recentError": null,
+        "manualRequired": false,
+        "recoveryClaimUntil": null
+      },
+      "tickets": [
+        {
+          "id": 1,
+          "ticketNumber": "c0e9f26f-5091-452a-b27d-03201317ad25",
+          "orderItemId": 3,
+          "orderId": 2,
+          "sessionId": 4,
+          "sessionSeatId": 185,
+          "ticketStatus": "REFUNDED",
+          "issuedAt": "2026-10-21T03:00:23.016358Z"
+        },
+        {
+          "id": 2,
+          "ticketNumber": "b5ffa720-66ed-4933-9e4a-0daf749fc3c2",
+          "orderItemId": 4,
+          "orderId": 2,
+          "sessionId": 4,
+          "sessionSeatId": 186,
+          "ticketStatus": "VALID",
+          "issuedAt": "2026-10-21T03:00:23.016358Z"
+        }
+      ],
+      "seats": [
+        {
+          "id": 185,
+          "seatStatus": "AVAILABLE"
+        }
+      ],
+      "successNotice": {
+        "notificationNumber": "430dbe00-b6d3-4651-8441-b432d368b4e0",
+        "refund": {
+          "refundNumber": "63f6fc08-0428-459c-a2d9-cd8f940b0f9d",
+          "paymentNumber": "8cffc89f-144f-45b1-a5d0-ca9f4a3ff35a",
+          "merchantOrderNumber": "881a1f1f-aeef-40dd-9253-399dbfaecdf9",
+          "ticketNumber": "c0e9f26f-5091-452a-b27d-03201317ad25",
+          "amount": 380.0,
+          "refundStatus": "SUCCEEDED",
+          "acceptedAt": "2026-10-21T03:00:23.931904Z",
+          "resultAt": "2026-10-21T03:00:24.142118Z",
+          "failureCode": null
+        },
+        "notifiedAt": "2026-10-21T03:00:24.142118Z",
+        "deliveredAt": "2026-10-21T03:23:16.948667Z"
+      }
+    },
+    "consistency": [
+      {
+        "sessionId": 2,
+        "checkedAt": "2026-10-21T03:23:20.211672Z",
+        "consistent": true,
+        "counts": {
+          "orders": 1,
+          "seats": 56,
+          "tickets": 2,
+          "refunds": 0,
+          "successfulCheckins": 0
+        },
+        "recovery": {
+          "pendingOrders": 0,
+          "unresolvedPayments": 0,
+          "manualOrders": 0,
+          "unresolvedRefunds": 0,
+          "manualRefunds": 0
+        },
+        "differences": []
+      },
+      {
+        "sessionId": 4,
+        "checkedAt": "2026-10-21T03:23:20.244293Z",
+        "consistent": true,
+        "counts": {
+          "orders": 2,
+          "seats": 56,
+          "tickets": 2,
+          "refunds": 1,
+          "successfulCheckins": 0
+        },
+        "recovery": {
+          "pendingOrders": 0,
+          "unresolvedPayments": 0,
+          "manualOrders": 0,
+          "unresolvedRefunds": 0,
+          "manualRefunds": 0
+        },
+        "differences": []
+      }
+    ]
+  },
+  "consistency": [
+    {
+      "sessionId": 2,
+      "checkedAt": "2026-10-21T03:23:20.211672Z",
+      "consistent": true,
+      "counts": {
+        "orders": 1,
+        "seats": 56,
+        "tickets": 2,
+        "refunds": 0,
+        "successfulCheckins": 0
+      },
+      "recovery": {
+        "pendingOrders": 0,
+        "unresolvedPayments": 0,
+        "manualOrders": 0,
+        "unresolvedRefunds": 0,
+        "manualRefunds": 0
+      },
+      "differences": []
+    },
+    {
+      "sessionId": 4,
+      "checkedAt": "2026-10-21T03:23:20.244293Z",
+      "consistent": true,
+      "counts": {
+        "orders": 2,
+        "seats": 56,
+        "tickets": 2,
+        "refunds": 1,
+        "successfulCheckins": 0
+      },
+      "recovery": {
+        "pendingOrders": 0,
+        "unresolvedPayments": 0,
+        "manualOrders": 0,
+        "unresolvedRefunds": 0,
+        "manualRefunds": 0
+      },
+      "differences": []
+    }
+  ],
+  "invocations": [
+    {
+      "id": "20261021T030003644Z-b522e155",
+      "status": "FAILED",
+      "verifyOnly": false,
+      "startedAtUtc": "2026-10-21T11:00:05.0244846+08:00",
+      "finishedAtUtc": "2026-10-21T11:21:30.415959+08:00",
+      "starts": [
+        {
+          "phase": "scans-disabled",
+          "processId": 42612,
+          "creationDateUtc": "2026-10-21T11:00:08.348248+08:00",
+          "jarSha256": "38A07855167888D58658C31F4B9B9512F1D77C0346CB544C7B0A61286837BE14",
+          "recoveryEnabled": false
+        },
+        {
+          "phase": "restarted-scans-enabled",
+          "processId": 6296,
+          "creationDateUtc": "2026-10-21T11:00:27.765609+08:00",
+          "jarSha256": "38A07855167888D58658C31F4B9B9512F1D77C0346CB544C7B0A61286837BE14",
+          "recoveryEnabled": true
+        }
+      ],
+      "stops": [
+        {
+          "purpose": "EXPERIMENT_FORCE_TERMINATION_AFTER_DURABLE_CHANNEL_SUCCESS",
+          "processId": 42612,
+          "creationDateUtc": "2026-10-21T11:00:08.348248+08:00",
+          "identityCheckedAtUtc": "2026-10-21T11:00:25.5909482+08:00",
+          "stoppedAtUtc": "2026-10-21T11:00:25.6461987+08:00",
+          "forced": true
+        },
+        {
+          "purpose": "OWNED_PROCESS_CLEANUP",
+          "processId": 6296,
+          "creationDateUtc": "2026-10-21T11:00:27.765609+08:00",
+          "identityCheckedAtUtc": "2026-10-21T11:21:30.3646391+08:00",
+          "stoppedAtUtc": "2026-10-21T11:21:30.4138646+08:00",
+          "forced": true
+        }
+      ],
+      "observation": null
+    },
+    {
+      "id": "20261021T032308654Z-375b0d3e",
+      "status": "COMPLETED",
+      "verifyOnly": false,
+      "startedAtUtc": "2026-10-21T11:23:09.8692711+08:00",
+      "finishedAtUtc": "2026-10-21T11:23:20.8859682+08:00",
+      "starts": [
+        {
+          "phase": "restarted-scans-enabled",
+          "processId": 12252,
+          "creationDateUtc": "2026-10-21T11:23:11.507439+08:00",
+          "jarSha256": "38A07855167888D58658C31F4B9B9512F1D77C0346CB544C7B0A61286837BE14",
+          "recoveryEnabled": true
+        }
+      ],
+      "stops": [
+        {
+          "purpose": "OWNED_PROCESS_CLEANUP",
+          "processId": 12252,
+          "creationDateUtc": "2026-10-21T11:23:11.507439+08:00",
+          "identityCheckedAtUtc": "2026-10-21T11:23:20.7946953+08:00",
+          "stoppedAtUtc": "2026-10-21T11:23:20.8808252+08:00",
+          "forced": true
+        }
+      ],
+      "observation": null
+    },
+    {
+      "id": "20261021T032457394Z-f6ffff9a",
+      "status": "COMPLETED",
+      "verifyOnly": true,
+      "startedAtUtc": "2026-10-21T11:24:58.7745803+08:00",
+      "finishedAtUtc": "2026-10-21T11:25:11.4127631+08:00",
+      "starts": [
+        {
+          "phase": "read-only-verification",
+          "processId": 22600,
+          "creationDateUtc": "2026-10-21T11:25:00.462873+08:00",
+          "jarSha256": "38A07855167888D58658C31F4B9B9512F1D77C0346CB544C7B0A61286837BE14",
+          "recoveryEnabled": false
+        }
+      ],
+      "stops": [
+        {
+          "purpose": "OWNED_PROCESS_CLEANUP",
+          "processId": 22600,
+          "creationDateUtc": "2026-10-21T11:25:00.462873+08:00",
+          "identityCheckedAtUtc": "2026-10-21T11:25:11.3215812+08:00",
+          "stoppedAtUtc": "2026-10-21T11:25:11.4058467+08:00",
+          "forced": true
+        }
+      ],
+      "observation": {
+        "observedAtUtc": "2026-10-21T11:25:10.7538447+08:00",
+        "payment": {
+          "orderId": 1,
+          "orderStatus": "PAID",
+          "holdStatus": "CONSUMED",
+          "paymentExpiresAt": "2026-10-21T03:15:21.069253Z",
+          "payments": [
+            {
+              "id": 1,
+              "orderId": 1,
+              "sessionId": 2,
+              "paymentNumber": "dd54de6e-ee22-46df-9198-eeb6a0be85fe",
+              "amount": 760.0,
+              "paymentExpiresAt": "2026-10-21T03:15:21.069253Z",
+              "requestKey": "payment-buy-W4PW71021AP",
+              "paymentStatus": "SUCCEEDED",
+              "acceptedAt": "2026-10-21T03:00:21.189033Z",
+              "resultAt": "2026-10-21T03:00:21.330861Z",
+              "failureCode": null,
+              "createdAt": "2026-10-21T03:00:21.163012Z",
+              "updatedAt": "2026-10-21T03:23:16.81405Z"
+            }
+          ],
+          "tickets": [
+            {
+              "id": 3,
+              "ticketNumber": "c4d05b52-6965-4ccb-9993-b39f05ed72cb",
+              "orderItemId": 1,
+              "orderId": 1,
+              "sessionId": 2,
+              "sessionSeatId": 73,
+              "ticketStatus": "VALID",
+              "issuedAt": "2026-10-21T03:23:16.81405Z"
+            },
+            {
+              "id": 4,
+              "ticketNumber": "5bdc507f-9c53-479a-9992-85cb3ef7ab87",
+              "orderItemId": 2,
+              "orderId": 1,
+              "sessionId": 2,
+              "sessionSeatId": 74,
+              "ticketStatus": "VALID",
+              "issuedAt": "2026-10-21T03:23:16.81405Z"
+            }
+          ],
+          "seats": [
+            {
+              "id": 73,
+              "seatStatus": "SOLD"
+            },
+            {
+              "id": 74,
+              "seatStatus": "SOLD"
+            }
+          ],
+          "successNotice": {
+            "notificationNumber": "f661d481-ae6d-4233-bf41-880972b5e7a6",
+            "paymentNumber": "dd54de6e-ee22-46df-9198-eeb6a0be85fe",
+            "observedStatus": "SUCCEEDED",
+            "observedAt": "2026-10-21T03:00:21.330861Z",
+            "deliveredAt": null
+          },
+          "recovery": {
+            "orderId": 1,
+            "orderStatus": "PAID",
+            "cancellationRequestedAt": "2026-10-21T03:23:16.762779Z",
+            "cancellationReason": "TIMEOUT",
+            "firstUnresolvedAt": null,
+            "consecutiveFailures": 0,
+            "nextRecoveryAt": null,
+            "recentError": null,
+            "manualRequired": false,
+            "recoveryClaimUntil": null,
+            "payments": [
+              {
+                "id": 1,
+                "orderId": 1,
+                "sessionId": 2,
+                "paymentNumber": "dd54de6e-ee22-46df-9198-eeb6a0be85fe",
+                "amount": 760.0,
+                "paymentExpiresAt": "2026-10-21T03:15:21.069253Z",
+                "requestKey": "payment-buy-W4PW71021AP",
+                "paymentStatus": "SUCCEEDED",
+                "acceptedAt": "2026-10-21T03:00:21.189033Z",
+                "resultAt": "2026-10-21T03:00:21.330861Z",
+                "failureCode": null,
+                "createdAt": "2026-10-21T03:00:21.163012Z",
+                "updatedAt": "2026-10-21T03:23:16.81405Z"
+              }
+            ]
+          }
+        },
+        "refund": {
+          "orderId": 2,
+          "orderStatus": "PARTIALLY_REFUNDED",
+          "holdStatus": "CONSUMED",
+          "paymentExpiresAt": "2026-10-21T03:15:22.770975Z",
+          "payments": [
+            {
+              "id": 2,
+              "orderId": 2,
+              "sessionId": 4,
+              "paymentNumber": "8cffc89f-144f-45b1-a5d0-ca9f4a3ff35a",
+              "amount": 760.0,
+              "paymentExpiresAt": "2026-10-21T03:15:22.770975Z",
+              "requestKey": "payment-buy-W4PW71021AR",
+              "paymentStatus": "SUCCEEDED",
+              "acceptedAt": "2026-10-21T03:00:22.834631Z",
+              "resultAt": "2026-10-21T03:00:22.935141Z",
+              "failureCode": null,
+              "createdAt": "2026-10-21T03:00:22.81267Z",
+              "updatedAt": "2026-10-21T03:00:23.016358Z"
+            }
+          ],
+          "refund": {
+            "id": 1,
+            "refundNumber": "63f6fc08-0428-459c-a2d9-cd8f940b0f9d",
+            "customerId": 1,
+            "orderId": 2,
+            "orderItemId": 3,
+            "sessionId": 4,
+            "sessionSeatId": 185,
+            "ticketId": 1,
+            "ticketNumber": "c0e9f26f-5091-452a-b27d-03201317ad25",
+            "paymentId": 2,
+            "paymentNumber": "8cffc89f-144f-45b1-a5d0-ca9f4a3ff35a",
+            "amount": 380.0,
+            "requestKey": "refund-W4PW71021AR",
+            "refundStatus": "SUCCEEDED",
+            "requestedAt": "2026-10-21T03:00:23.807343Z",
+            "acceptedAt": "2026-10-21T03:00:23.931904Z",
+            "resultAt": "2026-10-21T03:00:24.142118Z",
+            "failureCode": null,
+            "createdAt": "2026-10-21T03:00:23.807343Z",
+            "updatedAt": "2026-10-21T03:23:16.977536Z",
+            "firstUnresolvedAt": null,
+            "consecutiveFailures": 0,
+            "nextRecoveryAt": null,
+            "recentError": null,
+            "manualRequired": false,
+            "recoveryClaimUntil": null
+          },
+          "tickets": [
+            {
+              "id": 1,
+              "ticketNumber": "c0e9f26f-5091-452a-b27d-03201317ad25",
+              "orderItemId": 3,
+              "orderId": 2,
+              "sessionId": 4,
+              "sessionSeatId": 185,
+              "ticketStatus": "REFUNDED",
+              "issuedAt": "2026-10-21T03:00:23.016358Z"
+            },
+            {
+              "id": 2,
+              "ticketNumber": "b5ffa720-66ed-4933-9e4a-0daf749fc3c2",
+              "orderItemId": 4,
+              "orderId": 2,
+              "sessionId": 4,
+              "sessionSeatId": 186,
+              "ticketStatus": "VALID",
+              "issuedAt": "2026-10-21T03:00:23.016358Z"
+            }
+          ],
+          "seats": [
+            {
+              "id": 185,
+              "seatStatus": "AVAILABLE"
+            }
+          ],
+          "successNotice": {
+            "notificationNumber": "430dbe00-b6d3-4651-8441-b432d368b4e0",
+            "refund": {
+              "refundNumber": "63f6fc08-0428-459c-a2d9-cd8f940b0f9d",
+              "paymentNumber": "8cffc89f-144f-45b1-a5d0-ca9f4a3ff35a",
+              "merchantOrderNumber": "881a1f1f-aeef-40dd-9253-399dbfaecdf9",
+              "ticketNumber": "c0e9f26f-5091-452a-b27d-03201317ad25",
+              "amount": 380.0,
+              "refundStatus": "SUCCEEDED",
+              "acceptedAt": "2026-10-21T03:00:23.931904Z",
+              "resultAt": "2026-10-21T03:00:24.142118Z",
+              "failureCode": null
+            },
+            "notifiedAt": "2026-10-21T03:00:24.142118Z",
+            "deliveredAt": "2026-10-21T03:23:16.948667Z"
+          }
+        },
+        "consistency": [
+          {
+            "sessionId": 2,
+            "checkedAt": "2026-10-21T03:25:10.659951Z",
+            "consistent": true,
+            "counts": {
+              "orders": 1,
+              "seats": 56,
+              "tickets": 2,
+              "refunds": 0,
+              "successfulCheckins": 0
+            },
+            "recovery": {
+              "pendingOrders": 0,
+              "unresolvedPayments": 0,
+              "manualOrders": 0,
+              "unresolvedRefunds": 0,
+              "manualRefunds": 0
+            },
+            "differences": []
+          },
+          {
+            "sessionId": 4,
+            "checkedAt": "2026-10-21T03:25:10.729862Z",
+            "consistent": true,
+            "counts": {
+              "orders": 2,
+              "seats": 56,
+              "tickets": 2,
+              "refunds": 1,
+              "successfulCheckins": 0
+            },
+            "recovery": {
+              "pendingOrders": 0,
+              "unresolvedPayments": 0,
+              "manualOrders": 0,
+              "unresolvedRefunds": 0,
+              "manualRefunds": 0
+            },
+            "differences": []
+          }
+        ]
+      }
+    }
+  ],
+  "firstRecoverySnapshotPreservedOnVerification": true,
+  "sleepInterruption": {
+    "provider": "Microsoft-Windows-Kernel-Power",
+    "recordId": 316885,
+    "eventId": 507,
+    "eventTimeUtc": "2026-10-21T03:21:29.3650125Z",
+    "SleepEntered": "true",
+    "DisconnectedStandby": "true",
+    "SleepDurationInUs": "1245145359",
+    "LidOpenState": "true",
+    "interpretation": "Recorded system sleep overlaps the first restarted application log gap and delayed connection errors. It does not prove the precise cause of each closed database connection; no recovery latency conclusion is drawn from the interrupted attempt."
+  },
+  "limitations": "A real application force termination after channel commit and before local application. No in-transaction OS kill, DB crash, multi-JVM, real external payment or production capacity claim. Business verification uses GET queries with login when needed."
+}
